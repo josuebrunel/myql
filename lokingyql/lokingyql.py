@@ -25,7 +25,7 @@ class LokingYQL(object):
 
     return payload
 
-  def runQuery(self, payload):
+  def executeQuery(self, payload):
     '''Execute the query'''
     response = requests.get(self.url, params= payload)
 
@@ -35,12 +35,27 @@ class LokingYQL(object):
   # Actions
   #
 
+  def select(self, table=None):
+    '''This method simulate a select on a table'''
+    try:
+      self.current_table = table
+    except Exception, e:
+      print(e)
+
+    return self
+
+ def where(self, **conditions):
+     ''' This method simulates a where condition. Use as follow:
+         yql.select('mytable').where(dict)
+     '''
+     pass
+
   def showTables(self, format='json'):
     '''Return list of all avaible tables'''
 
     query = 'SHOW TABLES'
     payload = self.payloadBuilder(query, format) 	
 
-    response = self.runQuery(payload) 
+    response = self.executeQuery(payload) 
 
     return response
