@@ -10,10 +10,6 @@ class LokingYQL(object):
   def __repr__(self):
     pass
 
-
-  def queryBuilder(self, table):
-    pass
-
   def payloadBuilder(self, query, format='json'):
     '''Build the payload'''
     payload = {
@@ -24,6 +20,17 @@ class LokingYQL(object):
     }
 
     return payload
+
+  def rawQuery(self, query, format='json'):
+    '''Execute a YQL query and return response
+       >>>...
+       >>> resp = yql.rawQuery('select * from weather.forecast where woeid=2502265')
+       >>> 
+    '''
+    payload = self.payloadBuilder(query, format)
+    response = self.executeQuery(payload)
+
+    return response
 
   def executeQuery(self, payload):
     '''Execute the query'''
@@ -44,7 +51,7 @@ class LokingYQL(object):
 
     return self
 
- def where(self, **conditions):
+  def where(self, conditions):
      ''' This method simulates a where condition. Use as follow:
          yql.select('mytable').where(dict)
      '''
