@@ -1,9 +1,11 @@
 import unittest
 
+from lokingyql import lokingyql
+
 class lokingyqlTestCase(unittest.TestCase):
   
   def setUp(self,):
-    pass
+    self.yql = lokingyql()
 
   def tearUp(self,):
     pass
