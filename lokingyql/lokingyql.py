@@ -29,13 +29,13 @@ class LokingYQL(object):
     '''
     payload = self.payloadBuilder(query, format)
     response = self.executeQuery(payload)
-    if pretty_response :
-      response = self.buildResponse(response)
+    #if pretty :
+    #  response = self.buildResponse(response)
 
-    return response
+    return response.json()
 
   def executeQuery(self, payload):
-    '''Execute the query and returns and formatted response'''
+    '''Execute the query and returns and response'''
     response = requests.get(self.url, params= payload)
 
     return response
@@ -46,16 +46,22 @@ class LokingYQL(object):
       r = response.json()
       result = r['query']['results']['table']
       response = {
-        'num_result': len(result) if isintanceof(result, list) else 0 ,
+        'num_result': len(result) if isinstance(result, list) else 0 ,
         'result': result
       }
     except Exception, e:
-      print(response.content)
+      print(e)
+      return response.content
     return response
 
+  def buildSelectQuery(conditions):
+    '''Builds the query for the select method ''' 
+    return query
+  ######################################################
   #
-  # Actions
+  #                 ORM METHODS
   #
+  #####################################################
 
   def select(self, table=None):
     '''This method simulate a select on a table'''
@@ -66,7 +72,7 @@ class LokingYQL(object):
 
     return self
 
-  def where(self, conditions):
+  def where(self, *args, **kwargs):
      ''' This method simulates a where condition. Use as follow:
          yql.select('mytable').where(dict)
      '''
