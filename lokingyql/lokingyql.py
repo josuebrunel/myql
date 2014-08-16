@@ -9,6 +9,7 @@ class LokingYQL(object):
     self.url = url
     self.table = table
     self.format = format
+    self._query = None # used to build query when using methods such as <select>, <insert>, ...
 
   def __repr__(self):
     '''Returns information on the current instance
@@ -71,16 +72,20 @@ class LokingYQL(object):
 
   def use(self, url):
     '''Changes the data provider
+       >>> yql.use('http://myserver.com/mytables.xml')
     '''
     self.url = url
     return self.url
 
-  def select(self, table=None):
+  def select(self, table=None, items=[]):
     '''This method simulate a select on a table
        >>> yql.select('table')
     '''
     try:
-      self.current_table = table
+      self.table = table
+      if not items:
+        items = ['*']
+      self._query = "select {1} from {0}".format(self.table, ','.join(items))
     except Exception, e:
       print(e)
 
