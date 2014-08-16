@@ -13,7 +13,7 @@ class LokingYQL(object):
     self.table = table
     self.format = format
     self._query = None # used to build query when using methods such as <select>, <insert>, ...
-    self.diagnostics = True # Who knows, someone would like to turn it off
+    self.diagnostics = False # Who knows, someone would like to turn it ON lol
 
   def __repr__(self):
     '''Returns information on the current instance
