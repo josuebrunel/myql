@@ -1,1 +1,2 @@
 import lokingyql
+import errors
