@@ -87,7 +87,8 @@ class LokingYQL(object):
     '''
     self.url = url
     return self.url
-
+    
+  ## SELECT
   def select(self, table=None, items=[]):
     '''This method simulate a select on a table
     >>> yql.select('table')
@@ -103,9 +104,10 @@ class LokingYQL(object):
 
     return self
 
+  ## WHERE
   def where(self, *args):
     ''' This method simulates a where condition. Use as follow:
-    >>>yql.select('mytable').where([('name', '=', 'alain'), ('location', '!=', 'paris')])
+    >>>yql.select('mytable').where(['name', '=', 'alain'], ['location', '!=', 'paris'])
     '''
     if not self.table:
       raise errors.NoTableSelectedError('No Table Selected')
