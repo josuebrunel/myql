@@ -81,12 +81,29 @@ class LokingYQL(object):
   #
   #####################################################
 
+  ##USE
   def use(self, url):
     '''Changes the data provider
        >>> yql.use('http://myserver.com/mytables.xml')
     '''
     self.url = url
     return self.url
+
+  ##DESC
+  def desc(self, table=None):
+    '''Returns table description
+    >>> yql.desc('geo.countries')
+    >>>
+    '''
+    if not table:
+      query = "desc {0} ".format(self.table)
+
+    query = "desc {0}".format(table)
+    response = self.rawQuery(query)
+
+    return response
+      
+    
     
   ## SELECT
   def select(self, table=None, items=[]):
