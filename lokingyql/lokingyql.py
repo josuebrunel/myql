@@ -13,6 +13,7 @@ class LokingYQL(object):
     self.table = table
     self.format = format
     self._query = None # used to build query when using methods such as <select>, <insert>, ...
+    self.diagnostics = True # Who knows, someone would like to turn it off
 
   def __repr__(self):
     '''Returns information on the current instance
@@ -24,7 +25,7 @@ class LokingYQL(object):
     payload = {
 	'q' : query,
 	'callback' : '', #This is not javascript
-	'diagnostics' : 'true', # always true
+	'diagnostics' : self.diagnostics, # always true
 	'format' : format
     }
 
@@ -89,7 +90,8 @@ class LokingYQL(object):
 
   def select(self, table=None, items=[]):
     '''This method simulate a select on a table
-       >>> yql.select('table')
+    >>> yql.select('table')
+    >>> yql.select('social.profile', ['guuid', 'givenName', 'gender'])
     '''
     try:
       self.table = table
@@ -114,9 +116,28 @@ class LokingYQL(object):
       x = self.clauseFormatter(x)
       clause.append(x)
 
-    self._query += ' and '.join(clause) 
-    return self._query
+    self._query += ' and '.join(clause)
+    
+    payload = self.payloadBuilder(self._query)
+    response = self.executeQuery(payload)
 
+    return response
+
+  ######################################################
+  #
+  #                     HELPERS
+  #
+  #####################################################
+
+  def getGUID(self, username):
+    '''Returns the guid of the username provided
+       >>> guid = self.getGUID('josue_brunel')
+       >>> guid
+    '''
+    response = self.select('yahoo.identity').where(['yid', '=', username])
+    
+    return response
+    
   def showTables(self, format='json'):
     '''Return list of all avaible tables'''
 
