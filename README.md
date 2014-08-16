@@ -6,7 +6,7 @@ LokingYQL is a Yahoo Query Language Wrapper written in Python
 version
 =======
 
-0.5
+***0.5***
 
 installation
 ============
@@ -25,13 +25,11 @@ how to use
 >>> yql = lokingyql.LokingYQL()
 >>> yql.diagnostics = True # To turn diagnostics on
 ```
-
-#
 Methods
 -------
 
-* use()
--------
+- use(data_provider_url)
+------------------------
 
 Changes the data provider
 
@@ -39,9 +37,8 @@ Changes the data provider
 >>> yql.use('http://myserver.com/mytables.xml') 
 ```
 
-
-* rawQuery()
-------------
+- rawQuery(query)
+-----------------
 
 Allows you to directly type your query
 
@@ -50,8 +47,8 @@ Allows you to directly type your query
 >>> # deal with the response
 ```
 
-* select(table, fields).where(filters, ...)
------------------------
+- select(table, fields).where(filters, ...)
+-------------------------------------------
 
 Select a table i.e *weather.forecast*.
 If *table* not provided, it will use the default table. If there's no such thing as a default table, it will raise a *NoTableSelectedError*
@@ -63,19 +60,18 @@ If *table* not provided, it will use the default table. If there's no such thing
 >>> ...
 ```
 
-* create()
+- create()
 ----------
 
-* insert()
+- insert()
 ----------
 
-* update()
+- update()
 ----------
 
 * delete()
 ----------
 
-Voila
 
 
 
