@@ -1,4 +1,7 @@
 import requests
+import errors
+
+import pdb
 
 class LokingYQL(object):
   '''Yet another Python Yahoo! Query Language Wrapper
@@ -46,6 +49,13 @@ class LokingYQL(object):
 
     return response
 
+  def clauseFormatter(self, cond):
+    '''Formats conditions
+       args is a list of ['column', 'operator', 'value']
+    '''
+    cond[2] = "'{0}'".format(cond[2])
+    return ''.join(cond)
+    
   def buildResponse(self, response):
     '''Try to return a pretty formatted response object
     '''
@@ -92,10 +102,20 @@ class LokingYQL(object):
     return self
 
   def where(self, *args):
-     ''' This method simulates a where condition. Use as follow:
-         >>>yql.select('mytable').where([('name', '=', 'alain'), ('location', '!=', 'paris')])
-     '''
-     return None
+    ''' This method simulates a where condition. Use as follow:
+    >>>yql.select('mytable').where([('name', '=', 'alain'), ('location', '!=', 'paris')])
+    '''
+    if not self.table:
+      raise errors.NoTableSelectedError('No Table Selected')
+
+    clause = []
+    self._query += ' where '
+    for x in args:
+      x = self.clauseFormatter(x)
+      clause.append(x)
+
+    self._query += ' and '.join(clause) 
+    return self._query
 
   def showTables(self, format='json'):
     '''Return list of all avaible tables'''
