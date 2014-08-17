@@ -7,7 +7,7 @@ with open('requirements.txt') as f:
 setup(
   name = "lokingyql",
   version = "0.5",
-  description = "Python Wrapper of the Yahoo ! Query Language",
+  description = "Python Wrapper for the Yahoo ! Query Language",
   long_description = "",
   author = "Josue Kouka",
   author_email = "josuebrunel@gmail.com",
@@ -15,5 +15,5 @@ setup(
   packages = ['lokingyql'],
   platforms=['Any'],
   license='BSD',
-  install_required = required
+  install_requires = required
 )
