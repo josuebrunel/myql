@@ -5,7 +5,8 @@ __pycache__/
 *.py~
 # C extensions
 *.so
-
+#Travis URL
+*~
 # Distribution / packaging
 .Python
 env/
