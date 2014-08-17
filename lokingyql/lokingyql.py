@@ -55,8 +55,14 @@ class LokingYQL(object):
     '''Formats conditions
        args is a list of ['column', 'operator', 'value']
     '''
-    cond[2] = "'{0}'".format(cond[2])
-    return ''.join(cond)
+    if cond[1].lower() == 'in':
+      cond[2] = "{0}".format(cond[2])
+      cond = ' '.join(cond)
+    else:
+      cond[2] = "'{0}'".format(cond[2])
+      cond = ''.join(cond)
+      
+    return cond
     
   def buildResponse(self, response):
     '''Try to return a pretty formatted response object
@@ -160,7 +166,7 @@ class LokingYQL(object):
     self._query += ' and '.join(clause)
 
     if self._limit:
-      self._query +=  "limit {0}".format(self._limit)
+      self._query +=  " limit {0}".format(self._limit)
     
     payload = self.payloadBuilder(self._query)
     response = self.executeQuery(payload)
