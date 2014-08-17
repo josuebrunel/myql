@@ -14,6 +14,7 @@ class LokingYQL(object):
     self.format = format
     self._query = None # used to build query when using methods such as <select>, <insert>, ...
     self.diagnostics = False # Who knows, someone would like to turn it ON lol
+    self.limit = None
 
   def __repr__(self):
     '''Returns information on the current instance
@@ -25,7 +26,7 @@ class LokingYQL(object):
     payload = {
 	'q' : query,
 	'callback' : '', #This is not javascript
-	'diagnostics' : self.diagnostics, # always true
+	'diagnostics' : self.diagnostics, 
 	'format' : format
     }
 
@@ -77,7 +78,7 @@ class LokingYQL(object):
     return query
   ######################################################
   #
-  #                 ORM METHODS
+  #                 MAIN METHODS
   #
   #####################################################
 
@@ -102,20 +103,41 @@ class LokingYQL(object):
     response = self.rawQuery(query)
 
     return response
+
+  ##GET
+  def get(self, table=None, items=[], limit=None):
+    '''Just a select which returns a response
+    >>> yql.get("geo.countries', ['name', 'woeid'], 5")
+    '''
+    try:
+      self.table = table
+      if not items:
+        items = ['*'] 
+      self._query = "select {1} from {0} ".format(self.table, ','.join(items))
+      if limit:
+        self._query += "limit {0}".format(limit)
+       
+      payload = self.payloadBuilder(self._query)
+      response = self.executeQuery(payload)
+    except Exception, e:
+      print(e.text)
+
+    return response
       
     
-    
   ## SELECT
-  def select(self, table=None, items=[]):
+  def select(self, table=None, items=[], limit=None):
     '''This method simulate a select on a table
-    >>> yql.select('table')
-    >>> yql.select('social.profile', ['guuid', 'givenName', 'gender'])
+    >>> yql.select('geo.countries', limit=5) 
+    >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
     '''
     try:
       self.table = table
       if not items:
         items = ['*']
-      self._query = "select {1} from {0}".format(self.table, ','.join(items))
+      self._query = "select {1} from {0} ".format(self.table, ','.join(items))
+      if limit:
+        self._query +=  "limit {0}".format(limit)
     except Exception, e:
       print(e)
 
