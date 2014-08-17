@@ -136,8 +136,8 @@ class LokingYQL(object):
       if not items:
         items = ['*']
       self._query = "select {1} from {0} ".format(self.table, ','.join(items))
-      if limit:
-        self._query +=  "limit {0}".format(limit)
+      if limit :
+        self._limit = limit
     except Exception, e:
       print(e)
 
@@ -158,6 +158,9 @@ class LokingYQL(object):
       clause.append(x)
 
     self._query += ' and '.join(clause)
+
+    if self._limit:
+      self._query +=  "limit {0}".format(self._limit)
     
     payload = self.payloadBuilder(self._query)
     response = self.executeQuery(payload)
