@@ -3,15 +3,15 @@ lokingYQL
 
 LokingYQL is a Yahoo Query Language Wrapper written in Python
 
-version
-=======
-
-***0.5***
+version 0.5 
+===========
+* fetch data
+* select data format (xml/json)
+* change data source
+* filter data 
 
 installation
 ============
-
-Surely through ***pipe*** or something like
 
 ```shell
 $ python setup.py install 
