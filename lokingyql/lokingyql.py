@@ -85,7 +85,7 @@ class LokingYQL(object):
   ##USE
   def use(self, url):
     '''Changes the data provider
-       >>> yql.use('http://myserver.com/mytables.xml')
+    >>> yql.use('http://myserver.com/mytables.xml')
     '''
     self.url = url
     return self.url
