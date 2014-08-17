@@ -1,5 +1,9 @@
 from setuptools import setup, find_packages
 
+#requirements.txt
+with open('requirements.txt') as f:
+  required = f.read().splitlines()
+
 setup(
   name = "lokingyql",
   version = "0.5",
@@ -11,4 +15,5 @@ setup(
   packages = ['lokingyql'],
   platforms=['Any'],
   license='BSD',
+  install_required = required
 )
