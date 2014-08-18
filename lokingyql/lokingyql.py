@@ -8,13 +8,14 @@ class LokingYQL(object):
   '''
   default_url = 'https://query.yahooapis.com/v1/public/yql'	  
   
-  def __init__(self, table=None, url=default_url, format='json'):
+  def __init__(self, table=None, url=default_url, format='json', oauth=None):
     self.url = url
     self.table = table
     self.format = format
     self._query = None # used to build query when using methods such as <select>, <insert>, ...
     self.diagnostics = False # Who knows, someone would like to turn it ON lol
     self.limit = None
+    self.oauth = oauth # for oauth authentification
 
   def __repr__(self):
     '''Returns information on the current instance
