@@ -70,9 +70,9 @@ class LokingYQL(object):
     '''
     try:
       r = response.json()
-      result = r['query']['results']['table']
+      result = r['query']['results']
       response = {
-        'num_result': len(result) if isinstance(result, list) else 0 ,
+        'num_result': r['query']['count'] ,
         'result': result
       }
     except Exception, e:
@@ -80,9 +80,6 @@ class LokingYQL(object):
       return response.content
     return response
 
-  def buildSelectQuery(conditions):
-    '''Builds the query for the select method ''' 
-    return query
   ######################################################
   #
   #                 MAIN METHODS
