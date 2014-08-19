@@ -3,8 +3,8 @@ lokingYQL
 
 LokingYQL is a Yahoo Query Language Wrapper written in Python
 
-version 0.5 
-===========
+version 0.5.1
+=============
 * fetch data
 * select data format (xml/json)
 * change data source
@@ -28,7 +28,7 @@ how to use
 Methods
 -------
 
-:8ball: use(data_provider_url)
+* use(data_provider_url)
 ------------------------------
 
 Changes the data provider
@@ -37,7 +37,7 @@ Changes the data provider
 >>> yql.use('http://myserver.com/mytables.xml') 
 ```
 
-:8ball: desc(tablename)
+* desc(tablename)
 -----------------------
  returns table description
  
@@ -48,7 +48,7 @@ Changes the data provider
 >>>
 ```
 
-:8ball: rawQuery(query)
+* rawQuery(query)
 -----------------------
 
 Allows you to directly type your query
@@ -58,7 +58,7 @@ Allows you to directly type your query
 >>> # deal with the response
 ```
 
-:8ball: select(table, fields, limit).where(filters, ...)
+* select(table, fields, limit).where(filters, ...)
 -------------------------------------------------
 
 Select a table i.e *weather.forecast*.
@@ -81,7 +81,7 @@ If *table* not provided, it will use the default table. If there's no such thing
 >>>
 ```
 
-:8ball: get(table, fields, limit)
+* get(table, fields, limit)
 ----------------------------------
 
 Same as ***SELECT***, but instead returns data.
@@ -94,16 +94,16 @@ Same as ***SELECT***, but instead returns data.
 ```
 
 
-:8ball: create()
+* create()
 ----------------
 
-:8ball: insert()
+* insert()
 ----------------
 
-:8ball: update()
+* update()
 ----------------
 
-:8ball: delete()
+* delete()
 ----------------
 
 
