@@ -33,7 +33,7 @@ class LokingYQL(object):
 
     return payload
 
-  def rawQuery(self, query, format='json', pretty=True):
+  def rawQuery(self, query, format='json', pretty=False):
     '''Executes a YQL query and returns a response
        >>>...
        >>> resp = yql.rawQuery('select * from weather.forecast where woeid=2502265')
@@ -41,8 +41,8 @@ class LokingYQL(object):
     '''
     payload = self.payloadBuilder(query, format)
     response = self.executeQuery(payload)
-    #if pretty :
-    #  response = self.buildResponse(response)
+    if pretty :
+      response = self.buildResponse(response)
 
     return response
 
