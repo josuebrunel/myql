@@ -33,6 +33,30 @@ how to use
 >>> yql = lokingyql.LokingYQL()
 >>> yql.diagnostics = True # To turn diagnostics on
 ```
+
+access to community tables
+===========================
+
+```python
+>>> yql = lokingyql.LokingYQL()
+>>> rep = yql.rawQuery('desc yahoo.finance.quotes ')
+>>> rep.json()
+{u'error': {u'lang': u'en-US', u'description': u'No definition found for Table yahoo.finance.quotes'}}
+>>> yql.community= True # Setting up access to community
+>>> rep = yql.rawQuery('desc yahoo.finance.quotes ')
+>>> rep.json()
+{u'query': {u'count': 1, u'lang': u'en-US', u'results': {u'table': {u'src': u'http://www.datatables.org/yahoo/finance/yahoo.finance.quotes.xml', u'hash': u'061616a1c033ae89aaf2cbe83790b979', u'name': u'yahoo.finance.quotes', u'request': {u'select': {u'key': {u'required': u'true', u'type': u'xs:string', u'name': u'symbol'}}}, u'meta': {u'sampleQuery': u'\n\t\t\tselect * from yahoo.finance.quotes where symbol in ("YHOO","AAPL","GOOG","MSFT")\n\t\t'}, u'security': u'ANY'}}, u'created': u'2014-08-24T11:26:48Z'}}
+>>>
+```
+
+***OR***
+
+```python
+>>> import lokingyql
+>>> yql = lokingyql.LokingYQL(community=True)
+>>> # do your magic 
+```
+
 Methods
 -------
 
@@ -103,16 +127,16 @@ Same as ***SELECT***, but instead returns data.
 
 
 * create()
-----------------
+----------
 
 * insert()
-----------------
+----------
 
 * update()
-----------------
+----------
 
 * delete()
-----------------
+----------
 
 
 

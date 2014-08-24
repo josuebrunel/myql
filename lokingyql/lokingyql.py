@@ -6,16 +6,17 @@ import pdb
 class LokingYQL(object):
   '''Yet another Python Yahoo! Query Language Wrapper
   '''
-  default_url = 'https://query.yahooapis.com/v1/public/yql'	  
+  default_url = 'https://query.yahooapis.com/v1/public/yql'
+  community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
   
-  def __init__(self, table=None, url=default_url, format='json', oauth=None):
+  def __init__(self, table=None, url=default_url, community=False, format='json', oauth=None):
     self.url = url
     self.table = table
     self.format = format
     self._query = None # used to build query when using methods such as <select>, <insert>, ...
     self.diagnostics = False # Who knows, someone would like to turn it ON lol
     self.limit = None
-    self.oauth = oauth # for oauth authentification
+    self.community = community # True means access to community data
 
   def __repr__(self):
     '''Returns information on the current instance
@@ -24,6 +25,9 @@ class LokingYQL(object):
 
   def payloadBuilder(self, query, format='json'):
     '''Build the payload'''
+    if self.community :
+      query = self.community_data + query # access to community data tables
+      
     payload = {
 	'q' : query,
 	'callback' : '', #This is not javascript
