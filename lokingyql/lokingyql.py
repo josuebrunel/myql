@@ -5,6 +5,7 @@ import pdb
 
 class LokingYQL(object):
   '''Yet another Python Yahoo! Query Language Wrapper
+  
   '''
   default_url = 'https://query.yahooapis.com/v1/public/yql'
   community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 

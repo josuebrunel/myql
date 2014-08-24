@@ -11,9 +11,10 @@ Yahoo! Query Langauge Documentation and Support
 * Yahoo! Application Platform - http://developer.yahoo.com/yap/
 * Yahoo! Social APIs - http://developer.yahoo.com/social/
 
-version 0.5.1
+version 0.5.2
 =============
 * fetch data
+* access to community data
 * select data format (xml/json)
 * change data source
 * filter data 
@@ -60,8 +61,8 @@ access to community tables
 Methods
 -------
 
-* use(data_provider_url)
-------------------------------
+use(data_provider_url)
+-----------------------
 
 Changes the data provider
 
@@ -69,8 +70,8 @@ Changes the data provider
 >>> yql.use('http://myserver.com/mytables.xml') 
 ```
 
-* desc(tablename)
------------------------
+desc(tablename)
+---------------
  returns table description
  
 ```python
@@ -80,8 +81,8 @@ Changes the data provider
 >>>
 ```
 
-* rawQuery(query)
------------------------
+rawQuery(query)
+----------------
 
 Allows you to directly type your query
 
@@ -90,8 +91,8 @@ Allows you to directly type your query
 >>> # deal with the response
 ```
 
-* select(table, fields, limit).where(filters, ...)
--------------------------------------------------
+select(table, fields, limit).where(filters, ...)
+------------------------------------------------
 
 Select a table i.e *weather.forecast*.
 If *table* not provided, it will use the default table. If there's no such thing as a default table, it will raise a *NoTableSelectedError*
@@ -113,8 +114,8 @@ If *table* not provided, it will use the default table. If there's no such thing
 >>>
 ```
 
-* get(table, fields, limit)
-----------------------------------
+get(table, fields, limit)
+--------------------------
 
 Same as ***SELECT***, but instead returns data.
 
@@ -126,17 +127,17 @@ Same as ***SELECT***, but instead returns data.
 ```
 
 
-* create()
-----------
+create()
+---------
 
-* insert()
-----------
+insert()
+---------
 
-* update()
-----------
+update()
+--------
 
-* delete()
-----------
+delete()
+---------
 
 
 
