@@ -1,14 +1,17 @@
 import requests
 import errors
 
-import pdb
-
 __author__ = 'Josue Kouka'
 __email__ = 'josuebrunel@gmail.com'
 
 class LokingYQL(object):
   '''Yet another Python Yahoo! Query Language Wrapper
-  
+  Attributes:
+  - url : data provider url
+  - table : default table, so you won't have to specify a table later
+  - format : default format of the responses
+  - diagnostics : set to <True> to see diagnostics on queries
+  - community : set to <True> to have access to community tables
   '''
   default_url = 'https://query.yahooapis.com/v1/public/yql'
   community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
@@ -122,7 +125,7 @@ class LokingYQL(object):
     return response
 
   ##GET
-  def get(self, table=None, items=[], limit=None):
+  def get(self, table=None, items=[], limit=''):
     '''Just a select which returns a response
     >>> yql.get("geo.countries', ['name', 'woeid'], 5")
     '''
@@ -133,6 +136,9 @@ class LokingYQL(object):
       self._query = "select {1} from {0} ".format(self.table, ','.join(items))
       if limit:
         self._query += "limit {0}".format(limit)
+
+      if not self.table :
+        raise errors.NoTableSelectedError('Please select a table')
        
       payload = self.payloadBuilder(self._query)
       response = self.executeQuery(payload)

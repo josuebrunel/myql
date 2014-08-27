@@ -135,10 +135,11 @@ If *table* not provided, it will use the default table. If there's no such thing
 get(table, fields, limit)
 --------------------------
 
-Same as ***SELECT***, but instead returns data.
+Same as ***SELECT***, but instead returns data. 
+*REMINDER* : Some tables require a **where clause**, therefore ***GET*** won't work on those tables, use *select(...).where(...)* instead .
 
 ```python
->>> yql.get("geo.countries', ['name', 'woeid'], 1")
+>>> yql.get('geo.countries', ['name', 'woeid'], 1)
 >>> rep.json()
 {u'query': {u'count': 1, u'lang': u'en-US', u'results': {u'place': {u'woeid': u'23424966', u'name': u'Sao Tome and Principe'}}, u'created': u'2014-08-17T10:32:25Z'}}
 >>>
