@@ -3,6 +3,9 @@ import errors
 
 import pdb
 
+__author__ = 'Josue Kouka'
+__email__ = 'josuebrunel@gmail.com'
+
 class LokingYQL(object):
   '''Yet another Python Yahoo! Query Language Wrapper
   
@@ -16,7 +19,7 @@ class LokingYQL(object):
     self.format = format
     self._query = None # used to build query when using methods such as <select>, <insert>, ...
     self.diagnostics = False # Who knows, someone would like to turn it ON lol
-    self.limit = None
+    self.limit = ''
     self.community = community # True means access to community data
 
   def __repr__(self):
@@ -38,13 +41,18 @@ class LokingYQL(object):
 
     return payload
 
-  def rawQuery(self, query, format='json', pretty=False):
+  def rawQuery(self, query, format='', pretty=False):
     '''Executes a YQL query and returns a response
        >>>...
        >>> resp = yql.rawQuery('select * from weather.forecast where woeid=2502265')
        >>> 
     '''
-    payload = self.payloadBuilder(query, format)
+    if format:
+      format = format
+    else:
+      format = self.format
+    
+    payload = self.payloadBuilder(query, format=format)
     response = self.executeQuery(payload)
     if pretty :
       response = self.buildResponse(response)
@@ -135,7 +143,7 @@ class LokingYQL(object):
       
     
   ## SELECT
-  def select(self, table=None, items=[], limit=None):
+  def select(self, table=None, items=[], limit=''):
     '''This method simulate a select on a table
     >>> yql.select('geo.countries', limit=5) 
     >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
@@ -145,8 +153,10 @@ class LokingYQL(object):
       if not items:
         items = ['*']
       self._query = "select {1} from {0} ".format(self.table, ','.join(items))
-      if limit :
+      try: #Checking wether a limit is set or not
         self._limit = limit
+      except Exception, e:
+        pass
     except Exception, e:
       print(e)
 
@@ -168,9 +178,9 @@ class LokingYQL(object):
 
     self._query += ' and '.join(clause)
 
-    if self._limit:
+    if self._limit :
       self._query +=  " limit {0}".format(self._limit)
-    
+
     payload = self.payloadBuilder(self._query)
     response = self.executeQuery(payload)
 
