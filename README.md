@@ -135,8 +135,9 @@ If *table* not provided, it will use the default table. If there's no such thing
 get(table, fields, limit)
 --------------------------
 
-Same as ***SELECT***, but instead returns data. 
-*REMINDER* : Some tables require a **where clause**, therefore ***GET*** won't work on those tables, use *select(...).where(...)* instead .
+Same as ***SELECT***, but instead returns data.
+
+**REMINDER** : Some tables require a **where clause**, therefore ***GET*** won't work on those tables, use *select(...).where(...)* instead .
 
 ```python
 >>> yql.get('geo.countries', ['name', 'woeid'], 1)
