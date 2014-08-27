@@ -11,13 +11,19 @@ Yahoo! Query Langauge Documentation and Support
 * Yahoo! Application Platform - http://developer.yahoo.com/yap/
 * Yahoo! Social APIs - http://developer.yahoo.com/social/
 
-version 0.5.2
+version 0.5.6
 =============
 * fetch data
 * access to community data
 * select data format (xml/json)
 * change data source
 * filter data 
+
+fixes:
+------
+* fix handling of default and on the fly response format
+* fix limit on ***select(...).where(...)*** when no limit value is passed
+* fix limit on ***get(...)***
 
 installation
 ============
