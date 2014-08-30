@@ -1,7 +1,7 @@
 lokingYQL
 =========
 
-LokingYQL is a Yahoo Query Language Wrapper written in Python
+LokingYQL is a Python wrapper of the Yahoo Query Language.
 
 Yahoo! Query Langauge Documentation and Support
 ===============================================
@@ -10,6 +10,11 @@ Yahoo! Query Langauge Documentation and Support
 * Yahoo! Developer Network: http://developer.yahoo.com
 * Yahoo! Application Platform - http://developer.yahoo.com/yap/
 * Yahoo! Social APIs - http://developer.yahoo.com/social/
+
+version 1.0
+===========
+
+* Access to resources requiring authentication
 
 version 0.5.6
 =============
