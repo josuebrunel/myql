@@ -12,7 +12,7 @@ class YahooOAuth(object):
     self.consumer_secret = consumer_secret
     self.base_url = base_url
 
-    self.oauth = OAuth1Service(
+    self.service = OAuth1Service(
       consumer_key = consumer_key,
       consumer_secret = consumer_secret,
       name = 'yahoo',
@@ -22,7 +22,7 @@ class YahooOAuth(object):
       base_url = 'https://query.yahooapis.com/v1/public/yql'
     )
 
-    self.oauth_params {
+    self.params {
       # 'oauth_consumer_key' : 'dj0yJmk9aVRSd3ZabElmTzJNJmQ9WVdrOWEyNW1VRmRGTnpZbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1hMg--',
       'oauth_nonce' : uuid4().hex,
       'oauth_timestamp': time.time(),
@@ -37,20 +37,33 @@ class YahooOAuth(object):
     '''Requests access_token and access secrets
     '''
 
-    self.request_token, self.request_token_secret = self.oauth.get_request_token(params= self.oauth_params)
+    self.request_token, self.request_token_secret = self.service.get_request_token(params= self.params)
 
     return self.request_token, self.request_token_secret
 
-  def authorize_url(self,):
+  def get_user_authorization(self,):
     '''Redirects to the authorization url
     '''
 
-    url = self.oauth.get_authorize_url(self.request_token)
+    url = self.service.get_authorize_url(self.request_token)
 
     webbrowser.open(str(url))
 
-    verifier = raw_input('Please input the verifier : ')
+    self.verifier = raw_input('Please input the verifier : ')
 
-    return verifier
+    return self.verifier
 
-  
+  def get_access_token(self,):
+    '''Get oauth_token
+    '''
+
+    self.access_token, self.access_token_secret = self.oauth.get_access_toke(self.token, self.token_secret, params={'oauth_verifer': self.verifier})
+
+    return self.access_token, self.access_token_secret
+
+
+  def refresh_token(self):
+    '''Refresh the access_token
+    '''
+    pass
+    
