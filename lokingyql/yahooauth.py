@@ -1,4 +1,6 @@
+import time
 import webbrowser
+from uuid import uuid4
 from rauth import OAuth1Service
 
 class YahooOAuth(object):
@@ -22,7 +24,7 @@ class YahooOAuth(object):
       base_url = 'https://query.yahooapis.com/v1/public/yql'
     )
 
-    self.params {
+    self.params = {
       # 'oauth_consumer_key' : 'dj0yJmk9aVRSd3ZabElmTzJNJmQ9WVdrOWEyNW1VRmRGTnpZbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1hMg--',
       'oauth_nonce' : uuid4().hex,
       'oauth_timestamp': time.time(),
@@ -57,7 +59,7 @@ class YahooOAuth(object):
     '''Get oauth_token
     '''
 
-    self.access_token, self.access_token_secret = self.oauth.get_access_toke(self.token, self.token_secret, params={'oauth_verifer': self.verifier})
+    self.access_token, self.access_token_secret = self.service.get_access_toke(self.token, self.token_secret, params={'oauth_verifer': self.verifier})
 
     return self.access_token, self.access_token_secret
 
@@ -66,4 +68,14 @@ class YahooOAuth(object):
     '''Refresh the access_token
     '''
     pass
-    
+
+  def yauth(self,):
+    '''
+    '''
+    self.get_request_token()
+    self.get_user_authorization()
+    self.get_access_token()
+
+    self.payload = {
+      'realm': "yahoo.apis.com",
+    }
