@@ -65,7 +65,7 @@ class YahooOAuth(object):
     '''
     pass
 
-  def yauth(self,):
+  def authenticate(self,):
     '''
     '''
     self.get_request_token()
