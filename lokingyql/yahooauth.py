@@ -59,7 +59,7 @@ class YahooOAuth(object):
     '''Get oauth_token
     '''
 
-    self.access_token, self.access_token_secret = self.service.get_access_token(self.token, self.token_secret, params={'oauth_verifer': self.verifier})
+    self.access_token, self.access_token_secret = self.service.get_access_token(self.request_token, self.request_token_secret, params={'oauth_verifer': self.verifier})
 
     return self.access_token, self.access_token_secret
 
