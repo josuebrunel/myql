@@ -1,6 +1,5 @@
 import time
 import webbrowser
-from uuid import uuid4
 from rauth import OAuth1Service
 
 class YahooOAuth(object):
