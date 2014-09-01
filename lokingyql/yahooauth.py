@@ -7,7 +7,7 @@ class YahooOAuth(object):
   '''OAuth for yahoo api
   '''
 
-  default_base_url = 'https://query.yahooapis.com/v1/public/yql'
+  default_base_url = 'http://query.yahooapis.com/v1/yql'
 
   def __init__(self, consumer_key= None, consumer_secret= None, base_url= default_base_url):
     '''
@@ -59,14 +59,15 @@ class YahooOAuth(object):
 
     return self.access_token, self.access_token_secret
 
-
+  #Left to be done
   def refresh_token(self):
     '''Refresh the access_token
     '''
     pass
 
+  #Not finsished yet
   def authenticate(self,):
-    '''
+    '''Handles the authentication process
     '''
     self.get_request_token()
     self.get_user_authorization()
