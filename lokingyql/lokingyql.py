@@ -1,5 +1,8 @@
 import requests
+import yahooauth
 import errors
+
+import importlib
 
 __author__ = 'Josue Kouka'
 __email__ = 'josuebrunel@gmail.com'
@@ -24,6 +27,7 @@ class LokingYQL(object):
     self.diagnostics = False # Who knows, someone would like to turn it ON lol
     self.limit = ''
     self.community = community # True means access to community data
+    self.oauth = oauth
 
   def __repr__(self):
     '''Returns information on the current instance
@@ -95,6 +99,17 @@ class LokingYQL(object):
       print(e)
       return response.content
     return response
+
+
+  def loadConfig(self, module):
+    '''Loads OAuth config (consumer_key, consumer_secret) from module
+    '''
+    try:
+      config = importlib.import_module(module)
+    except Exception,e:
+      raise errors.NoConfigFileError('No module named {0}'.format(config))
+    
+    self.oauth_obj = yahooauth.YahooOAuth(config.consumer_key, config.consumer_secret)
 
   ######################################################
   #
