@@ -28,6 +28,7 @@ class LokingYQL(object):
     self.limit = ''
     self.community = community # True means access to community data
     self.oauth = oauth
+    self.yoauth = yahooauth.YahooOAuth()
 
   def __repr__(self):
     '''Returns information on the current instance
@@ -105,11 +106,17 @@ class LokingYQL(object):
     '''Loads OAuth config (consumer_key, consumer_secret) from module
     '''
     try:
-      config = importlib.import_module(module)
+      config_module = importlib.import_module(module)
     except Exception, e:
       raise errors.NoConfigFileError(e)
+
+    try:
+      ck = config_module.consumer_key
+      cs = config_module.consumer_secret
+    except Exception, e:
+      raise errors.NoConfigParameter(e)
     
-    self.oauth_obj = yahooauth.YahooOAuth(config.consumer_key, config.consumer_secret)
+    self.yoauth = yahooauth.YahooOAuth(ck, cs)
 
   ######################################################
   #
