@@ -106,8 +106,8 @@ class LokingYQL(object):
     '''
     try:
       config = importlib.import_module(module)
-    except Exception,e:
-      raise errors.NoConfigFileError('No module named {0}'.format(config))
+    except Exception, e:
+      raise errors.NoConfigFileError(e)
     
     self.oauth_obj = yahooauth.YahooOAuth(config.consumer_key, config.consumer_secret)
 
