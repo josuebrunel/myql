@@ -15,9 +15,12 @@ class LokingyqlTestCase(unittest.TestCase):
     pass
 
   def test_use(self, url= 'http://myserver.com/mytables.xml'):
-
+    '''Tests use method
+    '''
     self.yql.use(url)
     self.assertEquals(self.yql.url, url)
+
+  def test_select_where(self, table='geo.countries')
 
   def test_config(self,):
     '''Tests test config file
