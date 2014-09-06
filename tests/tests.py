@@ -3,7 +3,7 @@ import unittest
 from lokingyql import LokingYQL
 from lokingyql import YahooOAuth
 
-from config import consumer_key, consumer_secret
+from test_config import consumer_key, consumer_secret
 
 class LokingyqlTestCase(unittest.TestCase):
   
@@ -14,6 +14,15 @@ class LokingyqlTestCase(unittest.TestCase):
   def tearUp(self,):
     pass
 
+
+  def test_config(self,):
+    '''Tests test config file
+    '''
+    conf = self.yql.loadConfig('tests.test_config')
+
+    self.assertEquals('josue', conf.consumer_key)
+    self.assertEquals('brunel', conf.consumer_secret)
+    
   def test_oauth(self,):
     #Step 1: Getting the request token
     self.yoauth.get_request_token()

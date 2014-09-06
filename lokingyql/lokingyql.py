@@ -118,6 +118,8 @@ class LokingYQL(object):
     
     self.yoauth = yahooauth.YahooOAuth(ck, cs)
 
+    return config_module
+
   ######################################################
   #
   #                 MAIN METHODS

@@ -1,7 +1,20 @@
-How to test the Library (still under construction)
+How to test the Library (if cloned the rep)
 =======================
 
-1. Get to the root directory on the module 
+Get to the root directory of the module
+
+* Config file test
+
+```shell
+python -m unittest tests.LokingyqlTestCase.test_config
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+``` 
+
+* OAuth Config : Don't forget to put your credentials in the test_config.py
 
 ```shell
 (lokingYQL)josue@LokingMac:~/Dropbox/Workspace/lokingYQL$ python -m unittest tests.LokingyqlTestCase
