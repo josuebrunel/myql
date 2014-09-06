@@ -14,6 +14,10 @@ class LokingyqlTestCase(unittest.TestCase):
   def tearUp(self,):
     pass
 
+  def test_use(self, url= 'http://myserver.com/mytables.xml'):
+
+    self.yql.use(url)
+    self.assertEquals(self.yql.url, url)
 
   def test_config(self,):
     '''Tests test config file
