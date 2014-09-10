@@ -17,6 +17,7 @@ class LokingYQL(object):
   - community : set to <True> to have access to community tables
   '''
   default_url = 'https://query.yahooapis.com/v1/public/yql'
+  oauth_url = 'http://query.yahooapis.com/v1/yql'
   community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
   
   def __init__(self, table=None, url=default_url, community=False, format='json', oauth=None):
@@ -24,6 +25,7 @@ class LokingYQL(object):
     self.table = table
     self.format = format
     self._query = None # used to build query when using methods such as <select>, <insert>, ...
+    self._payload = {}
     self.diagnostics = False # Who knows, someone would like to turn it ON lol
     self.limit = ''
     self.community = community # True means access to community data
@@ -46,7 +48,9 @@ class LokingYQL(object):
 	'diagnostics' : self.diagnostics, 
 	'format' : format
     }
-
+    
+    self._payload = payload
+    
     return payload
 
   def rawQuery(self, query, format='', pretty=False):
@@ -69,6 +73,9 @@ class LokingYQL(object):
 
   def executeQuery(self, payload):
     '''Execute the query and returns and response'''
+    if self.oauth :
+      self.url = self.oauth_url
+      
     response = requests.get(self.url, params= payload)
 
     return response

@@ -58,6 +58,13 @@ class YahooOAuth(object):
 
     return self.access_token, self.access_token_secret
 
+  def get_session(self, method='GET', **kwargs):
+    '''Returns a session object
+    '''
+    self.session = self.service.get_auth_session(self.request_token, self.request_token_secret)
+
+    return self.session
+
   #Left to be done
   def refresh_token(self):
     '''Refresh the access_token

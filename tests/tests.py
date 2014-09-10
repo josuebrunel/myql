@@ -20,7 +20,7 @@ class LokingyqlTestCase(unittest.TestCase):
     self.yql.use(url)
     self.assertEquals(self.yql.url, url)
 
-  def test_select_where(self, table='geo.countries')
+ # def test_select_where(self, table='geo.states', items=[''])
 
   def test_config(self,):
     '''Tests test config file
