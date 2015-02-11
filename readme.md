@@ -34,11 +34,11 @@ Quick start
 
 * Granting access
 
-![Alt grant](grant.png)
+![Alt grant](static/img/grant.png)
 
 * Getting code 
 
-![Alt code](code.png)
+![Alt code](static/img/code.png)
 
 ```python
 Please input the verifier : 2k8akm
