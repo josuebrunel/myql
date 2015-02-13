@@ -73,8 +73,12 @@ class YqlTable(object):
         t_sampleQuery.text = self.sampleQuery
         ##
 
+        ## <bindings>
+        t_bindings = xtree.SubElement(t_table, 'bindings')
+
+        ##
+
         #
-        
         self._create_table_xml_file(t_table)
     
         
