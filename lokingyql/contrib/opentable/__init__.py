@@ -1,1 +1,1 @@
-from opentable import *
+from yqltable import *
