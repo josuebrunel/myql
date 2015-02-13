@@ -1,3 +1,4 @@
+from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 
 class YqlTable(object):
@@ -17,10 +18,17 @@ class YqlTable(object):
         self.sampleQuery = sampleQuery
         self.table_attr = table_attr
 
+    def _xml_pretty_print(self, data):
+        """Pretty print xml data
+        """
+        raw_string = xtree.tostring(data, 'utf-8')
+        parsed_string = minidom.parseString(raw_string)
+        return parsed_string.toprettyxml(indent='\t')
+
     def _create_table_xml_file(self, data):
         """Creates a xml file of the table
         """
-        content = xtree.tostring(data,)
+        content = self._xml_pretty_print(data)
 
         with open(self.name+".xml", 'w') as f:
             f.write(content)
