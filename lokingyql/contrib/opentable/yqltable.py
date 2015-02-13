@@ -20,9 +20,7 @@ class YqlTable(object):
     def _create_table_xml_file(self, data):
         """Creates a xml file of the table
         """
-        import pdb
-        pdb.set_trace()
-        content = xtree.tostring(data, pretty_print= True)
+        content = xtree.tostring(data,)
 
         with open(self.name+".xml", 'w') as f:
             f.write(content)
@@ -38,6 +36,36 @@ class YqlTable(object):
             self.table_attr = self._TAB_ATTR
         for attr in self.table_attr.items() :
             t_table.set(*attr)
+
+        # <meta>
+        t_meta = xtree.SubElement(t_table, 'meta')
+
+        ## <author>
+        t_author = xtree.SubElement(t_meta, 'author')
+        t_author.text = self.author
+        ##
+
+        ## <apiKeyURL>
+        t_apiKeyURL = xtree.SubElement(t_meta, 'apiKeyURL')
+        t_apiKeyURL.text = self.apiKey
+        ##
+
+        ## <documentationURL>
+        t_documentationURL = xtree.SubElement(t_meta, 'documentationURL')
+        t_documentationURL.text = self.documentationURL
+        ##
+
+        ## <description>
+        t_description = xtree.SubElement(t_meta, 'description')
+        t_description.text = self.description
+        ##
+
+        ## <sampleQuery>
+        t_sampleQuery = xtree.SubElement(t_meta, 'sampleQuery')
+        t_sampleQuery.text = self.sampleQuery
+        ##
+
+        #
         
         self._create_table_xml_file(t_table)
     
