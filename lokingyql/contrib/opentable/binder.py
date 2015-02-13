@@ -33,7 +33,7 @@ class Binder(object):
     def addInput(self, key):
         """Add key element to the binder
         """
-        new_elt = xtree.SubElement(self.etree, key.etree)
+        self.etree.append(key.etree)        
 
 class BinderKey(object):
     """Class representing a key which is part of inputs
