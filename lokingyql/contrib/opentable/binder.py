@@ -14,14 +14,26 @@ class Binder(object):
         """
         self.name = name
         self.itemPath = itemPath
-        self.pollingFrequencySeconds = pollingFrequencySeconds
+        self.pollingFrequencySeconds = str(pollingFrequencySeconds)
         self.produces = produces
 
-    
+        # Builds the element tree
+        self.etree = self._buildElementTree()
+
+    def _buildElementTree(self,):
+        """Builds ElementTree out of Binder object
+        """
+        t_binder = xtree.Element(self.name)
+
+        for item in self.__dict__.items():
+            t_binder.set(*item)
+
+        return t_binder
+
     def addInput(self, key):
         """Add key element to the binder
         """
-        pass
+        new_elt = xtree.SubElement(self.etree, key.etree)
 
 class BinderKey(object):
     """Class representing a key which is part of inputs
@@ -35,7 +47,7 @@ class BinderKey(object):
         self.paramType = paramType
         self.required = required
 
-        self._etree = self._buildElementTree()
+        self.etree = self._buildElementTree()
 
     def _buildElementTree(self,):
         """Turns object into ElementTre
