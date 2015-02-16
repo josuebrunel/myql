@@ -33,8 +33,15 @@ class Binder(object):
     def addInput(self, key):
         """Add key element to the binder
         """
-        self.etree.append(key.etree)        
+        root = self.etree
 
+        t_input = root.find('inputs')
+
+        if not t_input :
+            t_input = xtree.SubElement(root, 'inputs')
+        
+        t_input.append(key.etree)
+        
 class BinderKey(object):
     """Class representing a key which is part of inputs
     """
