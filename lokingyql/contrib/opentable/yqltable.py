@@ -17,6 +17,7 @@ class YqlTable(object):
         self.description = description
         self.sampleQuery = sampleQuery
         self.table_attr = table_attr
+        self.etree = self._init_table_elementTree()
 
     def _xml_pretty_print(self, data):
         """Pretty print xml data
@@ -34,7 +35,7 @@ class YqlTable(object):
             f.write(content)
 
 
-    def save(self, xml=True, db_table=True):
+    def _init_table_elementTree(self, xml=True, db_table=True):
         """Create a table 
         """
         # <table> tag object
@@ -80,3 +81,15 @@ class YqlTable(object):
 
         #
         self._create_table_xml_file(t_table)
+        self.etree = t_table
+        return t_table
+
+    def addBinder(self, binder):
+        """Adds a binder to the file
+        """
+        root = self.etree
+        bindings = root.find('bindings')
+        bindings.append(binder)
+
+        self._create_table_xml_file(root)
+        
