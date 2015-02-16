@@ -6,7 +6,7 @@ class Binder(object):
         itemPath : dotted path i.e : products.product
         produces : json or xml 
         urls : list of urls related to the api
-        inputs : list of key object
+        inputs : list of BinderKey object
     """
 
     def __init__(self, name, itemPath, produces, pollingFrequencySeconds=30, urls=[], inputs=[]):
@@ -26,7 +26,8 @@ class Binder(object):
         t_binder = xtree.Element(self.name)
 
         for item in self.__dict__.items():
-            t_binder.set(*item)
+            if item[0] != 'name':
+                t_binder.set(*item)
 
         return t_binder
 
