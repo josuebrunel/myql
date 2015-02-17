@@ -43,7 +43,7 @@ class Binder(object):
         
         t_input.append(key.etree)
 
-    def addFunction(self, function_code):
+    def addFunction(self, function_code, from_file=''):
         """Adds function section to the binder
         """
         root = self.etree
@@ -53,7 +53,12 @@ class Binder(object):
         if not t_execute:
             t_execute = xtree.SubElement(root, 'function')
 
-        t_execute.text = function_code
+        if from_file :
+            with open(from_file) as f:
+                function_code = f.read()
+
+        #t_execute.text = function_code
+        t_execute.text = "![CDATA[{0}]]".format(function_code)
         
 class BinderKey(object):
     """Class representing a key which is part of inputs

@@ -37,7 +37,7 @@ b_select.addInput(b_key)
 
 function = "type your code here"
 
-b_select.addFunction(function)
+b_select.addFunction(function, from_file='jscode.js')
 
 table = YqlTable(**stuff)
 #table.save()
