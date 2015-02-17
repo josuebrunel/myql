@@ -35,7 +35,13 @@ b_key = BinderKey(**key)
 
 b_select.addInput(b_key)
 
-pdb.set_trace()
+function = "type your code here"
 
-#table = YqlTable(**stuff)
+b_select.addFunction(function)
+
+table = YqlTable(**stuff)
 #table.save()
+
+table.addBinder(b_select.etree)
+
+#pdb.set_trace()

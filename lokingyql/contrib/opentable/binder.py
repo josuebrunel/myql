@@ -42,6 +42,18 @@ class Binder(object):
             t_input = xtree.SubElement(root, 'inputs')
         
         t_input.append(key.etree)
+
+    def addFunction(self, function_code):
+        """Adds function section to the binder
+        """
+        root = self.etree
+
+        t_execute = root.find('execute')
+
+        if not t_execute:
+            t_execute = xtree.SubElement(root, 'function')
+
+        t_execute.text = function_code
         
 class BinderKey(object):
     """Class representing a key which is part of inputs
