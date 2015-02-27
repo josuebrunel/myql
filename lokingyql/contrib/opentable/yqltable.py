@@ -20,7 +20,7 @@ class YqlTable(object):
         self.etree = self._init_table_elementTree()
 
         if bindings:
-            [ self.addBinder(binder.etree) for binder in bindings ]
+            [ self.addBinder(binder) for binder in bindings ]
 
     def __repr__(self,):
         return "<YqlTable:{0}>".format(self.name)
@@ -95,7 +95,7 @@ class YqlTable(object):
         """
         root = self.etree
         bindings = root.find('bindings')
-        bindings.append(binder)
+        bindings.append(binder.etree)
 
         self._create_table_xml_file(root)
         
