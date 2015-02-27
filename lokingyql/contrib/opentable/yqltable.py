@@ -22,6 +22,9 @@ class YqlTable(object):
         if bindings:
             [ self.addBinder(binder.etree) for binder in bindings ]
 
+    def __repr__(self,):
+        return "<YqlTable:{0}>".format(self.name)
+
     def _xml_pretty_print(self, data):
         """Pretty print xml data
         """
@@ -96,3 +99,4 @@ class YqlTable(object):
 
         self._create_table_xml_file(root)
         
+        return True
