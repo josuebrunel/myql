@@ -37,22 +37,11 @@ class TestYqlTable(unittest.TestCase):
 
         self.key = BinderKey(**self.key_desc)
 
-
-    
-    def test_create_table(self):
-        self.assertEquals("<YqlTable:mytest>",self.table)
-
-    def test_create_binder(self,):
-              
-        b_select = Binder(**self.binder_desc)
-
-        self.assertEquals('<Binder:select>',b_select)
-
     def test_add_binder(self,):
-        self.assertEqual(self.table.addBinder(self.binder.etree),True)
+        self.assertEqual(self.table.addBinder(self.binder),True)
 
     def test_add_input_to_binder(self,):
-        self.assertEqual(self.binder.addInput(self.key.etree),True)
+        self.assertEqual(self.binder.addInput(self.key),True)
 
     def test_add_function_from_file(self,):
         self.assertEqual(self.binder.addFunction('', from_file='jscode.js'),True)
