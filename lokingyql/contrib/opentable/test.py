@@ -22,8 +22,14 @@ select = {
     'itemPath': 'products.product',
     'produces': 'xml'
 }
+insert = {
+    'name': 'insert',
+    'itemPath': 'products.product',
+    'produces': 'json'
+}
 
 b_select = Binder(**select)
+b_insert = Binder(**insert)
 
 key = {
     'id': 'artist',
@@ -34,10 +40,13 @@ key = {
 b_key = BinderKey(**key)
 
 b_select.addInput(b_key)
+b_insert.addInput(b_key)
 
 function = "type your code here"
 
 b_select.addFunction(function, from_file='jscode.js')
+
+stuff['bindings']=[b_select, b_insert]
 
 table = YqlTable(**stuff)
 #table.save()

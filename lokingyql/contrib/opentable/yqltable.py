@@ -7,7 +7,7 @@ class YqlTable(object):
 
     _TAB_ATTR = {'xmlns':'', 'securityLevel':'any', 'https':'false'}
 
-    def __init__(self, name, author, apiKeyURL, documentationURL, sampleQuery, description=None, table_attr=None):
+    def __init__(self, name, author, apiKeyURL, documentationURL, sampleQuery, description=None, table_attr=None, bindings=[]):
         """Initialize the class
         """
         self.name = name
@@ -18,6 +18,9 @@ class YqlTable(object):
         self.sampleQuery = sampleQuery
         self.table_attr = table_attr
         self.etree = self._init_table_elementTree()
+
+        if bindings:
+            [ self.addBinder(binder.etree) for binder in bindings ]
 
     def _xml_pretty_print(self, data):
         """Pretty print xml data
