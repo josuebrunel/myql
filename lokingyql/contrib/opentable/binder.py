@@ -24,6 +24,9 @@ class Binder(object):
         if inputs:
             [ self.addInput(key.etree) for key in inputs ]
 
+    def __repr__(self):
+        return "<Binder:{0}>".format(self.name)
+
     def _buildElementTree(self,):
         """Builds ElementTree out of Binder object
         """
@@ -47,6 +50,8 @@ class Binder(object):
         
         t_input.append(key.etree)
 
+        return True
+
     def addFunction(self, function_code, from_file=''):
         """Adds function section to the binder
         """
@@ -63,6 +68,8 @@ class Binder(object):
 
         #t_execute.text = function_code
         t_execute.text = "![CDATA[{0}]]".format(function_code)
+
+        return True
         
 class BinderKey(object):
     """Class representing a key which is part of inputs
