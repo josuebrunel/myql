@@ -20,6 +20,10 @@ class Binder(object):
         # Builds the element tree
         self.etree = self._buildElementTree()
 
+        # Adding inpust passed as parameters
+        if inputs:
+            [ self.addInput(key.etree) for key in inputs ]
+
     def _buildElementTree(self,):
         """Builds ElementTree out of Binder object
         """
