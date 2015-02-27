@@ -1,4 +1,6 @@
 import pdb
+import unittest
+
 from xml.etree import cElementTree as xtree
 from binder import Binder, BinderKey
 from yqltable import YqlTable
@@ -6,51 +8,62 @@ from yqltable import YqlTable
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
 
-def dump(data):
-    print xtree.tostring(data.etree)
+class TestYqlTable(unittest.TestCase):
 
-stuff = {
-    'name': 'mytest',
-    'author': 'josuebrunel',
-    'apiKeyURL': 'http://josuebrunel.org/api',
-    'documentationURL': 'http://josuebrunel.org/doc.html',
-    'sampleQuery': 'SELECT * FROM mytable',
-}
+    def setUp(self,):
+        self.table_desc = {
+            'name': 'mytest',
+            'author': 'josuebrunel',
+            'apiKeyURL': 'http://josuebrunel.org/api',
+            'documentationURL': 'http://josuebrunel.org/doc.html',
+            'sampleQuery': 'SELECT * FROM mytable',
+        }
 
-select = {
-    'name': 'select',
-    'itemPath': 'products.product',
-    'produces': 'xml'
-}
-insert = {
-    'name': 'insert',
-    'itemPath': 'products.product',
-    'produces': 'json'
-}
+        self.table = YqlTable(**self.table_desc)
 
-b_select = Binder(**select)
-b_insert = Binder(**insert)
+        self.binder_desc = {
+            'name': 'select',
+            'itemPath': 'products.product',
+            'produces': 'xml'
+        }
 
-key = {
-    'id': 'artist',
-    'type': 'xs:string',
-    'paramType': 'path'
-}
+        self.binder = Binder(**self.binder_desc)
 
-b_key = BinderKey(**key)
+        self.key_desc = {
+            'id': 'artist',
+            'type': 'xs:string',
+            'paramType': 'path'
+        }
 
-b_select.addInput(b_key)
-b_insert.addInput(b_key)
+        self.key = BinderKey(**self.key_desc)
 
-function = "type your code here"
 
-b_select.addFunction(function, from_file='jscode.js')
+    
+    def test_create_table(self):
+        self.assertEquals("<YqlTable:mytest>",self.table)
 
-stuff['bindings']=[b_select, b_insert]
+    def test_create_binder(self,):
+              
+        b_select = Binder(**self.binder_desc)
 
-table = YqlTable(**stuff)
-#table.save()
+        self.assertEquals('<Binder:select>',b_select)
 
-table.addBinder(b_select.etree)
+    def test_add_binder(self,):
+        self.assertEqual(self.table.addBinder(self.binder.etree),True)
 
-#pdb.set_trace()
+    def test_add_input_to_binder(self,):
+        self.assertEqual(self.binder.addInput(self.key.etree),True)
+
+    def test_add_function_from_file(self,):
+        self.assertEqual(self.binder.addFunction('', from_file='jscode.js'),True)
+
+    def tearUp(self,):
+        pass
+
+if '__main__' == __name__:
+    unittest.main()
+
+
+
+
+
