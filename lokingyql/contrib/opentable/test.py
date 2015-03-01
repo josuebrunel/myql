@@ -1,3 +1,4 @@
+import os
 import pdb
 import unittest
 
@@ -46,7 +47,11 @@ class TestYqlTable(unittest.TestCase):
     def test_add_function_from_file(self,):
         self.assertEqual(self.binder.addFunction('', from_file='jscode.js'),True)
 
-    def tearUp(self,):
+    def test_save_file(self,):
+        self.table.save()
+        self.assertEquals(os.path.isfile('mytest.xml'),True) 
+
+    def tearUp(self):
         pass
 
 if '__main__' == __name__:
