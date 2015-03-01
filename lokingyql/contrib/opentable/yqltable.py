@@ -82,13 +82,21 @@ class YqlTable(object):
 
         ## <bindings>
         t_bindings = xtree.SubElement(t_table, 'bindings')
-
         ##
 
-        #
-        self._create_table_xml_file(t_table)
         self.etree = t_table
         return t_table
+
+    def save(self):
+        """Save file as xml
+        """
+        try:
+            self._create_table_xml_file(t_table)
+        except Exception,e:
+            print(e)
+            return False
+
+        return True
 
     def addBinder(self, binder):
         """Adds a binder to the file
