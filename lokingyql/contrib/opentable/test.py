@@ -54,7 +54,14 @@ class TestYqlTable(unittest.TestCase):
     def test_save_with_another_name(self):
         name = "toto"
         self.table.save(name)
-        self.assertEquals(os.path.isfile(name+'xml'),True)
+        self.assertEquals(os.path.isfile(name+'.xml'),True)
+
+    def test_save_to_different_location(self,):
+        fname = "titi"
+        path = 'data'
+        name = os.path.join(path,fname)
+        self.table.save(name=fname, path=path)
+        self.assertEquals(os.path.isfile(name+'.xml'),True)
 
     def tearUp(self):
         pass
