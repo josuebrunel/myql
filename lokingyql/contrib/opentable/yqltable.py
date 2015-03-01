@@ -32,12 +32,14 @@ class YqlTable(object):
         parsed_string = minidom.parseString(raw_string)
         return parsed_string.toprettyxml(indent='\t')
 
-    def _create_table_xml_file(self, data):
+    def _create_table_xml_file(self, data, fname=None):
         """Creates a xml file of the table
         """
         content = self._xml_pretty_print(data)
-
-        with open(self.name+".xml", 'w') as f:
+        
+        if not fname:
+            fname = self.name
+        with open(fname+".xml", 'w') as f:
             f.write(content)
 
 
@@ -87,11 +89,11 @@ class YqlTable(object):
         self.etree = t_table
         return t_table
 
-    def save(self):
+    def save(self, name=None):
         """Save file as xml
         """
         try:
-            self._create_table_xml_file(t_table)
+            self._create_table_xml_file(self.etree, name)
         except Exception,e:
             print(e)
             return False
