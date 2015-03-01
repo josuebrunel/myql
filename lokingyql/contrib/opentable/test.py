@@ -51,6 +51,11 @@ class TestYqlTable(unittest.TestCase):
         self.table.save()
         self.assertEquals(os.path.isfile('mytest.xml'),True) 
 
+    def test_save_with_another_name(self):
+        name = "toto"
+        self.table.save(name)
+        self.assertEquals(os.path.isfile(name+'xml'),True)
+
     def tearUp(self):
         pass
 
