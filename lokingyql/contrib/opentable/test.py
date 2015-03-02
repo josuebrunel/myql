@@ -40,12 +40,15 @@ class TestYqlTable(unittest.TestCase):
 
     def test_add_binder(self,):
         self.assertEqual(self.table.addBinder(self.binder),True)
+        xtree.tostring(self.table.etree)
 
     def test_add_input_to_binder(self,):
         self.assertEqual(self.binder.addInput(self.key),True)
+        xtree.tostring(self.binder.etree)
 
     def test_add_function_from_file(self,):
         self.assertEqual(self.binder.addFunction('', from_file='jscode.js'),True)
+        xtree.tostring(self.binder.etree)
 
     def test_save_file(self,):
         self.table.save()
@@ -68,8 +71,4 @@ class TestYqlTable(unittest.TestCase):
 
 if '__main__' == __name__:
     unittest.main()
-
-
-
-
 
