@@ -67,7 +67,9 @@ class TestYqlTable(unittest.TestCase):
         self.assertEquals(os.path.isfile(name+'.xml'),True)
 
     def tearUp(self):
-        pass
+        os.path.unlink('mytest.xml')
+        os.path.unlink('toto.xml')
+        
 
 if '__main__' == __name__:
     unittest.main()
