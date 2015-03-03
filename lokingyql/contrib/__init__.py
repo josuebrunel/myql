@@ -1,1 +1,2 @@
-from yahooauth import YahooOAuth
+from yahooauth import *
+from opentable import *
