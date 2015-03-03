@@ -239,7 +239,7 @@ class LokingYQL(object):
     return response
     
   def showTables(self, format='json'):
-    '''Return list of all avaible tables'''
+    '''Return list of all available tables'''
 
     query = 'SHOW TABLES'
     payload = self.payloadBuilder(query, format) 	
