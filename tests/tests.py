@@ -1,7 +1,8 @@
 import unittest
 
 from lokingyql import LokingYQL
-from lokingyql import YahooOAuth
+from lokingyql.errors import NoTableSelectedError
+from lokingyql.contrib import YahooOAuth
 
 from test_config import consumer_key, consumer_secret
 
@@ -29,6 +30,11 @@ class LokingyqlTestCase(unittest.TestCase):
 
     self.assertEquals('josue', conf.consumer_key)
     self.assertEquals('brunel', conf.consumer_secret)
+
+  def test_desc_with_no_table(self,):
+    #self.yql.desc()
+    #self.assertEqual('No table selected', self.yql.desc())
+    self.assertRaises(NoTableSelectedError, self.yql.desc())
     
   def test_oauth(self,):
     #Step 1: Getting the request token
