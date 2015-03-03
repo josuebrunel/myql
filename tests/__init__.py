@@ -1,1 +1,1 @@
-from tests import LokingyqlTestCase
+from tests import LokingYqlTest

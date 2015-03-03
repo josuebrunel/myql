@@ -6,7 +6,7 @@ from lokingyql.contrib import YahooOAuth
 
 from test_config import consumer_key, consumer_secret
 
-class LokingyqlTestCase(unittest.TestCase):
+class LokingYqlTest(unittest.TestCase):
   
   def setUp(self,):
     self.yql = LokingYQL()
