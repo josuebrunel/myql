@@ -148,8 +148,8 @@ class LokingYQL(object):
     >>>
     '''
     if not table:
-      query = "desc {0} ".format(self.table)
-
+      #query = "desc {0} ".format(self.table)
+      raise errors.NoTableSelectedError('No table selected')
     query = "desc {0}".format(table)
     response = self.rawQuery(query)
 
