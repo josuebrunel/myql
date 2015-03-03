@@ -4,9 +4,12 @@
 #   Filename        : run_tests.sh
 #   Description     :
 #   Creation Date   : 03-03-2015
-#   Last Modified   : Tue 03 Mar 2015 06:23:05 AM CST
+#   Last Modified   : Tue 03 Mar 2015 07:03:37 AM CST
 #
 ##################################################
 
+if [ ! -z $1 ]; then
+    test=".$1"
+fi
 
-python -m unittest tests.LokingYqlTest
+python -m unittest "tests.LokingYqlTest${test}"
