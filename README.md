@@ -158,22 +158,3 @@ Same as ***SELECT***, but instead returns data.
 >>>
 ```
 
-
-create()
----------
-
-insert()
----------
-
-update()
---------
-
-delete()
----------
-
-
-
-
-
-
-
