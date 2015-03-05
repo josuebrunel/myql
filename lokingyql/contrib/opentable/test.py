@@ -1,7 +1,7 @@
 import os
 import pdb
 import unittest
-
+from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 from binder import Binder, BinderKey
 from yqltable import YqlTable
@@ -38,17 +38,24 @@ class TestYqlTable(unittest.TestCase):
 
         self.key = BinderKey(**self.key_desc)
 
+    def xml_pretty_print(self, data):
+        """Pretty print xml data
+        """
+        raw_string = xtree.tostring(data, 'utf-8')
+        parsed_string = minidom.parseString(raw_string)
+        return parsed_string.toprettyxml(indent='\t')
+
     def test_add_binder(self,):
         self.assertEqual(self.table.addBinder(self.binder),True)
-        xtree.tostring(self.table.etree)
+        print self.xml_pretty_print(self.table.etree)
 
     def test_add_input_to_binder(self,):
         self.assertEqual(self.binder.addInput(self.key),True)
-        xtree.tostring(self.binder.etree)
+        print self.xml_pretty_print(self.binder.etree)
 
     def test_add_function_from_file(self,):
         self.assertEqual(self.binder.addFunction('', from_file='jscode.js'),True)
-        xtree.tostring(self.binder.etree)
+        print self.xml_pretty_print(self.binder.etree)
 
     def test_save_file(self,):
         self.table.save()
