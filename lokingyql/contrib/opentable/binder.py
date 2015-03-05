@@ -99,6 +99,3 @@ class BinderKey(object):
         """
         return self.etree
 
-
-
-    
