@@ -29,6 +29,7 @@ class TestYqlTable(unittest.TestCase):
         }
 
         self.binder = Binder(**self.binder_desc)
+        self.binder_insert = Binder('insert','products.product','json')
 
         self.key_desc = {
             'id': 'artist',
@@ -73,12 +74,21 @@ class TestYqlTable(unittest.TestCase):
         self.table.save(name=fname, path=path)
         self.assertEquals(os.path.isfile(name+'.xml'),True)
 
-    def test_add_table(self,):
+    def test_create_table(self,):
         self.binder.addInput(self.key)
         self.binder.addFunction('', from_file='jscode.js')
         self.table.addBinder(self.binder)
         self.table.save(name='mytable')
         self.assertEqual(os.path.isfile('mytable.xml'),True)
+
+    def test_create_table_with_two_binders(self,):
+        self.binder.addInput(self.key)
+        self.binder.addFunction('', from_file='jscode.js')
+        self.table.addBinder(self.binder)
+        self.table.addBinder(self.binder_insert)
+        self.table.save(name='mytable')
+        self.assertEqual(os.path.isfile('mytable.xml'),True)
+
 
     def tearUp(self):
         os.path.unlink('mytest.xml')
