@@ -1,5 +1,5 @@
 if [ ! -z $1 ]; then 
-    method="$1"
+    method=".$1"
 else
     method=''
 fi
