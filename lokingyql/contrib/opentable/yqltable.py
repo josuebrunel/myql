@@ -37,7 +37,6 @@ class YqlTable(object):
         """Creates a xml file of the table
         """
         content = self._xml_pretty_print(data)
-        
         if not fname:
             fname = self.name
         with open(fname+".xml", 'w') as f:
@@ -111,6 +110,4 @@ class YqlTable(object):
         bindings = root.find('bindings')
         bindings.append(binder.etree)
 
-        self._create_table_xml_file(root)
-        
         return True
