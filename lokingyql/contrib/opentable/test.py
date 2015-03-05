@@ -77,7 +77,7 @@ class TestYqlTable(unittest.TestCase):
         self.binder.addInput(self.key)
         self.binder.addFunction('', from_file='jscode.js')
         self.table.addBinder(self.binder)
-        #self.table.save('mytable')
+        self.table.save(name='mytable')
         self.assertEqual(os.path.isfile('mytable.xml'),True)
 
     def tearUp(self):
