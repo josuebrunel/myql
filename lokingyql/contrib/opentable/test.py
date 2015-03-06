@@ -81,7 +81,7 @@ class TestYqlTable(unittest.TestCase):
         self.table.save(name='mytable')
         self.assertEqual(os.path.isfile('mytable.xml'),True)
 
-    def test_create_table_with_two_binders(self,):
+    def test_create_table_and_add_two_binders(self,):
         self.binder.addInput(self.key)
         self.binder.addFunction('', from_file='jscode.js')
         self.table.addBinder(self.binder)
@@ -89,6 +89,13 @@ class TestYqlTable(unittest.TestCase):
         self.table.save(name='mytable')
         self.assertEqual(os.path.isfile('mytable.xml'),True)
 
+    def test_create_table_with_binder(self,):
+        self.binder.addInput(self.key)
+        self.binder.addFunction('', from_file='jscode.js')
+        self.table_desc['bindings'] = [self.binder]
+        table = YqlTable(**self.table_desc)
+        table.save(name='mytable')
+        self.assertEqual(os.path.isfile('mytable.xml'),True)
 
     def tearUp(self):
         os.path.unlink('mytest.xml')
