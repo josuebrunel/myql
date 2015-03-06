@@ -101,7 +101,6 @@ class TestYqlTable(unittest.TestCase):
         os.path.unlink('mytest.xml')
         os.path.unlink('toto.xml')
         
-
 if '__main__' == __name__:
     unittest.main()
 
