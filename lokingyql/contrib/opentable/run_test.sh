@@ -4,4 +4,4 @@ else
     method=''
 fi
 
-python -m unittest test.TestYqlTable$method
+python -m unittest tests.TestYqlTable$method
