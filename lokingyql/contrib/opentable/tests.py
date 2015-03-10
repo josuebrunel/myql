@@ -51,11 +51,24 @@ class TestYqlTable(unittest.TestCase):
         self.assertEqual(self.table.addBinder(self.binder),True)
         print self.xml_pretty_print(self.table.etree)
 
+    def test_remove_binder(self,):
+        self.binder.addInput(self.key)
+        self.binder_insert.addInput(self.key)
+        self.binder.addFunction('', from_file='jscode.js')
+        self.binder_insert.addFunction("console.log('hello this is an insert function'); ")
+        self.table.addBinder(self.binder)
+        self.table.addBinder(self.binder_insert)
+        self.table.save(name='before')
+        self.assertEqual(os.path.isfile('before.xml'),True)
+        self.table.removeBinder('select')
+        self.table.save(name='after')
+        self.assertEqual(os.path.isfile('after.xml'),True)
+
     def test_add_input_to_binder(self,):
         self.assertEqual(self.binder.addInput(self.key),True)
         print self.xml_pretty_print(self.binder.etree)
 
-    def test_remove_input_from_binder(self,):
+    def test_remove_input(self,):
         self.assertEqual(self.binder.addInput(self.key),True)
         self.assertEqual(self.binder.addInput(self.key2),True)
         print self.xml_pretty_print(self.binder.etree)
