@@ -60,9 +60,14 @@ class Binder(object):
 
         keys = t_inputs.findall('key')
 
-        [ t_inputs.remove(key) for key in keys if key.get('id') == key_id ]
-        
-        return True 
+        key = [ key for key in keys if key.get('id') == key_id ]
+
+        try:
+            t_inputs.remove(key[0])
+            return True
+        except Exception, e:
+            print(e)
+            return False 
 
     def addFunction(self, function_code, from_file=''):
         """Adds function section to the binder
