@@ -38,6 +38,7 @@ class TestYqlTable(unittest.TestCase):
         }
 
         self.key = BinderKey(**self.key_desc)
+        self.key2 = BinderKey(id='song', type='xs:string', paramType='paht', required='true')
 
     def xml_pretty_print(self, data):
         """Pretty print xml data
@@ -56,9 +57,9 @@ class TestYqlTable(unittest.TestCase):
 
     def test_remove_input_from_binder(self,):
         self.assertEqual(self.binder.addInput(self.key),True)
-        self.assertEqual(self.binder.addInput(self.key),True)
+        self.assertEqual(self.binder.addInput(self.key2),True)
         print self.xml_pretty_print(self.binder.etree)
-        self.assertEquals(self.binder.removeInput(self.key),True)
+        self.assertEquals(self.binder.removeInput(key_id='artist'),True)
         print self.xml_pretty_print(self.binder.etree)
 
     def test_add_function_from_file(self,):
@@ -90,7 +91,9 @@ class TestYqlTable(unittest.TestCase):
 
     def test_create_table_and_add_two_binders(self,):
         self.binder.addInput(self.key)
+        self.binder_insert.addInput(self.key)
         self.binder.addFunction('', from_file='jscode.js')
+        self.binder_insert.addFunction("console.log('hello this is an insert function'); ")
         self.table.addBinder(self.binder)
         self.table.addBinder(self.binder_insert)
         self.table.save(name='mytable')
