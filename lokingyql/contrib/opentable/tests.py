@@ -54,6 +54,13 @@ class TestYqlTable(unittest.TestCase):
         self.assertEqual(self.binder.addInput(self.key),True)
         print self.xml_pretty_print(self.binder.etree)
 
+    def test_remove_input_from_binder(self,):
+        self.assertEqual(self.binder.addInput(self.key),True)
+        self.assertEqual(self.binder.addInput(self.key),True)
+        print self.xml_pretty_print(self.binder.etree)
+        self.assertEquals(self.binder.removeInput(self.key),True)
+        print self.xml_pretty_print(self.binder.etree)
+
     def test_add_function_from_file(self,):
         self.assertEqual(self.binder.addFunction('', from_file='jscode.js'),True)
         print self.xml_pretty_print(self.binder.etree)
