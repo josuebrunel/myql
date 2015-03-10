@@ -79,7 +79,7 @@ class Binder(object):
                 function_code = f.read()
 
         #t_execute.text = function_code
-        t_execute.text = "![CDATA[ {0} ]]".format(function_code)
+        t_execute.text = "\n ![CDATA[ {0} ]] \n".format(function_code)
 
         return True
         
