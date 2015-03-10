@@ -52,6 +52,18 @@ class Binder(object):
 
         return True
 
+    def removeInput(self, key_id):
+        """Removes an input from a binder
+        """
+        root = self.etree
+        t_inputs = root.find('inputs')
+
+        keys = t_inputs.findall('key')
+
+        [ t_inputs.remove(key) for key in keys if key.get('id') == key_id ]
+        
+        return True 
+
     def addFunction(self, function_code, from_file=''):
         """Adds function section to the binder
         """
