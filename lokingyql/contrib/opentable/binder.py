@@ -72,14 +72,14 @@ class Binder(object):
         t_execute = root.find('execute')
 
         if not t_execute:
-            t_execute = xtree.SubElement(root, 'function')
+            t_execute = xtree.SubElement(root, 'execute')
 
         if from_file :
             with open(from_file) as f:
                 function_code = f.read()
 
         #t_execute.text = function_code
-        t_execute.text = "![CDATA[{0}]]".format(function_code)
+        t_execute.text = "![CDATA[ {0} ]]".format(function_code)
 
         return True
         
