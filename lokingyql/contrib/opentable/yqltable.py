@@ -19,6 +19,7 @@ class YqlTable(object):
         self.sampleQuery = sampleQuery
         self.table_attr = table_attr
         self.etree = self._init_table_elementTree()
+        self.bindings = bindings
 
         if bindings:
             [ self.addBinder(binder) for binder in bindings ]
