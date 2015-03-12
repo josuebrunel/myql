@@ -143,3 +143,18 @@ class YqlTable(object):
 
         return True
 
+    def removeFunction(self):
+        """Removes <execute></execute> from a table
+        """
+
+        root = self.etree
+
+        t_execute = root.find('execute')
+
+        try :
+            root.remove(t_execute)
+            return True
+        except Execption,e:
+            print(e)
+
+        return False
