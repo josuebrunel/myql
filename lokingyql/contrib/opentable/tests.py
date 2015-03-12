@@ -79,6 +79,12 @@ class TestYqlTable(unittest.TestCase):
         self.assertEqual(self.binder.addFunction('', from_file='tests_data/jscode.js'),True)
         print self.xml_pretty_print(self.binder.etree)
 
+    def test_remove_function(self,):
+        self.assertEqual(self.binder.addFunction('', from_file='tests_data/jscode.js'),True)
+        print self.xml_pretty_print(self.binder.etree)
+        self.assertEqual(self.binder.removeFunction(), True)
+        print self.xml_pretty_print(self.binder.etree)
+
     def test_save_file(self,):
         self.table.save()
         self.assertEquals(os.path.isfile('mytest.xml'),True) 
