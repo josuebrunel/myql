@@ -131,6 +131,13 @@ class TestYqlTable(unittest.TestCase):
         self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
         print(self.xml_pretty_print(self.table.etree))
 
+    def test_remove_function_table(self,):
+        print(self.xml_pretty_print(self.table.etree))
+        self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
+        print(self.xml_pretty_print(self.table.etree))
+        self.assertEquals(self.table.removeFunction(),True)
+        print(self.xml_pretty_print(self.table.etree))
+
     def tearUp(self):
         os.path.unlink('tests_data/mytest.xml')
         os.path.unlink('tests_data/toto.xml')
