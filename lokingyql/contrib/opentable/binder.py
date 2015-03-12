@@ -87,6 +87,21 @@ class Binder(object):
         t_execute.text = "\n ![CDATA[ {0} ]] \n".format(function_code)
 
         return True
+
+    def removeFunction(self,):
+        """Removes function of the binder
+        """
+        root = self.etree
+        t_execute = root.find('execute')
+
+        try:
+            root.remove(t_execute)
+            return True
+        except Exception, e:
+            print(e)
+
+        return False
+
         
 class BinderKey(object):
     """Class representing a key which is part of inputs
