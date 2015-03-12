@@ -85,6 +85,12 @@ class TestYqlTable(unittest.TestCase):
         self.assertEqual(self.binder.removeFunction(), True)
         print self.xml_pretty_print(self.binder.etree)
 
+    def test_add_paging(self,):
+        paging = BinderPage('page', start={'id': 'ItemPage', 'default': '1'}, pageSize={'id':'Count' ,'max':'25'}, total={'default': '10'})
+        print self.xml_pretty_print(self.binder.etree)
+        self.assertEquals(self.binder.addPaging(paging), True)
+        print self.xml_pretty_print(self.binder.etree)
+
     def test_save_file(self,):
         self.table.save()
         self.assertEquals(os.path.isfile('mytest.xml'),True) 
