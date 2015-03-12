@@ -127,9 +127,9 @@ class TestYqlTable(unittest.TestCase):
         self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
 
     def test_add_function_table(self):
-        self.xml_pretty_print(self.table.etree)
+        print(self.xml_pretty_print(self.table.etree))
         self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
-        self.xml_pretty_print(self.table.etree)
+        print(self.xml_pretty_print(self.table.etree))
 
     def tearUp(self):
         os.path.unlink('tests_data/mytest.xml')

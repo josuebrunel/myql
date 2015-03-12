@@ -127,3 +127,19 @@ class YqlTable(object):
             return True
         
         return False
+
+    def addFunction(self, func_code, from_file=None):
+        """Adds function to a YQL Table
+        """
+
+        if from_file:
+            with open(from_file) as f:
+                func_code = f.read()
+
+        root = self.etree
+
+        t_execute = xtree.SubElement(root, 'execute')
+        t_execute.text = "\n [!CDATA[ {0} ]]\n".format(func_code)
+
+        return True
+
