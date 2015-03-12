@@ -131,3 +131,25 @@ class BinderKey(object):
         """
         return self.etree
 
+class BinderPage(object):
+
+    def __init__(self, model, start={}, pageSize={}, total={}):
+        """Class representing a binder Page
+        """
+        self.model = model
+        self.start = start
+        self.pageSize = pageSize
+
+        self.etree = self.__buildElementTree()
+
+    def __buildElementTree(self,):
+        """Turns object into into an ElementTree
+        """
+        t_paging = xtree.Element('paging')
+        
+        for item in self.__dict__.items():
+            t_paging.set(*item)
+
+        return t_paging
+        
+
