@@ -40,6 +40,11 @@ class TestYqlTable(unittest.TestCase):
         self.key = BinderKey(**self.key_desc)
         self.key2 = BinderKey(id='song', type='xs:string', paramType='path', required='true')
 
+        start= {'id': 'ItemPage', 'default': '1'}
+        pageSize= {'id':'Count' ,'max':'25'}
+        total= {'default': '10'}
+        self.paging = BinderPage('page', start, pageSize, total)
+
     def xml_pretty_print(self, data):
         """Pretty print xml data
         """
@@ -86,21 +91,13 @@ class TestYqlTable(unittest.TestCase):
         print self.xml_pretty_print(self.binder.etree)
 
     def test_add_paging(self,):
-        start= {'id': 'ItemPage', 'default': '1'}
-        pageSize= {'id':'Count' ,'max':'25'}
-        total= {'default': '10'}
-        paging = BinderPage('page', start, pageSize, total)
         print self.xml_pretty_print(self.binder.etree)
-        self.assertEquals(self.binder.addPaging(paging), True)
+        self.assertEquals(self.binder.addPaging(self.paging), True)
         print self.xml_pretty_print(self.binder.etree)
 
     def test_remove_paging(self,):
-        start= {'id': 'ItemPage', 'default': '1'}
-        pageSize= {'id':'Count' ,'max':'25'}
-        total= {'default': '10'}
-        paging = BinderPage('page', start, pageSize, total)
         print self.xml_pretty_print(self.binder.etree)
-        self.assertEquals(self.binder.addPaging(paging), True)
+        self.assertEquals(self.binder.addPaging(self.paging), True)
         print self.xml_pretty_print(self.binder.etree)
         self.assertEqual(self.binder.removePaging(), True)
         print self.xml_pretty_print(self.binder.etree)
