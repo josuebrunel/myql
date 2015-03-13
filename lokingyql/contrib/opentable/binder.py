@@ -59,6 +59,20 @@ class Binder(object):
 
         return True
 
+    def removeUrl(self, url):
+        """Removes a specified url of a binder
+        """
+        root = self.etree
+        t_urls = root.find('urls')
+        if not t_urls:
+            return False
+        for t_url in t_urls.findall('url'):
+            if t_url.text == url.strip():
+                t_urls.remove(t_url)
+                return True
+            
+        return False
+
     def addInput(self, key):
         """Add key element to the binder
         """
