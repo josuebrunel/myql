@@ -105,7 +105,7 @@ class TestYqlTable(unittest.TestCase):
     def test_add_url(self,):
         url = 'http://josuebrunel.org/service.js'
         self.assertEquals(self.binder.addUrl(url), True)
-        print self.xml_pretty_print(self.binder.xtree)
+        print self.xml_pretty_print(self.binder.etree)
 
     def test_save_file(self,):
         self.table.save()

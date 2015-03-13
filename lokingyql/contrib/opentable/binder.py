@@ -45,6 +45,20 @@ class Binder(object):
 
         return t_binder
 
+    def addUrl(self, url):
+        """Adds url to binder
+        """
+        root = self.etree
+
+        t_urls = root.find('urls')
+        if not t_urls:
+            t_urls = xtree.SubElement(root, 'urls')
+
+        t_url = xtree.SubElement(t_urls, 'url')
+        t_url.text = url 
+
+        return True
+
     def addInput(self, key):
         """Add key element to the binder
         """
