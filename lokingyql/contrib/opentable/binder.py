@@ -102,6 +102,24 @@ class Binder(object):
 
         return False
 
+    def addPaging(self, paging):
+        """Adds paging to binder
+        """
+
+        root = self.etree
+        t_paging = root.find('paging')
+
+        if not t_paging:
+            t_paging = xtree.SubElement(root, 'paging')
+
+        try:
+            root.append(paging.etree)
+            return True
+        except Exception, e:
+            print(e)
+        
+        return False
+        
         
 class BinderKey(object):
     """Class representing a key which is part of inputs
@@ -147,11 +165,7 @@ class BinderPage(object):
         """Turns object into into an ElementTree
         """
         t_paging = xtree.Element('paging')
-        
-        # for key in self.__dict__.keys():
-        #     xtree.SubElement(t_paging, key).set(*self.__dict__[key])
 
-        # I would go for something like
         for key in self.__dict__.keys():
             if key != 'model':
                 t_tag = xtree.SubElement(t_paging, key)
