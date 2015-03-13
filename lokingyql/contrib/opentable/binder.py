@@ -114,7 +114,21 @@ class Binder(object):
             print(e)
         
         return False
-        
+
+    def removePaging(self,):
+        """Removes paging from Binder
+        """
+        root = self.etree
+        t_paging = root.find('paging')
+
+        try:
+            root.remove(t_paging)
+            return True
+        except Exception, e:
+            print(e)
+
+        return False
+        `
         
 class BinderKey(object):
     """Class representing a key which is part of inputs
