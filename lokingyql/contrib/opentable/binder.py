@@ -105,12 +105,7 @@ class Binder(object):
     def addPaging(self, paging):
         """Adds paging to binder
         """
-
         root = self.etree
-        t_paging = root.find('paging')
-
-        if not t_paging:
-            t_paging = xtree.SubElement(root, 'paging')
 
         try:
             root.append(paging.etree)
