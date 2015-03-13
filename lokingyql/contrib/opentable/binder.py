@@ -9,7 +9,7 @@ class Binder(object):
         inputs : list of BinderKey object
     """
 
-    def __init__(self, name, itemPath, produces, pollingFrequencySeconds=30, urls=[], inputs=[]):
+    def __init__(self, name, itemPath, produces, pollingFrequencySeconds=30, urls=[], inputs=[], paging=None):
         """Initializes the class
         """
         self.name = name
@@ -20,9 +20,16 @@ class Binder(object):
         # Builds the element tree
         self.etree = self._buildElementTree()
 
-        # Adding inpust passed as parameters
+        # Adding inputs passed as parameters
         if inputs:
             [ self.addInput(key.etree) for key in inputs ]
+
+        # Adding paging
+        if paging:
+            [ self.addPaging(page) for page in pages ]
+
+        if paging:
+            self.addPaging(pagin)
 
     def __repr__(self):
         return "<Binder:{0}>".format(self.name)
