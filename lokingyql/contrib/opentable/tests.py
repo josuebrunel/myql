@@ -102,6 +102,11 @@ class TestYqlTable(unittest.TestCase):
         self.assertEqual(self.binder.removePaging(), True)
         print self.xml_pretty_print(self.binder.etree)
 
+    def test_add_url(self,):
+        url = 'http://josuebrunel.org/service.js'
+        self.assertEquals(self.binder.addUrl(url), True)
+        print self.xml_pretty_print(self.binder.xtree)
+
     def test_save_file(self,):
         self.table.save()
         self.assertEquals(os.path.isfile('mytest.xml'),True) 
