@@ -133,7 +133,7 @@ class BinderKey(object):
 
 class BinderPage(object):
 
-    def __init__(self, model, start={}, pageSize={}, total={}):
+    def __init__(self, model, start, pageSize, total):
         """Class representing a binder Page
         """
         self.model = model
@@ -147,9 +147,16 @@ class BinderPage(object):
         """
         t_paging = xtree.Element('paging')
         
-        for item in self.__dict__.items():
-            t_paging.set(*item)
+        # for key in self.__dict__.keys():
+        #     xtree.SubElement(t_paging, key).set(*self.__dict__[key])
 
+        # I would go for something like
+        for key in self.__dict__.keys():
+            if key != 'model':
+                t_tag = xtree.SubElement(t_paging, key)
+                for item in self.__dict__[key].items() :
+                    t_tag.set(*item)
+                
         return t_paging
         
 
