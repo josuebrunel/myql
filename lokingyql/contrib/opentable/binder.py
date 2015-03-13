@@ -139,6 +139,7 @@ class BinderPage(object):
         self.model = model
         self.start = start
         self.pageSize = pageSize
+        self.total = total
 
         self.etree = self.__buildElementTree()
 
