@@ -3,7 +3,7 @@ import pdb
 import unittest
 from xml.dom import minidom
 from xml.etree import cElementTree as xtree
-from binder import Binder, BinderKey
+from binder import Binder, BinderKey, BinderPage
 from yqltable import YqlTable
 
 import readline, rlcompleter
@@ -86,10 +86,14 @@ class TestYqlTable(unittest.TestCase):
         print self.xml_pretty_print(self.binder.etree)
 
     def test_add_paging(self,):
-        paging = BinderPage('page', start={'id': 'ItemPage', 'default': '1'}, pageSize={'id':'Count' ,'max':'25'}, total={'default': '10'})
-        print self.xml_pretty_print(self.binder.etree)
-        self.assertEquals(self.binder.addPaging(paging), True)
-        print self.xml_pretty_print(self.binder.etree)
+        start= {'id': 'ItemPage', 'default': '1'}
+        pageSize= {'id':'Count' ,'max':'25'}
+        total= {'default': '10'}
+        #paging = BinderPage('page', start={'id': 'ItemPage', 'default': '1'}, pageSize={'id':'Count' ,'max':'25'}, total={'default': '10'})
+        paging = BinderPage('page', start, pageSize, total)
+        print self.xml_pretty_print(paging.etree)
+        #self.assertEquals(self.binder.addPaging(paging), True)
+        #print self.xml_pretty_print(self.binder.etree)
 
     def test_save_file(self,):
         self.table.save()
