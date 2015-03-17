@@ -1,2 +1,2 @@
-from yqltable import *
-from binder import *
+import yqltable
+import binder

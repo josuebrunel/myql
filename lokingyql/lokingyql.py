@@ -20,7 +20,7 @@ class LokingYQL(object):
   oauth_url = 'http://query.yahooapis.com/v1/yql'
   community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
   
-  def __init__(self, table=None, url=default_url, community=False, format='json', jsonCompact=False, crossProduct=False, debug=False, oauth=None):
+  def __init__(self, table=None, url=default_url, community=False, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None):
     self.url = url
     self.table = table
     self.format = format
@@ -49,10 +49,11 @@ class LokingYQL(object):
 	'callback' : '', #This is not javascript
 	'diagnostics' : self.diagnostics, 
 	'format' : format,
-        'crossProduct': self.crossProduct,
-        'debug': self.debug,
-        'jsonCompact': self.jsonCompact
+    'debug': self.debug,
+    'jsonCompact': self.jsonCompact
     }
+    if self.crossProduct:
+        payload['crossProduct'] = self.crossProduct
     
     self._payload = payload
     
@@ -78,8 +79,6 @@ class LokingYQL(object):
 
   def executeQuery(self, payload):
     '''Execute the query and returns and response'''
-    if self.oauth :
-      self.url = self.oauth_url
       
     response = requests.get(self.url, params= payload)
 
