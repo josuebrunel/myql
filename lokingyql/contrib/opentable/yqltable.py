@@ -6,7 +6,7 @@ class YqlTable(object):
     """Class representating a YQL Table
     """
 
-    _TAB_ATTR = {'xmlns':'', 'securityLevel':'any', 'https':'false'}
+    _TAB_ATTR = {'xmlns':'http://query.yahooapis.com/v1/schema/table.xsd', 'securityLevel':'any', 'https':'false'}
 
     def __init__(self, name, author, apiKeyURL, documentationURL, sampleQuery, description=None, table_attr=None, bindings=[]):
         """Initialize the class
