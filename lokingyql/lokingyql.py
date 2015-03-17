@@ -20,7 +20,7 @@ class LokingYQL(object):
   oauth_url = 'http://query.yahooapis.com/v1/yql'
   community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
   
-  def __init__(self, table=None, url=default_url, community=False, format='json', oauth=None):
+  def __init__(self, table=None, url=default_url, community=False, format='json', jsonCompact=False, crossProduct=False, debug=False, oauth=None):
     self.url = url
     self.table = table
     self.format = format
@@ -29,6 +29,10 @@ class LokingYQL(object):
     self.diagnostics = False # Who knows, someone would like to turn it ON lol
     self.limit = ''
     self.community = community # True means access to community data
+    self.format = format
+    self.crossProduct = crossProduct
+    self.jsonCompact = jsonCompact
+    self.debug = debug
     self.oauth = oauth
     self.yoauth = yahooauth.YahooOAuth()
 
@@ -46,7 +50,10 @@ class LokingYQL(object):
 	'q' : query,
 	'callback' : '', #This is not javascript
 	'diagnostics' : self.diagnostics, 
-	'format' : format
+	'format' : format,
+        'crossProduct': self.crossProduct,
+        'debug': self.debug,
+        'jsonCompact': self.jsonCompact
     }
     
     self._payload = payload
