@@ -4,12 +4,12 @@ import unittest
 from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 from binder import Binder, BinderKey, BinderPage
-from yqltable import YqlTable
+from table import Table
 
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
 
-class TestYqlTable(unittest.TestCase):
+class TestTable(unittest.TestCase):
 
     def setUp(self,):
         self.table_desc = {
@@ -20,7 +20,7 @@ class TestYqlTable(unittest.TestCase):
             'sampleQuery': 'SELECT * FROM mytable',
         }
 
-        self.table = YqlTable(**self.table_desc)
+        self.table = Table(**self.table_desc)
 
         self.binder_desc = {
             'name': 'select',
@@ -153,7 +153,7 @@ class TestYqlTable(unittest.TestCase):
         self.binder.addInput(self.key)
         self.binder.addFunction('', from_file='tests_data/jscode.js')
         self.table_desc['bindings'] = [self.binder]
-        table = YqlTable(**self.table_desc)
+        table = Table(**self.table_desc)
         table.save(name='mytable', path='tests_data')
         self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
 

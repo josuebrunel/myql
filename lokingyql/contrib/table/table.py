@@ -2,7 +2,7 @@ import os
 from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 
-class YqlTable(object):
+class Table(object):
     """Class representating a YQL Table
     """
 
@@ -25,7 +25,7 @@ class YqlTable(object):
             [ self.addBinder(binder) for binder in bindings ]
 
     def __repr__(self,):
-        return "<YqlTable:{0}>".format(self.name)
+        return "<Table:{0}>".format(self.name)
 
     def _xml_pretty_print(self, data):
         """Pretty print xml data

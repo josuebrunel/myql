@@ -2,7 +2,7 @@ import unittest
 
 from lokingyql import LokingYQL
 from lokingyql.errors import NoTableSelectedError
-from lokingyql.contrib import YahooOAuth
+#from lokingyql.contrib import YahooOAuth
 
 from test_config import consumer_key, consumer_secret
 
@@ -10,7 +10,7 @@ class LokingYqlTest(unittest.TestCase):
   
   def setUp(self,):
     self.yql = LokingYQL()
-    self.yoauth = YahooOAuth(consumer_key, consumer_secret)
+    #self.yoauth = YahooOAuth(consumer_key, consumer_secret)
 
   def tearUp(self,):
     pass
@@ -23,13 +23,13 @@ class LokingYqlTest(unittest.TestCase):
 
  # def test_select_where(self, table='geo.states', items=[''])
 
-  def test_config(self,):
-    '''Tests test config file
-    '''
-    conf = self.yql.loadConfig('tests.test_config')
+#def test_config(self,):
+ #   '''Tests test config file
+ #   '''
+ #   conf = self.yql.loadConfig('tests.test_config')
 
-    self.assertEquals('josue', conf.consumer_key)
-    self.assertEquals('brunel', conf.consumer_secret)
+  #  self.assertEquals('josue', conf.consumer_key)
+  #  self.assertEquals('brunel', conf.consumer_secret)
 
   #def test_desc_with_no_table(self,):
     #self.assertRaises(NoTableSelectedError, self.yql.desc())
