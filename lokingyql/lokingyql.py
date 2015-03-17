@@ -33,8 +33,6 @@ class LokingYQL(object):
     self.crossProduct = crossProduct
     self.jsonCompact = jsonCompact
     self.debug = debug
-    self.oauth = oauth
-    self.yoauth = yahooauth.YahooOAuth()
 
   def __repr__(self):
     '''Returns information on the current instance
@@ -116,23 +114,23 @@ class LokingYQL(object):
     return response
 
 
-  def loadConfig(self, module):
-    '''Loads OAuth config (consumer_key, consumer_secret) from module
-    '''
-    try:
-      config_module = importlib.import_module(module)
-    except Exception, e:
-      raise errors.NoConfigFileError(e)
+  # def loadConfig(self, module):
+  #   '''Loads OAuth config (consumer_key, consumer_secret) from module
+  #   '''
+  #   try:
+  #     config_module = importlib.import_module(module)
+  #   except Exception, e:
+  #     raise errors.NoConfigFileError(e)
 
-    try:
-      ck = config_module.consumer_key
-      cs = config_module.consumer_secret
-    except Exception, e:
-      raise errors.NoConfigParameter(e)
+  #   try:
+  #     ck = config_module.consumer_key
+  #     cs = config_module.consumer_secret
+  #   except Exception, e:
+  #     raise errors.NoConfigParameter(e)
     
-    self.yoauth = yahooauth.YahooOAuth(ck, cs)
+  #   self.yoauth = yahooauth.YahooOAuth(ck, cs)
 
-    return config_module
+  #   return config_module
 
   ######################################################
   #
@@ -254,3 +252,4 @@ class LokingYQL(object):
     response = self.executeQuery(payload) 
 
     return response
+
