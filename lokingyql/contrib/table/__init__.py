@@ -1,2 +1,2 @@
-import table
-import binder
+from table import *
+from binder import *
