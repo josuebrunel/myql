@@ -12,7 +12,7 @@ setup(
   author = "Josue Kouka",
   author_email = "josuebrunel@gmail.com",
   url = "https://github.com/josuebrunel/lokingYQL",
-  packages = find_packages,
+  packages = find_packages(),
   platforms=['Any'],
   license='BSD',
   install_requires = required
