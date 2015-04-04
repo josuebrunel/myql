@@ -25,7 +25,7 @@ class Binder(object):
 
         # Adding inputs passed as parameters
         if inputs:
-            self.inputs = [ self.addInput(key.etree) for key in inputs ]
+            self.inputs = [ self.addInput(key) for key in inputs ]
 
         # Adding paging
         if paging:
