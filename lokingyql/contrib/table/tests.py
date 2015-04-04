@@ -1,4 +1,4 @@
-import os
+import os, logging
 import pdb
 import unittest
 from xml.dom import minidom
@@ -8,6 +8,8 @@ from table import Table
 
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
+
+logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(funcName)s] %(message)s \n")
 
 class TestTable(unittest.TestCase):
 
@@ -46,7 +48,7 @@ class TestTable(unittest.TestCase):
         self.paging = BinderPage('page', start, pageSize, total)
 
     def xml_pretty_print(self, data):
-        """Pretty print xml data
+        """Pretty logging.debug xml data
         """
         raw_string = xtree.tostring(data, 'utf-8')
         parsed_string = minidom.parseString(raw_string)
@@ -54,7 +56,7 @@ class TestTable(unittest.TestCase):
 
     def test_add_binder(self,):
         self.assertEqual(self.table.addBinder(self.binder),True)
-        print self.xml_pretty_print(self.table.etree)
+        logging.debug(self.xml_pretty_print(self.table.etree))
 
     def test_remove_binder(self,):
         self.binder.addInput(self.key)
@@ -71,52 +73,51 @@ class TestTable(unittest.TestCase):
 
     def test_add_input_to_binder(self,):
         self.assertEqual(self.binder.addInput(self.key),True)
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_remove_input(self,):
         self.assertEqual(self.binder.addInput(self.key),True)
         self.assertEqual(self.binder.addInput(self.key2),True)
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEquals(self.binder.removeInput(key_id='artist'),True)
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_add_function_from_file(self,):
         self.assertEqual(self.binder.addFunction('', from_file='tests_data/jscode.js'),True)
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_remove_function(self,):
         self.assertEqual(self.binder.addFunction('', from_file='tests_data/jscode.js'),True)
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEqual(self.binder.removeFunction(), True)
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_add_paging(self,):
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEquals(self.binder.addPaging(self.paging), True)
-        print(self.binder.paging)
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_remove_paging(self,):
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEquals(self.binder.addPaging(self.paging), True)
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEqual(self.binder.removePaging(), True)
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_add_url(self,):
         url = 'http://josuebrunel.org/service.js'
         self.assertEquals(self.binder.addUrl(url), True)
-        print(self.binder.urls)
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.binder.urls)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_remove_url(self,):
         url = 'http://josuebrunel.org/service.js'
         url2 = 'http://google.com'
         self.assertEquals(self.binder.addUrl(url), True)
         self.assertEquals(self.binder.addUrl(url2), True)
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEquals(self.binder.removeUrl(url), True)
-        print self.xml_pretty_print(self.binder.etree)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_save_file(self,):
         self.table.save()
@@ -160,16 +161,16 @@ class TestTable(unittest.TestCase):
         self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
 
     def test_add_function_table(self):
-        print(self.xml_pretty_print(self.table.etree))
+        logging.debug(self.xml_pretty_print(self.table.etree))
         self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
-        print(self.xml_pretty_print(self.table.etree))
+        logging.debug(self.xml_pretty_print(self.table.etree))
 
     def test_remove_function_table(self,):
-        print(self.xml_pretty_print(self.table.etree))
+        logging.debug(self.xml_pretty_print(self.table.etree))
         self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
-        print(self.xml_pretty_print(self.table.etree))
+        logging.debug(self.xml_pretty_print(self.table.etree))
         self.assertEquals(self.table.removeFunction(),True)
-        print(self.xml_pretty_print(self.table.etree))
+        logging.debug(self.xml_pretty_print(self.table.etree))
 
     def tearUp(self):
         os.path.unlink('tests_data/mytest.xml')
