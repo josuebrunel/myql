@@ -16,12 +16,12 @@ class Binder(object):
         self.itemPath = itemPath
         self.pollingFrequencySeconds = str(pollingFrequencySeconds)
         self.produces = produces
-
+        self.urls = urls
+        self.inputs = inputs
+        self.paging = paging
         # Builds the element tree
         self.etree = self._buildElementTree()
 
-        # Adding urls
-        self.urls = urls
 
         # Adding inputs passed as parameters
         if inputs:
@@ -29,7 +29,6 @@ class Binder(object):
 
         # Adding paging
         if paging:
-            self.paging = paging
             self.addPaging(paging)
 
     def __repr__(self):
@@ -41,7 +40,7 @@ class Binder(object):
         t_binder = xtree.Element(self.name)
 
         for item in self.__dict__.items():
-            if item[0] != 'name':
+            if item[0] not in ('name', 'inputs', 'urls', 'paging'):
                 t_binder.set(*item)
 
         return t_binder
@@ -49,6 +48,7 @@ class Binder(object):
     def addUrl(self, url):
         """Adds url to binder
         """
+        self.urls.append(url)
         root = self.etree
 
         t_urls = root.find('urls')
@@ -77,6 +77,7 @@ class Binder(object):
     def addInput(self, key):
         """Add key element to the binder
         """
+        self.inputs.append(key)
         root = self.etree
 
         t_input = root.find('inputs')
@@ -141,6 +142,7 @@ class Binder(object):
     def addPaging(self, paging):
         """Adds paging to binder
         """
+        self.paging = paging
         root = self.etree
 
         try:
