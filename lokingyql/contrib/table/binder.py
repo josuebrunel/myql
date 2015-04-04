@@ -20,16 +20,17 @@ class Binder(object):
         # Builds the element tree
         self.etree = self._buildElementTree()
 
+        # Adding urls
+        self.urls = urls
+
         # Adding inputs passed as parameters
         if inputs:
-            [ self.addInput(key.etree) for key in inputs ]
+            self.inputs = [ self.addInput(key.etree) for key in inputs ]
 
         # Adding paging
         if paging:
-            [ self.addPaging(page) for page in pages ]
-
-        if paging:
-            self.addPaging(pagin)
+            self.paging = paging
+            self.addPaging(paging)
 
     def __repr__(self):
         return "<Binder:{0}>".format(self.name)

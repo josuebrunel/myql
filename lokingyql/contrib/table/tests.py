@@ -93,6 +93,7 @@ class TestTable(unittest.TestCase):
     def test_add_paging(self,):
         print self.xml_pretty_print(self.binder.etree)
         self.assertEquals(self.binder.addPaging(self.paging), True)
+        print(self.binder.paging)
         print self.xml_pretty_print(self.binder.etree)
 
     def test_remove_paging(self,):
@@ -105,6 +106,7 @@ class TestTable(unittest.TestCase):
     def test_add_url(self,):
         url = 'http://josuebrunel.org/service.js'
         self.assertEquals(self.binder.addUrl(url), True)
+        print(self.binder.urls)
         print self.xml_pretty_print(self.binder.etree)
 
     def test_remove_url(self,):
