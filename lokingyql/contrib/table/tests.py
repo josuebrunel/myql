@@ -160,6 +160,15 @@ class TestTable(unittest.TestCase):
         table.save(name='mytable', path='tests_data')
         self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
 
+    def test_create_table_with_two_binders(self,):
+        self.binder.addInput(self.key)
+        self.binder.addFunction('', from_file='tests_data/jscode.js')
+        self.table_desc['bindings'] = [self.binder, self.binder_insert]
+        table = Table(**self.table_desc)
+        table.save(name='mytable', path='tests_data')
+        logging.debug(self.xml_pretty_print(table.etree))
+        self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
+
     def test_add_function_table(self):
         logging.debug(self.xml_pretty_print(self.table.etree))
         self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
