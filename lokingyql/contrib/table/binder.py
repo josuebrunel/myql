@@ -25,7 +25,7 @@ class Binder(object):
 
         # Adding inputs passed as parameters
         if inputs:
-            self.inputs = [ self.addInput(key) for key in inputs ]
+            [ self.addInput(key) for key in inputs ]
 
         # Adding paging
         if paging:
@@ -48,7 +48,9 @@ class Binder(object):
     def addUrl(self, url):
         """Adds url to binder
         """
-        self.urls.append(url)
+        if not url in self.urls:
+            self.urls.append(url)
+
         root = self.etree
 
         t_urls = root.find('urls')
@@ -70,6 +72,8 @@ class Binder(object):
         for t_url in t_urls.findall('url'):
             if t_url.text == url.strip():
                 t_urls.remove(t_url)
+                if url in self.urls:
+                    self.urls.remove(url)
                 return True
             
         return False
@@ -77,7 +81,8 @@ class Binder(object):
     def addInput(self, key):
         """Add key element to the binder
         """
-        self.inputs.append(key)
+        if not key in self.inputs:
+            self.inputs.append(key)
         root = self.etree
 
         t_input = root.find('inputs')
