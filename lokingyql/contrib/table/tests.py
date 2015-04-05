@@ -9,7 +9,8 @@ from table import Table
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
 
-logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(funcName)s] %(message)s \n")
+logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
+logging.getLogger(__name__)
 
 class TestTable(unittest.TestCase):
 
@@ -72,21 +73,26 @@ class TestTable(unittest.TestCase):
         self.assertEqual(os.path.isfile('tests_data/after.xml'),True)
 
     def test_add_input_to_binder(self,):
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEqual(self.binder.addInput(self.key),True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_remove_input(self,):
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEqual(self.binder.addInput(self.key),True)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEqual(self.binder.addInput(self.key2),True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEquals(self.binder.removeInput(key_id='artist'),True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_add_function_from_file(self,):
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEqual(self.binder.addFunction('', from_file='tests_data/jscode.js'),True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_remove_function(self,):
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEqual(self.binder.addFunction('', from_file='tests_data/jscode.js'),True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEqual(self.binder.removeFunction(), True)
@@ -106,14 +112,16 @@ class TestTable(unittest.TestCase):
 
     def test_add_url(self,):
         url = 'http://josuebrunel.org/service.js'
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEquals(self.binder.addUrl(url), True)
-        logging.debug(self.binder.urls)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_remove_url(self,):
         url = 'http://josuebrunel.org/service.js'
         url2 = 'http://google.com'
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEquals(self.binder.addUrl(url), True)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEquals(self.binder.addUrl(url2), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEquals(self.binder.removeUrl(url), True)
@@ -138,36 +146,44 @@ class TestTable(unittest.TestCase):
     def test_create_table(self,):
         self.binder.addInput(self.key)
         self.binder.addFunction('', from_file='tests_data/jscode.js')
+        logging.debug(self.xml_pretty_print(self.table.etree))
         self.table.addBinder(self.binder)
         self.table.save(name='mytable', path='tests_data')
         self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
+        logging.debug(self.xml_pretty_print(self.table.etree))
 
     def test_create_table_and_add_two_binders(self,):
         self.binder.addInput(self.key)
         self.binder_insert.addInput(self.key)
         self.binder.addFunction('', from_file='tests_data/jscode.js')
         self.binder_insert.addFunction("console.log('hello this is an insert function'); ")
+        logging.debug(self.xml_pretty_print(self.table.etree))
         self.table.addBinder(self.binder)
+        logging.debug(self.xml_pretty_print(self.table.etree))
         self.table.addBinder(self.binder_insert)
         self.table.save(name='mytable', path='tests_data')
         self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
+        logging.debug(self.xml_pretty_print(self.table.etree))
 
     def test_create_table_with_binder(self,):
         self.binder.addInput(self.key)
         self.binder.addFunction('', from_file='tests_data/jscode.js')
         self.table_desc['bindings'] = [self.binder]
         table = Table(**self.table_desc)
+        logging.debug(self.xml_pretty_print(table.etree))
         table.save(name='mytable', path='tests_data')
         self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
+        logging.debug(self.xml_pretty_print(table.etree))
 
     def test_create_table_with_two_binders(self,):
         self.binder.addInput(self.key)
         self.binder.addFunction('', from_file='tests_data/jscode.js')
         self.table_desc['bindings'] = [self.binder, self.binder_insert]
         table = Table(**self.table_desc)
-        table.save(name='mytable', path='tests_data')
         logging.debug(self.xml_pretty_print(table.etree))
+        table.save(name='mytable', path='tests_data')
         self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
+        logging.debug(self.xml_pretty_print(table.etree))
 
     def test_add_function_table(self):
         logging.debug(self.xml_pretty_print(self.table.etree))
