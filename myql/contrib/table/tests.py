@@ -103,6 +103,18 @@ class TestTable(unittest.TestCase):
         self.assertEquals(self.binder.addPaging(self.paging), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
+    def test_create_table_with_paging(self,):
+        start= {'id': 'ItemPage', 'default': '1'}
+        pageSize= {'id':'Count' ,'max':'25'}
+        total= {'default': '10'}
+        paging = BinderPage('page', start, pageSize, total)
+        logging.debug(self.xml_pretty_print(paging.etree))
+        self.binder_desc['paging']=paging
+        logging.debug(self.binder_desc)
+        binder = Binder(**self.binder_desc)
+        self.assertNotEqual(binder.paging,None)
+        logging.debug(self.xml_pretty_print(binder.etree))
+
     def test_remove_paging(self,):
         logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEquals(self.binder.addPaging(self.paging), True)
