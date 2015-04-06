@@ -7,7 +7,7 @@ import importlib
 __author__ = 'Josue Kouka'
 __email__ = 'josuebrunel@gmail.com'
 
-class LokingYQL(object):
+class MYQL(object):
   '''Yet another Python Yahoo! Query Language Wrapper
   Attributes:
   - url : data provider url

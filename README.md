@@ -1,7 +1,7 @@
 lokingYQL
 =========
 
-LokingYQL is a Python wrapper of the Yahoo Query Language.
+MYQL is a Python wrapper of the Yahoo Query Language.
 
 Yahoo! Query Langauge Documentation and Support
 ===============================================
@@ -42,8 +42,8 @@ how to use
 ==========
 
 ```python
->>> import lokingyql
->>> yql = lokingyql.LokingYQL()
+>>> import myql
+>>> yql = myql.MYQL()
 >>> yql.diagnostics = True # To turn diagnostics on
 ```
 
@@ -51,7 +51,7 @@ access to community tables
 --------------------------
 
 ```python
->>> yql = lokingyql.LokingYQL()
+>>> yql = myql.MYQL()
 >>> rep = yql.rawQuery('desc yahoo.finance.quotes ')
 >>> rep.json()
 {u'error': {u'lang': u'en-US', u'description': u'No definition found for Table yahoo.finance.quotes'}}
@@ -65,8 +65,8 @@ access to community tables
 ***OR***
 
 ```python
->>> import lokingyql
->>> yql = lokingyql.LokingYQL(community=True)
+>>> import myql
+>>> yql = myql.MYQL(community=True)
 >>> # do your magic 
 ```
 
@@ -76,8 +76,8 @@ changing response format (xml or json)
 The response format is by default ***json***.
 
 ```python
->>> import lokingyql
->>> yql = lokingyql.LokingYQL(format='xml', community=True)
+>>> import myql
+>>> yql = myql.MYQL(format='xml', community=True)
 >>> rep = yql.rawQuery('select name, woeid from geo.states where place="Congo"')
 >>> rep.text
 u'<?xml version="1.0" encoding="UTF-8"?>\n<query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" yahoo:count="11" yahoo:created="2014-08-27T04:52:22Z" yahoo:lang="en-US"><results><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Cuvette-Ouest Department</name><woeid>55998384</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Cuvette Department</name><woeid>2344968</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Plateaux District</name><woeid>2344973</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Sangha</name><woeid>2344974</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Lekoumou</name><woeid>2344970</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Pool Department</name><woeid>2344975</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Likouala Department</name><woeid>2344971</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Niari Department</name><woeid>2344972</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Brazzaville</name><woeid>2344976</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Bouenza Department</name><woeid>2344967</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Kouilou</name><woeid>2344969</woeid></place></results></query><!-- total: 19 -->\n<!-- engine7.yql.bf1.yahoo.com -->\n'

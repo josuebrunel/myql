@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
   required = f.read().splitlines()
 
 setup(
-  name = "lokingyql",
+  name = "myql",
   version = "0.5",
   description = "Python Wrapper for the Yahoo ! Query Language",
   long_description = "",

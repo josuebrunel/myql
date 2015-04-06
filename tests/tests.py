@@ -1,15 +1,15 @@
 import unittest
 
-from lokingyql import LokingYQL
-from lokingyql.errors import NoTableSelectedError
-#from lokingyql.contrib import YahooOAuth
+from myql import MYQL
+from myql.errors import NoTableSelectedError
+#from myql.contrib import YahooOAuth
 
 from test_config import consumer_key, consumer_secret
 
 class LokingYqlTest(unittest.TestCase):
   
   def setUp(self,):
-    self.yql = LokingYQL()
+    self.yql = MYQL()
     #self.yoauth = YahooOAuth(consumer_key, consumer_secret)
 
   def tearUp(self,):
