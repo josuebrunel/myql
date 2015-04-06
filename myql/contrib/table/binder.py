@@ -245,7 +245,7 @@ class BinderMeta(type):
             return super(BinderMeta,cls).__new__(cls, name, (Binder,), dct)
 
     def toxml(cls,):
-    return ctree.tostring(cls.binder.etree)
+        return xtree.tostring(cls.binder.etree)
 
 
 class BinderModel(Binder):
