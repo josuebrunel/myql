@@ -1,4 +1,4 @@
-lokingYQL
+MYQL
 =========
 
 MYQL is a Python wrapper of the Yahoo Query Language.
