@@ -158,3 +158,24 @@ class Table(object):
             print(e)
 
         return False
+
+    
+class TableMeta(type):
+
+    TABLE_KEYS = ['name', 'author', 'apiKeyURL', 'documentationURL', 'sampleQuery']
+
+    def __new__(cls, name, bases, dct):
+        if name != 'TableModel':
+            table_attr = {key: value for (key, value) in dct.items() if key in cls.TABLE_KEYS }
+            table_attr['bindings'] = [ value.binder for value in dct.values() if hasattr(value, 'binder') and isinstance(value, BinderMeta) ]
+            dct = { key : value for (key, value) in dct.items() if key in ('__module__', '__metaclass__')}
+            print dct
+
+        return super(TableMeta, cls).__new__(cls, name, (Table,), dct)
+
+    def toxml(cls,):
+        return ctree.tostring(cls.table.etree)
+
+class TableModel(Table):
+    __metaclass__ = TableMeta
+
