@@ -19,9 +19,13 @@ class Binder(object):
         self.urls = urls
         self.inputs = inputs
         self.paging = paging
+
         # Builds the element tree
         self.etree = self._buildElementTree()
 
+        # Adding urls
+        if urls:
+            [ self.addUrl(url) for url in urls ]
 
         # Adding inputs passed as parameters
         if inputs:
