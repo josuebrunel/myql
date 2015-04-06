@@ -151,9 +151,10 @@ class Binder(object):
     def addPaging(self, paging):
         """Adds paging to binder
         """
-        self.paging = paging
-        root = self.etree
+        if not self.paging: 
+            self.paging = paging    
 
+        root = self.etree
         try:
             root.append(paging.etree)
             return True
@@ -221,13 +222,13 @@ class BinderPage(object):
         """Turns object into into an ElementTree
         """
         t_paging = xtree.Element('paging')
-
+        t_paging.set('model',self.model)
         for key in self.__dict__.keys():
             if key != 'model':
                 t_tag = xtree.SubElement(t_paging, key)
                 for item in self.__dict__[key].items() :
                     t_tag.set(*item)
-                
+        
         return t_paging
         
 
