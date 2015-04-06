@@ -110,6 +110,16 @@ class TestTable(unittest.TestCase):
         self.assertEqual(self.binder.removePaging(), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
+    def test_create_binder_with_urls(self,):
+        url = 'http://josuebrunel.org/service/v1'
+        url2 = 'http://josuebrunel.org/service/v1/?name=lol'
+        self.binder_desc['urls'] = [url, url2]
+        binder = Binder(**self.binder_desc)
+        logging.debug(self.xml_pretty_print(binder.etree))
+        #self.assertEquals(self.binder.addUrl(url), True)
+        #logging.debug(self.xml_pretty_print(self.binder.etree))
+
+
     def test_add_url(self,):
         url = 'http://josuebrunel.org/service.js'
         logging.debug(self.xml_pretty_print(self.binder.etree))
