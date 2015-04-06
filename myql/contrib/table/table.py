@@ -174,7 +174,7 @@ class TableMeta(type):
         return super(TableMeta, cls).__new__(cls, name, (Table,), dct)
 
     def toxml(cls,):
-        return ctree.tostring(cls.table.etree)
+        return xtree.tostring(cls.table.etree)
 
 class TableModel(Table):
     __metaclass__ = TableMeta
