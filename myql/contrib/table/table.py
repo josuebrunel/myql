@@ -2,6 +2,8 @@ import os
 from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 
+from binder import BinderMeta
+
 class Table(object):
     """Class representating a YQL Table
     """
@@ -169,6 +171,7 @@ class TableMeta(type):
             table_attr = {key: value for (key, value) in dct.items() if key in cls.TABLE_KEYS }
             table_attr['bindings'] = [ value.binder for value in dct.values() if hasattr(value, 'binder') and isinstance(value, BinderMeta) ]
             dct = { key : value for (key, value) in dct.items() if key in ('__module__', '__metaclass__')}
+            dct['table'] = Table(**table_attr)
             print dct
 
         return super(TableMeta, cls).__new__(cls, name, (Table,), dct)
