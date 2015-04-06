@@ -231,3 +231,23 @@ class BinderPage(object):
         return t_paging
         
 
+class BinderMeta(type):
+
+    BINDER_KEY = ['name', 'itemPath', 'produces', 'pollingFrequencySeconds', 'urls', 'keys', 'pages']
+
+    def __new__(cls, name, bases, dct):
+        if name != 'BinderModel':
+            binder_attr = {key: value for (key, value) in dct.items() if key in cls.BINDER_KEY}
+            binder_attr['inputs'] = [ value for value in dct.values() if isinstance(value, BinderKey)]
+            dct = { key : value for (key, value) in dct.items() if key in ('__module__', '__metaclass__')}
+            dct['binder'] = Binder(**binder_attr)
+            # Add KeyException Management
+            return super(BinderMeta,cls).__new__(cls, name, (Binder,), dct)
+
+    def toxml(cls,):
+    return ctree.tostring(cls.binder.etree)
+
+
+class BinderModel(Binder):
+    __metaclass__ = BinderMeta
+
