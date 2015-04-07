@@ -6,12 +6,12 @@ with open('requirements.txt') as f:
 
 setup(
   name = "myql",
-  version = "0.5",
+  version = "1.2",
   description = "Python Wrapper for the Yahoo ! Query Language",
   long_description = "",
   author = "Josue Kouka",
   author_email = "josuebrunel@gmail.com",
-  url = "https://github.com/josuebrunel/lokingYQL",
+  url = "https://github.com/josuebrunel/MYQL",
   packages = find_packages(),
   platforms=['Any'],
   license='BSD',
