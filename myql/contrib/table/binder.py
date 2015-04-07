@@ -241,7 +241,10 @@ class BinderMeta(type):
         if name != 'BinderModel':
             binder_attr = {key: value for (key, value) in dct.items() if key in cls.BINDER_KEY}
             binder_attr['inputs'] = [ value for value in dct.values() if isinstance(value, BinderKey)]
-            binder_attr['paging'] = [ value for value in dct.values() if isinstance(value, BinderPage)][0]
+            paging = [ value for value in dct.values() if isinstance(value, BinderPage)]
+            if paging :
+                binder_attr['paging'] = paging[0]
+
             dct = { key : value for (key, value) in dct.items() if key in ('__module__', '__metaclass__')}
             dct['binder'] = Binder(**binder_attr)
             # Add KeyException Management
