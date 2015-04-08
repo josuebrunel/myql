@@ -1,1 +1,1 @@
-from tests import LokingYqlTest
+from tests import TestTable

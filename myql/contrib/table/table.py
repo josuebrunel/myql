@@ -172,7 +172,6 @@ class TableMeta(type):
             table_attr['bindings'] = [ value.binder for value in dct.values() if hasattr(value, 'binder') and isinstance(value, BinderMeta) ]
             dct = { key : value for (key, value) in dct.items() if key in ('__module__', '__metaclass__')}
             dct['table'] = Table(**table_attr)
-            print dct
 
         return super(TableMeta, cls).__new__(cls, name, (Table,), dct)
 
