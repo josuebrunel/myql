@@ -1,6 +1,8 @@
 MYQL
 =========
 
+[![Build Status](https://travis-ci.org/josuebrunel/myql.svg?branch=master)](https://travis-ci.org/josuebrunel/myql)
+
 MYQL is a Python wrapper of the Yahoo Query Language.
 
 Yahoo! Query Langauge Documentation and Support
@@ -12,9 +14,10 @@ Yahoo! Query Langauge Documentation and Support
 * Yahoo! Social APIs - http://developer.yahoo.com/social/
 * Yahoo! QUery Language Console https://developer.yahoo.com/yql/console/
 
-version 1.0
+version 1.2
 ===========
 
+* OpenTable classes
 * Access to resources requiring authentication
 
 version 0.5.6
