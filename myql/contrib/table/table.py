@@ -165,7 +165,7 @@ class Table(object):
     
 class TableMeta(type):
 
-    TABLE_KEYS = ['name', 'author', 'apiKeyURL', 'documentationURL', 'sampleQuery']
+    TABLE_KEYS = ['name', 'author', 'apiKeyURL', 'documentationURL', 'sampleQuery','description']
 
     def __new__(cls, name, bases, dct):
         if name != 'TableModel':
