@@ -20,7 +20,7 @@ class TestTable(unittest.TestCase):
             'author': 'josuebrunel',
             'apiKeyURL': 'http://josuebrunel.org/api',
             'documentationURL': 'http://josuebrunel.org/doc.html',
-            'sampleQuery': 'SELECT * FROM mytable',
+            'sampleQuery': ['SELECT * FROM mytable', 'SELECT name FROM mytable WHERE id="345"','DELETE FROM mytable WHERE id="345"'],
         }
 
         self.table = Table(**self.table_desc)
@@ -103,7 +103,7 @@ class TestTable(unittest.TestCase):
         self.assertEquals(self.binder.addPaging(self.paging), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
-    def test_create_table_with_paging(self,):
+    def test_create_binder_with_paging(self,):
         start= {'id': 'ItemPage', 'default': '1'}
         pageSize= {'id':'Count' ,'max':'25'}
         total= {'default': '10'}

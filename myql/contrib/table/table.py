@@ -10,7 +10,7 @@ class Table(object):
 
     _TAB_ATTR = {'xmlns':'http://query.yahooapis.com/v1/schema/table.xsd', 'securityLevel':'any', 'https':'false'}
 
-    def __init__(self, name, author, apiKeyURL, documentationURL, sampleQuery, description=None, table_attr=None, bindings=[]):
+    def __init__(self, name, author, apiKeyURL, documentationURL, sampleQuery=[], description=None, table_attr=None, bindings=[]):
         """Initialize the class
         """
         self.name = name
@@ -81,8 +81,9 @@ class Table(object):
         ##
 
         ## <sampleQuery>
-        t_sampleQuery = xtree.SubElement(t_meta, 'sampleQuery')
-        t_sampleQuery.text = self.sampleQuery
+        for sample_query in self.sampleQuery:
+            t_sampleQuery = xtree.SubElement(t_meta, 'sampleQuery')
+            t_sampleQuery.text = sample_query
         ##
 
         ## <bindings>
