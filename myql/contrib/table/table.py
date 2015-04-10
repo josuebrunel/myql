@@ -59,32 +59,43 @@ class Table(object):
 
         # <meta>
         t_meta = xtree.SubElement(t_table, 'meta')
+        
+        for key, value in [(k,v) for k,v in self.__dict__.items() if k != 'table_attr' ]:
+            #import pdb
+            #pdb.set_trace()
+            if isinstance(value, list):
+                for elt in value:
+                    t_tag = xtree.SubElement(t_meta, key)
+                    t_tag.text = elt
+            else:
+                t_tag = xtree.SubElement(t_meta,key)
+                t_tag.text = value
 
-        ## <author>
-        t_author = xtree.SubElement(t_meta, 'author')
-        t_author.text = self.author
-        ##
+       # ## <author>
+       # t_author = xtree.SubElement(t_meta, 'author')
+       # t_author.text = self.author
+       # ##
 
-        ## <apiKeyURL>
-        t_apiKeyURL = xtree.SubElement(t_meta, 'apiKeyURL')
-        t_apiKeyURL.text = self.apiKey
-        ##
+       # ## <apiKeyURL>
+       # t_apiKeyURL = xtree.SubElement(t_meta, 'apiKeyURL')
+       # t_apiKeyURL.text = self.apiKey
+       # ##
 
-        ## <documentationURL>
-        t_documentationURL = xtree.SubElement(t_meta, 'documentationURL')
-        t_documentationURL.text = self.documentationURL
-        ##
+       # ## <documentationURL>
+       # t_documentationURL = xtree.SubElement(t_meta, 'documentationURL')
+       # t_documentationURL.text = self.documentationURL
+       # ##
 
-        ## <description>
-        t_description = xtree.SubElement(t_meta, 'description')
-        t_description.text = self.description
-        ##
+       # ## <description>
+       # t_description = xtree.SubElement(t_meta, 'description')
+       # t_description.text = self.description
+       # ##
 
-        ## <sampleQuery>
-        for sample_query in self.sampleQuery:
-            t_sampleQuery = xtree.SubElement(t_meta, 'sampleQuery')
-            t_sampleQuery.text = sample_query
-        ##
+       # ## <sampleQuery>
+       # for sample_query in self.sampleQuery:
+       #     t_sampleQuery = xtree.SubElement(t_meta, 'sampleQuery')
+       #     t_sampleQuery.text = sample_query
+       # ##
 
         ## <bindings>
         t_bindings = xtree.SubElement(t_table, 'bindings')
