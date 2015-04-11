@@ -1,6 +1,7 @@
+from  base import Base
 from xml.etree import cElementTree as xtree
 
-class Binder(object):
+class Binder(Base):
     """Class describing binders : select, insert, update, delete
         name : select, insert, update, delete
         itemPath : dotted path i.e : products.product
@@ -114,39 +115,6 @@ class Binder(object):
         except Exception, e:
             print(e)
             return False 
-
-    def addFunction(self, function_code, from_file=''):
-        """Adds function section to the binder
-        """
-        root = self.etree
-
-        t_execute = root.find('execute')
-
-        if not t_execute:
-            t_execute = xtree.SubElement(root, 'execute')
-
-        if from_file :
-            with open(from_file) as f:
-                function_code = f.read()
-
-        #t_execute.text = function_code
-        t_execute.text = "\n ![CDATA[ {0} ]] \n".format(function_code)
-
-        return True
-
-    def removeFunction(self,):
-        """Removes function of the binder
-        """
-        root = self.etree
-        t_execute = root.find('execute')
-
-        try:
-            root.remove(t_execute)
-            return True
-        except Exception, e:
-            print(e)
-
-        return False
 
     def addPaging(self, paging):
         """Adds paging to binder

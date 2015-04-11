@@ -2,9 +2,10 @@ import os
 from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 
+from base import Base
 from binder import BinderMeta, Binder
 
-class Table(object):
+class Table(Base):
     """Class representating a YQL Table
     """
 
@@ -60,7 +61,7 @@ class Table(object):
         # <meta>
         t_meta = xtree.SubElement(t_table, 'meta')
 
-        # Loop on a sorted key,value of class attributes while ignoring table_attr and name
+        # Loop over a sorted key,value of class attributes while ignoring table_attr and name
         for key, value in [(k,v) for k,v in sorted(self.__dict__.items(), key=lambda x: x[0]) if k not in ('table_attr','name') ]:
             if isinstance(value, list): # Works for element like sampleQuery
                 for elt in value:
@@ -113,37 +114,6 @@ class Table(object):
             t_bindings.remove(t_binder)
             return True
         
-        return False
-
-    def addFunction(self, func_code, from_file=None):
-        """Adds function to a YQL Table
-        """
-
-        if from_file:
-            with open(from_file) as f:
-                func_code = f.read()
-
-        root = self.etree
-
-        t_execute = xtree.SubElement(root, 'execute')
-        t_execute.text = "\n [!CDATA[ {0} ]]\n".format(func_code)
-
-        return True
-
-    def removeFunction(self):
-        """Removes <execute></execute> from a table
-        """
-
-        root = self.etree
-
-        t_execute = root.find('execute')
-
-        try :
-            root.remove(t_execute)
-            return True
-        except Execption,e:
-            print(e)
-
         return False
 
     
