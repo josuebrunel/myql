@@ -124,10 +124,12 @@ class TableMeta(type):
     def __new__(cls, name, bases, dct):
         if name != 'TableModel':
             table_attr = {key: value for (key, value) in dct.items() if key in cls.TABLE_KEYS }
-            #table_attr['bindings'] = [ value.binder for value in dct.values() if hasattr(value, 'binder') and isinstance(value, BinderMeta) ]
             table_attr['bindings'] = [ value for value in dct.values() if isinstance(value, Binder) ]
+            table = Table(**table_attr)
+            if dct.get('function', None):
+                table.addFunction(func_code='', from_file=dct['function'])
             dct = { key : value for (key, value) in dct.items() if key in ('__module__', '__metaclass__')}
-            dct['table'] = Table(**table_attr)
+            dct['table'] = table
 
         return super(TableMeta, cls).__new__(cls, name, (Table,), dct)
 

@@ -36,7 +36,7 @@ class Base(object):
         if not t_execute :
             t_execute = ctree.SubElement(root, 'execute')
 
-        t_execute.text = "\n ![CDATA] {0} ]]\n".format(func_code)
+        t_execute.text = "\n\t![CDATA]{0:>5}]]\n\t".format(func_code.ljust(4))
 
         return True
 
