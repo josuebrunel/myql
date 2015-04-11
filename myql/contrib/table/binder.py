@@ -215,8 +215,11 @@ class BinderMeta(type):
             if paging :
                 binder_attr['paging'] = paging[0]
 
+            binder = Binder(**binder_attr)
+            if dct.get('function',None):
+                binder.addFunction(func_code='', from_file=dct['function'])
             dct = { key : value for (key, value) in dct.items() if key in ('__module__', '__metaclass__')}
-            dct['binder'] = Binder(**binder_attr)
+            dct['binder'] = binder
             # Add KeyException Management
         return super(BinderMeta,cls).__new__(cls, name, (Binder,), dct)
 
