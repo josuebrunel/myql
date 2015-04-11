@@ -157,6 +157,8 @@ class BinderKey(object):
         self.type = type
         self.paramType = paramType
         self.required = required
+        if like:
+            self.like = like
 
         self.etree = self._buildElementTree()
 
