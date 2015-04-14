@@ -98,3 +98,13 @@ class BaseInput(object):
         self._etree = t_elt
         return t_elt
 
+class BasePaging(object):
+    """Class representing a <paging> element under a <select> element of a OpenTable file description
+    """
+
+    #def __init__(self, model, start={}, pagesize={}, total={}, nextpage={}):
+    def __init__(self, model, **kwargs):
+
+        kwargs['model'] = model
+        vars(self).update(kwargs)
+
