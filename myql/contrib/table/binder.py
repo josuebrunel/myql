@@ -1,4 +1,4 @@
-from  base import Base, BaseInput
+from  base import Base, BaseInput, BasePaging
 from xml.etree import cElementTree as xtree
 
 class Binder(Base):
@@ -166,31 +166,44 @@ class InputMap(BaseInput):
     def __init__(self, *args, **kwargs):
         super(InputMap, self).__init__('map', *args, **kwargs)
 
-
-class BinderPage(object):
+class BinderPage(BasePaging):
 
     def __init__(self, model, start, pageSize, total):
-        """Class representing a binder Page
-        """
         self.model = model
-        self.start = start
-        self.pageSize = pageSize
-        self.total = total
+        super(BinderPage, self).__init__(model, start=start, pageSize=pageSize, total=total)
 
-        self.etree = self.__buildElementTree()
 
-    def __buildElementTree(self,):
-        """Turns object into into an ElementTree
-        """
-        t_paging = xtree.Element('paging')
-        t_paging.set('model',self.model)
-        for key in self.__dict__.keys():
-            if key != 'model':
-                t_tag = xtree.SubElement(t_paging, key)
-                for item in self.__dict__[key].items() :
-                    t_tag.set(*item)
-        
-        return t_paging
+class PagingUrl(BasePaging):
+
+    def __init__(self, model, nextpage):
+        self.model = model
+        super(PagingUrl, self).__init__(model, nextpage=nextpage)
+
+
+#class BinderPage(object):
+#
+#    def __init__(self, model, start, pageSize, total):
+#        """Class representing a binder Page
+#        """
+#        self.model = model
+#        self.start = start
+#        self.pageSize = pageSize
+#        self.total = total
+#
+#        self.etree = self.__buildElementTree()
+#
+#    def __buildElementTree(self,):
+#        """Turns object into into an ElementTree
+#        """
+#        t_paging = xtree.Element('paging')
+#        t_paging.set('model',self.model)
+#        for key in self.__dict__.keys():
+#            if key != 'model':
+#                t_tag = xtree.SubElement(t_paging, key)
+#                for item in self.__dict__[key].items() :
+#                    t_tag.set(*item)
+#        
+#        return t_paging
         
 
 class BinderMeta(type):
