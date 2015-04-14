@@ -5,7 +5,7 @@ from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
-from myql.contrib.table import Binder, InputKey, BinderPage
+from myql.contrib.table import Binder, InputKey, InputValue, BinderPage
 
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
@@ -223,6 +223,10 @@ class TestTable(unittest.TestCase):
     def test_baseinput_to_xml(self,):
         i = BaseInput('key','name','xs:string', 'path', required=True, default='josh', private=True, maxBatchItems=10)
         logging.debug(self.xml_pretty_print(i.etree))
+
+    def test_inputvalue(self,):
+        v = InputValue('content', 'xs:string', 'variable', required=True)
+        logging.debug(self.xml_pretty_print(v.etree))
     
     def tearUp(self):
         os.path.unlink('tests_data/mytest.xml')
