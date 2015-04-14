@@ -163,7 +163,7 @@ class InputValue(BaseInput):
 class InputMap(BaseInput):
     """Class representing map under an Input
     """
-     def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(InputKey, self).__init__('map', *args, **kwargs)
 
 
