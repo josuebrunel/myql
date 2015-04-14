@@ -53,15 +53,48 @@ class Base(object):
 
         return False
 
-class InputBase(object):
+class BaseInput(object):
+    """This class represents an Input Element under Binding element.
+    Input Element can be : <key>, <value> or <map>
+    Full Documentation https://developer.yahoo.com/yql/guide/yql-opentables-reference.html#yql-opentables-key
+    """
 
-    def __init__(self, id, type, paramType, like='', required='false', default='', private='false', const='false', batchable='false', maxbatchItem=5,):
+    def __init__(self, input_type, id, type, paramType, like='', required=False, default='', private=False, const=False, batchable=False, maxBatchItems=5,):
+        """
+        - input_type : can be <key>, <value> or <map>
+        - id : The name of the key. This represents what the user needs to provide in the WHERE clause.
+        - like (as):  The alias of the key used in YQL statements.
+        - type : The type of data coming back from the Web service.
+        - required : A boolean that answers the question
+        - paramType : Determines how this key is represented and passed on to the Web service.
+        - default : This value is used if one isn't specified by the developer in the SELECT.
+        - private : Hide this key's value to the user (in both "desc" and "diagnostics"). 
+        - const : A boolean that indicates whether the default attribute must be present and cannot be changed by the end user.
+        - batchable : A boolean which answers the question: Does this select and URL support multiple key fetches/requests in a single request (batched fetching)?
+        - maxBatchItems : How many requests should be combined in a single batch call. 
+        """
+        self.name = input_type
         self.id = id
-        self.as = like
+        self.like = like # as is a python <keyword>, that's why in argument we use <like>
+        self.type = type
         self.required = required
         self.default = default
         self.private = private
         self.const = const
         self.batchable = batchable
-        self.maxbatchItem = maxbatchItem
+        self.maxBatchItems = maxBatchItems
+
+        self.etree = self._buildElementTree()
+
+    def _buildElementTree(self,):
+        """Turn object into an ElementTree
+        """
+        t_elt = ctree.Element(self.name)
+
+        for k,v in [ (key,value) for key,value in self.__dict__.items() if key != 'name']: # Excluding name from list of items
+            if v and v != 'false' :
+                t_elt.set(k if k != 'like' else 'as', str(v).lower())
+
+        self._etree = t_elt
+        return t_elt
 
