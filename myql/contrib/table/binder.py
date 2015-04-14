@@ -156,7 +156,7 @@ class InputKey(BaseInput):
 class InputValue(BaseInput):
     """Class representing value under an Input
     """
-     def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(InputKey, self).__init__('value', *args, **kwargs)
 
 
