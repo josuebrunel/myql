@@ -5,7 +5,7 @@ from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
-from myql.contrib.table import Binder, InputKey, InputValue, BinderPage, PagingUrl
+from myql.contrib.table import Binder, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
 
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
@@ -47,7 +47,7 @@ class TestTable(unittest.TestCase):
         start= {'id': 'ItemPage', 'default': '1'}
         pageSize= {'id':'Count' ,'max':'25'}
         total= {'default': '10'}
-        self.paging = BinderPage('page', start, pageSize, total)
+        self.paging = PagingPage(start, pageSize, total)
 
     def xml_pretty_print(self, data):
         """Pretty logging.debug xml data
@@ -108,7 +108,7 @@ class TestTable(unittest.TestCase):
         start= {'id': 'ItemPage', 'default': '1'}
         pageSize= {'id':'Count' ,'max':'25'}
         total= {'default': '10'}
-        paging = BinderPage('page', start, pageSize, total)
+        paging = PagingPage(start, pageSize, total)
         logging.debug(self.xml_pretty_print(paging.etree))
         self.binder_desc['paging']=paging
         logging.debug(self.binder_desc)
@@ -120,7 +120,7 @@ class TestTable(unittest.TestCase):
         start= {'id': 'ItemPage', 'default': '1'}
         pageSize= {'id':'Count' ,'max':'25'}
         total= {'default': '10'}
-        paging = BinderPage('page', True,  start, pageSize, total)
+        paging = PagingOffset(True,  start, pageSize, total)
         logging.debug(self.xml_pretty_print(paging.etree))
         self.binder_desc['paging']=paging
         logging.debug(self.binder_desc)
@@ -131,7 +131,7 @@ class TestTable(unittest.TestCase):
 
     def test_create_binder_with_url_paging(self,):
         nextpage = {'path': 'ysearchresponse.nextpage'}
-        paging = PagingUrl('url', nextpage)
+        paging = PagingUrl(nextpage)
         logging.debug(self.xml_pretty_print(paging.etree))
         self.binder_desc['paging']=paging
         logging.debug(self.binder_desc)

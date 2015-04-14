@@ -166,45 +166,26 @@ class InputMap(BaseInput):
     def __init__(self, *args, **kwargs):
         super(InputMap, self).__init__('map', *args, **kwargs)
 
-class BinderPage(BasePaging):
 
-    def __init__(self, model, start, pageSize, total):
-        self.model = model
-        super(BinderPage, self).__init__(model, start=start, pageSize=pageSize, total=total)
+class PagingPage(BasePaging):
 
+    def __init__(self, start, pageSize, total):
+        super(PagingPage, self).__init__('page', start=start, pageSize=pageSize, total=total)
+
+
+class PagingOffset(BasePaging):
+
+    def __init__(self, matrix, start, pageSize, total):
+        super(PagingOffset, self).__init__('offset', matrix, start=start, pageSize=pageSize, total=total)
+        self.matrix = str(matrix).lower()
+        self.etree.set('matrix', self.matrix)
+        
 
 class PagingUrl(BasePaging):
 
-    def __init__(self, model, nextpage):
-        self.model = model
-        super(PagingUrl, self).__init__(model, nextpage=nextpage)
-
-
-#class BinderPage(object):
-#
-#    def __init__(self, model, start, pageSize, total):
-#        """Class representing a binder Page
-#        """
-#        self.model = model
-#        self.start = start
-#        self.pageSize = pageSize
-#        self.total = total
-#
-#        self.etree = self.__buildElementTree()
-#
-#    def __buildElementTree(self,):
-#        """Turns object into into an ElementTree
-#        """
-#        t_paging = xtree.Element('paging')
-#        t_paging.set('model',self.model)
-#        for key in self.__dict__.keys():
-#            if key != 'model':
-#                t_tag = xtree.SubElement(t_paging, key)
-#                for item in self.__dict__[key].items() :
-#                    t_tag.set(*item)
-#        
-#        return t_paging
-        
+    def __init__(self, nextpage):
+        super(PagingUrl, self).__init__('url', nextpage=nextpage)
+       
 
 class BinderMeta(type):
 
@@ -215,7 +196,7 @@ class BinderMeta(type):
         if name != 'BinderModel':
             binder_attr = {key: value for (key, value) in dct.items() if key in cls.INPUT_KEY}
             binder_attr['inputs'] = [ value for value in dct.values() if isinstance(value, BaseInput)]
-            paging = [ value for value in dct.values() if isinstance(value, BinderPage)]
+            paging = [ value for value in dct.values() if isinstance(value, BasePaging)]
             if paging :
                 binder_attr['paging'] = paging[0]
 

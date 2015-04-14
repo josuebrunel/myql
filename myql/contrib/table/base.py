@@ -103,7 +103,7 @@ class BasePaging(object):
     """
 
     #def __init__(self, model, start={}, pagesize={}, total={}, nextpage={}):
-    def __init__(self, model, **kwargs):
+    def __init__(self, model, *args, **kwargs):
 
         kwargs['model'] = model
         vars(self).update(kwargs)
