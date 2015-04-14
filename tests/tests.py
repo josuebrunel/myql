@@ -5,7 +5,7 @@ from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
-from myql.contrib.table import Binder, BinderKey, BinderPage
+from myql.contrib.table import Binder, InputKey, BinderPage
 
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
@@ -41,8 +41,8 @@ class TestTable(unittest.TestCase):
             'paramType': 'path'
         }
 
-        self.key = BinderKey(**self.key_desc)
-        self.key2 = BinderKey(id='song', type='xs:string', paramType='path', required='true')
+        self.key = InputKey(**self.key_desc)
+        self.key2 = InputKey(id='song', type='xs:string', paramType='path', required='true')
 
         start= {'id': 'ItemPage', 'default': '1'}
         pageSize= {'id':'Count' ,'max':'25'}
