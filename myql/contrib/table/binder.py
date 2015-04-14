@@ -157,14 +157,14 @@ class InputValue(BaseInput):
     """Class representing value under an Input
     """
     def __init__(self, *args, **kwargs):
-        super(InputKey, self).__init__('value', *args, **kwargs)
+        super(InputValue, self).__init__('value', *args, **kwargs)
 
 
 class InputMap(BaseInput):
     """Class representing map under an Input
     """
     def __init__(self, *args, **kwargs):
-        super(InputKey, self).__init__('map', *args, **kwargs)
+        super(InputMap, self).__init__('map', *args, **kwargs)
 
 
 class BinderPage(object):
@@ -195,13 +195,15 @@ class BinderPage(object):
 
 class BinderMeta(type):
 
-    BINDER_KEY = ['name', 'itemPath', 'produces', 'pollingFrequencySeconds', 'urls', 'keys', 'pages']
+    INPUT_KEY = ['name', 'itemPath', 'produces', 'pollingFrequencySeconds', 'urls', 'keys', 'pages']
 
     def __new__(cls, name, bases, dct):
 
         if name != 'BinderModel':
-            binder_attr = {key: value for (key, value) in dct.items() if key in cls.BINDER_KEY}
-            binder_attr['inputs'] = [ value for value in dct.values() if isinstance(value, InputKey)]
+            binder_attr = {key: value for (key, value) in dct.items() if key in cls.INPUT_KEY}
+            import pdb
+            pdb.set_trace()
+            binder_attr['inputs'] = [ value for value in dct.values() if isinstance(value, BaseInput)]
             paging = [ value for value in dct.values() if isinstance(value, BinderPage)]
             if paging :
                 binder_attr['paging'] = paging[0]
