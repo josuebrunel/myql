@@ -59,7 +59,7 @@ class BaseInput(object):
     Full Documentation https://developer.yahoo.com/yql/guide/yql-opentables-reference.html#yql-opentables-key
     """
 
-    def __init__(self, input_type, id, type, paramType, like='', required=False, default='', private=False, const=False, batchable=False, maxBatchItems=0):
+    def __init__(self, input_type, id, type, paramType, like='', required=False, default='', private=False, const=False, batchable=False, maxBatchItems=1):
         """
         - input_type : can be <key>, <value> or <map>
         - id : The name of the key. This represents what the user needs to provide in the WHERE clause.
