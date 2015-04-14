@@ -7,7 +7,7 @@ class Binder(Base):
         itemPath : dotted path i.e : products.product
         produces : json or xml 
         urls : list of urls related to the api
-        inputs : list of BinderKey object
+        inputs : list of InputKey object
     """
 
     def __init__(self, name, itemPath, produces, pollingFrequencySeconds=30, urls=[], inputs=[], paging=None):
@@ -146,36 +146,27 @@ class Binder(Base):
         return False
 
         
-#class BinderKey(object):
-class BinderKey(BaseInput):
-    """Class representing a key which is part of inputs
+class InputKey(BaseInput):
+    """Class representing a key of an Input
     """
 
-    #def __init__(self, id, type, paramType, like='', required=False, default='', private=False, const=False, batchable=False, maxBatchItems=5,):
     def __init__(self, *args, **kwargs):
-
-        super(BinderKey, self).__init__('key', *args, **kwargs)
-#    def __init__(self, id, type, paramType, required='false', like=''):
-#        """Initializes the class
-#        """
-#        self.id = id
-#        self.type = type
-#        self.paramType = paramType
-#        self.required = required
-#        if like:
-#            self.like = like
-#
-#        self.etree = self._buildElementTree()
-#
-#    def _buildElementTree(self,):
-#        """Turns object into ElementTre
-#        """
-#        t_key = xtree.Element('key')
-#        for item in self.__dict__.items():
-#            t_key.set(*item)
-#        
-#        return t_key
+        super(InputKey, self).__init__('key', *args, **kwargs)
         
+class InputValue(BaseInput):
+    """Class representing value under an Input
+    """
+     def __init__(self, *args, **kwargs):
+        super(InputKey, self).__init__('value', *args, **kwargs)
+
+
+class InputMap(BaseInput):
+    """Class representing map under an Input
+    """
+     def __init__(self, *args, **kwargs):
+        super(InputKey, self).__init__('map', *args, **kwargs)
+
+
 class BinderPage(object):
 
     def __init__(self, model, start, pageSize, total):
@@ -210,7 +201,7 @@ class BinderMeta(type):
 
         if name != 'BinderModel':
             binder_attr = {key: value for (key, value) in dct.items() if key in cls.BINDER_KEY}
-            binder_attr['inputs'] = [ value for value in dct.values() if isinstance(value, BinderKey)]
+            binder_attr['inputs'] = [ value for value in dct.values() if isinstance(value, InputKey)]
             paging = [ value for value in dct.values() if isinstance(value, BinderPage)]
             if paging :
                 binder_attr['paging'] = paging[0]
