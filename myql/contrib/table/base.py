@@ -52,3 +52,16 @@ class Base(object):
             print(e)
 
         return False
+
+class InputBase(object):
+
+    def __init__(self, id, type, paramType, like='', required='false', default='', private='false', const='false', batchable='false', maxbatchItem=5,):
+        self.id = id
+        self.as = like
+        self.required = required
+        self.default = default
+        self.private = private
+        self.const = const
+        self.batchable = batchable
+        self.maxbatchItem = maxbatchItem
+
