@@ -1,4 +1,4 @@
-from  base import Base
+from  base import Base, BaseInput
 from xml.etree import cElementTree as xtree
 
 class Binder(Base):
@@ -146,36 +146,36 @@ class Binder(Base):
         return False
 
         
-class BinderKey(object):
+#class BinderKey(object):
+class BinderKey(BaseInput):
     """Class representing a key which is part of inputs
     """
 
-    def __init__(self, id, type, paramType, required='false', like=''):
-        """Initializes the class
-        """
-        self.id = id
-        self.type = type
-        self.paramType = paramType
-        self.required = required
-        if like:
-            self.like = like
+    #def __init__(self, id, type, paramType, like='', required=False, default='', private=False, const=False, batchable=False, maxBatchItems=5,):
+    def __init__(self, *args, **kwargs):
 
-        self.etree = self._buildElementTree()
-
-    def _buildElementTree(self,):
-        """Turns object into ElementTre
-        """
-        t_key = xtree.Element('key')
-        for item in self.__dict__.items():
-            t_key.set(*item)
+        super(BinderKey, self).__init__('key', *args, **kwargs)
+#    def __init__(self, id, type, paramType, required='false', like=''):
+#        """Initializes the class
+#        """
+#        self.id = id
+#        self.type = type
+#        self.paramType = paramType
+#        self.required = required
+#        if like:
+#            self.like = like
+#
+#        self.etree = self._buildElementTree()
+#
+#    def _buildElementTree(self,):
+#        """Turns object into ElementTre
+#        """
+#        t_key = xtree.Element('key')
+#        for item in self.__dict__.items():
+#            t_key.set(*item)
+#        
+#        return t_key
         
-        return t_key
-        
-    def to_elementTree(self,):
-        """Returns object as ElementTree
-        """
-        return self.etree
-
 class BinderPage(object):
 
     def __init__(self, model, start, pageSize, total):
