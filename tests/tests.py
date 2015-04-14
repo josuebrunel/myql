@@ -116,6 +116,19 @@ class TestTable(unittest.TestCase):
         self.assertNotEqual(binder.paging,None)
         logging.debug(self.xml_pretty_print(binder.etree))
 
+    def test_create_binder_with_offset_paging(self,):
+        start= {'id': 'ItemPage', 'default': '1'}
+        pageSize= {'id':'Count' ,'max':'25'}
+        total= {'default': '10'}
+        paging = BinderPage('page', True,  start, pageSize, total)
+        logging.debug(self.xml_pretty_print(paging.etree))
+        self.binder_desc['paging']=paging
+        logging.debug(self.binder_desc)
+        binder = Binder(**self.binder_desc)
+        self.assertNotEqual(binder.paging,None)
+        logging.debug(self.xml_pretty_print(binder.etree))
+
+
     def test_create_binder_with_url_paging(self,):
         nextpage = {'path': 'ysearchresponse.nextpage'}
         paging = PagingUrl('url', nextpage)
