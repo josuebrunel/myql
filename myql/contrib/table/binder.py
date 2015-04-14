@@ -201,8 +201,6 @@ class BinderMeta(type):
 
         if name != 'BinderModel':
             binder_attr = {key: value for (key, value) in dct.items() if key in cls.INPUT_KEY}
-            import pdb
-            pdb.set_trace()
             binder_attr['inputs'] = [ value for value in dct.values() if isinstance(value, BaseInput)]
             paging = [ value for value in dct.values() if isinstance(value, BinderPage)]
             if paging :
