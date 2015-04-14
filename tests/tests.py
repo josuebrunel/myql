@@ -5,7 +5,7 @@ from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
-from myql.contrib.table import Binder, InputKey, InputValue, BinderPage
+from myql.contrib.table import Binder, InputKey, InputValue, BinderPage, PagingUrl
 
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
@@ -115,6 +115,17 @@ class TestTable(unittest.TestCase):
         binder = Binder(**self.binder_desc)
         self.assertNotEqual(binder.paging,None)
         logging.debug(self.xml_pretty_print(binder.etree))
+
+    def test_create_binder_with_url_paging(self,):
+        nextpage = {'path': 'ysearchresponse.nextpage'}
+        paging = PagingUrl('url', nextpage)
+        logging.debug(self.xml_pretty_print(paging.etree))
+        self.binder_desc['paging']=paging
+        logging.debug(self.binder_desc)
+        binder = Binder(**self.binder_desc)
+        self.assertNotEqual(binder.paging,None)
+        logging.debug(self.xml_pretty_print(binder.etree))
+
 
     def test_remove_paging(self,):
         logging.debug(self.xml_pretty_print(self.binder.etree))
