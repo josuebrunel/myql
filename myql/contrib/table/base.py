@@ -53,6 +53,145 @@ class Base(object):
 
         return False
 
+
+class BaseBinder(Base):
+    """Represents any element under <bindings> : <select>,<insert>,<update>,<delete> and <function>
+    """
+    def __init__(self, name, **kwargs):
+        """
+        """
+        self.name = name
+        vars(self).update(kwargs)
+
+        self.etree = self._buildElementTree()
+
+        if self.urls:
+            [ self.addUrl(url) for url in self.urls ]
+
+        if self.inputs:
+            [ self.addInput(elt) for elt in self.inputs ]
+
+        if self.paging:
+            self.addPaging(self.paging)
+        
+    def _buildElementTree(self,):
+        """Turns object into a Element Tree
+        """
+        t_binder = ctree.Element(self.name)
+
+        for k,v in self.__dict__.items():
+            if k not in ('name', 'urls', 'inputs', 'paging') and v :
+                t_binder.set(k,v)
+
+        self.etree = t_binder
+        return t_binder
+
+    def addUrl(self, url):
+        """Add url to binder
+        """
+
+        if not url in self.urls:
+            self.urls.append(url)
+
+        root = self.etree
+        t_urls = root.find('urls')
+
+        if not t_urls:
+            t_urls = ctree.SubElement(root, 'urls')
+
+        t_url = ctree.SubElement(t_urls, 'url')
+        t_url.text = url
+
+        return True
+
+    def removeUrl(self, url):
+        """Remove passed url from a binder
+        """
+
+        root = self.etree
+        t_urls = root.find('urls')
+
+        if not t_urls:
+            return False
+
+        for t_url in t_urls.findall('url'):
+            if t_url.text == url.strip():
+                t_urls.remove(t_url)
+                if url in self.urls:
+                    self.urls.remove(url)
+                return True
+
+        return False
+
+    def addInput(self, key):
+        """Add key to input : key, value or map
+        """
+        if not key in self.inputs:
+            self.inputs.append(key)
+
+        root = self.etree
+        t_inputs = root.find('inputs')
+
+        if not t_inputs :
+            t_inputs = ctree.SubElement(root, 'inputs')
+
+        t_inputs.append(key.etree)
+
+        return True
+
+    def removeInput(self, key_id):
+        """Remove key (key, value, map) from Input
+        """
+        root = self.etree
+        t_inputs = root.find('inputs')
+
+        if not t_inputs:
+            return False
+
+        keys = t_inputs.findall('key')
+
+        key = [ key for key in keys if key.get('id') == key_id ]
+
+        try:
+            t_inputs.remove(key)
+            return True
+        except Exception,e:
+            print(e)
+
+        return False
+
+    def addPaging(self,paging):
+        """Add paging to Binder
+        """
+        if not self.paging:
+            self.paging = paging
+        import pdb
+        pdb.set_trace()
+        root = self.etree
+
+        try:
+            root.append(paging.etree)
+            return True
+        except Exception,e:
+            print(e)
+
+        return False
+
+    def removePaging(self, paging):
+        """Remove paging from Binder
+        """
+        root = self.etree
+        t_paging = root.find('paging')
+
+        try:
+            root.remove(t_paging)
+            return True
+        except Exception,e:
+            print(e)
+
+        return False
+
+
 class BaseInput(object):
     """This class represents an Input Element under Binding element.
     Input Element can be : <key>, <value> or <map>
@@ -102,7 +241,6 @@ class BasePaging(object):
     """Class representing a <paging> element under a <select> element of a OpenTable file description
     """
 
-    #def __init__(self, model, start={}, pagesize={}, total={}, nextpage={}):
     def __init__(self, model, *args, **kwargs):
 
         kwargs['model'] = model
