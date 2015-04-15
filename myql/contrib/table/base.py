@@ -153,7 +153,7 @@ class BaseBinder(Base):
         key = [ key for key in keys if key.get('id') == key_id ]
 
         try:
-            t_inputs.remove(key)
+            t_inputs.remove(key[0])
             return True
         except Exception,e:
             print(e)
@@ -165,8 +165,6 @@ class BaseBinder(Base):
         """
         if not self.paging:
             self.paging = paging
-        import pdb
-        pdb.set_trace()
         root = self.etree
 
         try:
@@ -177,7 +175,7 @@ class BaseBinder(Base):
 
         return False
 
-    def removePaging(self, paging):
+    def removePaging(self,):
         """Remove paging from Binder
         """
         root = self.etree
