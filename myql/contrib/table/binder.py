@@ -10,12 +10,12 @@ class Binder(Base):
         inputs : list of InputKey object
     """
 
-    def __init__(self, name, itemPath, produces, pollingFrequencySeconds=30, urls=[], inputs=[], paging=None):
+    def __init__(self, name, itemPath, produces, pollingFrequencySeconds=0, urls=[], inputs=[], paging=None):
         """Initializes the class
         """
         self.name = name
         self.itemPath = itemPath
-        self.pollingFrequencySeconds = str(pollingFrequencySeconds)
+        self.pollingFrequencySeconds = str(pollingFrequencySeconds) if pollingFrequencySeconds else ''
         self.produces = produces
         self.urls = urls
         self.inputs = inputs
@@ -45,7 +45,7 @@ class Binder(Base):
         t_binder = xtree.Element(self.name)
 
         for item in self.__dict__.items():
-            if item[0] not in ('name', 'inputs', 'urls', 'paging'):
+            if item[0] not in ('name', 'inputs', 'urls', 'paging') and item[1]:
                 t_binder.set(*item)
 
         return t_binder
