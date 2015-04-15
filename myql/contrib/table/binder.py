@@ -2,12 +2,24 @@ from  base import Base, BaseInput, BasePaging, BaseBinder
 from xml.etree import cElementTree as xtree
 
 class Binder(BaseBinder):
-
+    """Represent a binder : <select>, <insert>, <update>, <delete> 
+    """
     def __init__(self, name, itemPath, produces, pollingFrequencySeconds=0, urls=[], inputs=[], paging=None): 
 
         super(Binder, self).__init__(name, itemPath=itemPath, produces=produces, pollingFrequencySeconds=0, urls=urls, inputs=inputs, paging=paging)
 
         
+class BinderFunction(BaseBinder):
+    """Represent a function : <function>
+    """
+
+    def __init__(self, func_name, inputs=[]):
+        """func_name : name of the stored procedure
+        """
+        super(BinderFunction, self).__init__('function', inputs=inputs)
+        self.func_name = func_name
+        self.etree.set('name', func_name)
+
 class InputKey(BaseInput):
     """Class representing a key of an Input
     """

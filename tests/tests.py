@@ -5,7 +5,7 @@ from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
-from myql.contrib.table import Binder, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
+from myql.contrib.table import Binder, BinderFunction, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
 
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
@@ -153,8 +153,8 @@ class TestTable(unittest.TestCase):
         self.binder_desc['urls'] = [url, url2]
         binder = Binder(**self.binder_desc)
         logging.debug(self.xml_pretty_print(binder.etree))
-        #self.assertEquals(self.binder.addUrl(url), True)
-        #logging.debug(self.xml_pretty_print(self.binder.etree))
+        self.assertEquals(self.binder.addUrl(url), True)
+        logging.debug(self.xml_pretty_print(self.binder.etree))
 
 
     def test_add_url(self,):
@@ -234,7 +234,10 @@ class TestTable(unittest.TestCase):
 
     def test_add_function_table(self):
         logging.debug(self.xml_pretty_print(self.table.etree))
-        self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
+        bf = BinderFunction('concat', [self.key, self.key2])
+        bf.addFunction('', from_file='tests_data/jscode.js')
+        self.table.addBinder(bf)
+        #self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
         logging.debug(self.xml_pretty_print(self.table.etree))
 
     def test_remove_function_table(self,):

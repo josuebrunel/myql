@@ -65,13 +65,13 @@ class BaseBinder(Base):
 
         self.etree = self._buildElementTree()
 
-        if self.urls:
+        if vars(self).get('urls',None):
             [ self.addUrl(url) for url in self.urls ]
 
-        if self.inputs:
+        if vars(self).get('inputs',None):
             [ self.addInput(elt) for elt in self.inputs ]
 
-        if self.paging:
+        if vars(self).get('paging',None):
             self.addPaging(self.paging)
         
     def _buildElementTree(self,):
