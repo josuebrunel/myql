@@ -14,7 +14,10 @@ class BinderFunction(BaseBinder):
     """
 
     def __init__(self, func_name, func_code='', func_file=None, inputs=[]):
-        """func_name : name of the stored procedure
+        """
+        - func_name : name of the stored procedure
+        - func_code : your js code passed through a str
+        - func_file : file containing your code
         """
         super(BinderFunction, self).__init__('function', inputs=inputs)
         self.func_name = func_name
@@ -48,13 +51,15 @@ class InputMap(BaseInput):
 
 
 class PagingPage(BasePaging):
-
+    """Class representing <paging model='page'>
+    """
     def __init__(self, start, pageSize, total):
         super(PagingPage, self).__init__('page', start=start, pageSize=pageSize, total=total)
 
 
 class PagingOffset(BasePaging):
-
+    """Class representing <paging model='offset' matrix='true'>
+    """
     def __init__(self, matrix, start, pageSize, total):
         super(PagingOffset, self).__init__('offset', matrix, start=start, pageSize=pageSize, total=total)
         self.matrix = str(matrix).lower()
@@ -62,7 +67,8 @@ class PagingOffset(BasePaging):
         
 
 class PagingUrl(BasePaging):
-
+    """Class representing <paging model='url'>
+    """
     def __init__(self, nextpage):
         super(PagingUrl, self).__init__('url', nextpage=nextpage)
        
@@ -87,9 +93,6 @@ class BinderMeta(type):
             dct['binder'] = binder
             # Add KeyException Management
         return super(BinderMeta,cls).__new__(cls, name, (Binder,), dct)
-
-    def toxml(cls,):
-        return xtree.tostring(cls.binder.etree)
 
 
 class BinderModel(Binder):
