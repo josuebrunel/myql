@@ -234,7 +234,7 @@ class TestTable(unittest.TestCase):
 
     def test_add_function_table(self):
         logging.debug(self.xml_pretty_print(self.table.etree))
-        bf = BinderFunction('concat', [self.key, self.key2])
+        bf = BinderFunction('concat', inputs=[self.key, self.key2])
         bf.addFunction('', from_file='tests_data/jscode.js')
         self.table.addBinder(bf)
         #self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
