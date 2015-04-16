@@ -3,7 +3,7 @@ from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 
 from base import Base
-from binder import BinderMeta, Binder
+from binder import BinderMeta, Binder, BinderFunction
 
 class Table(Base):
     """Class representating a YQL Table
@@ -124,10 +124,10 @@ class TableMeta(type):
     def __new__(cls, name, bases, dct):
         if name != 'TableModel':
             table_attr = {key: value for (key, value) in dct.items() if key in cls.TABLE_KEYS }
-            table_attr['bindings'] = [ value for value in dct.values() if isinstance(value, Binder) ]
+            table_attr['bindings'] = [ value for value in dct.values() if isinstance(value, Binder) or isinstance(value, BinderFunction)]
             table = Table(**table_attr)
-            if dct.get('function', None):
-                table.addFunction(func_code='', from_file=dct['function'])
+           # if dct.get('function', None):
+           #     table.addFunction(func_code='', from_file=dct['function'])
             dct = { key : value for (key, value) in dct.items() if key in ('__module__', '__metaclass__')}
             dct['table'] = table
 
