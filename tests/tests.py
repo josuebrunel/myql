@@ -240,6 +240,17 @@ class TestTable(unittest.TestCase):
         #self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
         logging.debug(self.xml_pretty_print(self.table.etree))
 
+    def test_create_function_with_func_code(self):
+        logging.debug(self.xml_pretty_print(self.table.etree))
+        bf = BinderFunction('concat', func_code='console.log("hello moron !!!")')
+        logging.debug(self.xml_pretty_print(bf.etree))
+
+    def test_create_function_with_func_file(self):
+        logging.debug(self.xml_pretty_print(self.table.etree))
+        bf = BinderFunction('concat', func_file='tests_data/jscode.js')
+        logging.debug(self.xml_pretty_print(bf.etree))
+
+
     def test_remove_function_table(self,):
         logging.debug(self.xml_pretty_print(self.table.etree))
         self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
