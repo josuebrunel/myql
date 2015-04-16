@@ -13,12 +13,18 @@ class BinderFunction(BaseBinder):
     """Represent a function : <function>
     """
 
-    def __init__(self, func_name, inputs=[]):
+    def __init__(self, func_name, func_code='', func_file=None, inputs=[]):
         """func_name : name of the stored procedure
         """
         super(BinderFunction, self).__init__('function', inputs=inputs)
         self.func_name = func_name
         self.etree.set('name', func_name)
+
+        if func_code:
+            self.addFunction(func_code)
+
+        if func_file:
+            self.addFunction('', from_file=func_file)
 
 class InputKey(BaseInput):
     """Class representing a key of an Input
