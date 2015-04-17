@@ -75,12 +75,12 @@ class PagingUrl(BasePaging):
 
 class BinderMeta(type):
 
-    INPUT_KEY = ['name', 'itemPath', 'produces', 'pollingFrequencySeconds', 'urls', 'keys', 'pages']
+    INPUT_KEYS = ['name', 'itemPath', 'produces', 'pollingFrequencySeconds', 'urls', 'keys', 'pages']
 
     def __new__(cls, name, bases, dct):
 
         if name != 'BinderModel':
-            binder_attr = {key: value for (key, value) in dct.items() if key in cls.INPUT_KEY}
+            binder_attr = {key: value for (key, value) in dct.items() if key in cls.INPUT_KEYS}
             binder_attr['inputs'] = [ value for value in dct.values() if isinstance(value, BaseInput)]
             paging = [ value for value in dct.values() if isinstance(value, BasePaging)]
             if paging :
