@@ -1,2 +1,2 @@
-import yahooauth
+#import yahooauth
 import table

@@ -1,6 +1,6 @@
 import time
 import webbrowser
-from rauth import OAuth1Service
+from requests_oauthlib import OAuth1
 
 class YahooOAuth(object):
   '''OAuth for yahoo api

@@ -1,6 +1,7 @@
 certifi==14.05.14
+oauthlib==0.7.2
 python-dateutil==2.2
-rauth==0.7.0
 requests==2.4.0
-requests-oauthlib==0.4.1
+requests-oauthlib==0.4.2
+six==1.9.0
 wsgiref==0.1.2
