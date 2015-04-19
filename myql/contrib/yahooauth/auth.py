@@ -4,6 +4,7 @@ import requests
 from requests_oauthlib import OAuth1
 from urlparse import parse_qs
 import webbrowser
+import credentials
 
 class OAuth(object):
 
@@ -16,8 +17,8 @@ class OAuth(object):
     def __init__(self, ck=None, cs=None):
         """
         """
-        self.ck='dj0yJmk9eFJINERDYWk2M3NkJmQ9WVdrOWEyNW1VRmRGTnpZbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1iNQ--'
-        self.cs='08802b459ab48eeaca765c119b0af6a4b75789f7'
+        self.ck = credentials.ck
+        self.cs = credentials.cs
         self.oauth = OAuth1(self.ck, client_secret=self.cs, callback_uri=self.CALLBACK_URI)
         
     def request_token(self,):
