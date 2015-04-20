@@ -1,5 +1,5 @@
 import requests
-from contrib import yahooauth
+from contrib.auth import OAuth
 import errors
 
 import importlib
