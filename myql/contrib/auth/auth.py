@@ -1,4 +1,5 @@
 import pdb
+import json
 import time
 import requests
 from requests_oauthlib import OAuth1
@@ -28,13 +29,27 @@ class OAuth(object):
         stuff = parse_qs(content)
         return stuff.get('oauth_token')[0], stuff.get('oauth_token_secret')[0]
 
+    def json_get_data(self, filename):
+        """Returns content of a json file
+        """
+        with open(filename) as f:
+            json_data = json.load(filename)
+
+        return json_data
+
+    def json_wirte_data(self, json_data, filename):
+        """Write data into a json file
+        """
+        with open(filename, 'w') as f:
+            json.dump(json_data, f)
+            return True
+
+        return False
+
     def request_token(self,):
         """Get request token
         """
         response = requests.post(url=REQUEST_TOKEN_URL, auth=self.oauth)
-        #credentials = parse_qs(response.content)
-        #self.request_token = credentials.get('oauth_token')[0]
-        #self.request_token_secret = credentials.get('oauth_token_secret')[0]
         self.request_token, self.request_token_secret = self.fetch_tokens(response.content)
         print(self.request_token, self.request_token_secret) 
         return self.request_token, self.request_token_secret
