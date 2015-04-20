@@ -22,11 +22,11 @@ class OAuth(object):
         self.cs = credentials.cs
         self.oauth = OAuth1(self.ck, client_secret=self.cs, callback_uri=CALLBACK_URI)
         
-    def fetch_tokens(self, content, key, secret):
+    def fetch_tokens(self, content):
         """Parse content to fetch request/access token/token-secret
         """
         stuff = parse_qs(content)
-        return stuff.get(key)[0], stuff.get(secret)[0]
+        return stuff.get('oauth_token')[0], stuff.get('oauth_token_secret')[0]
 
     def request_token(self,):
         """Get request token
@@ -35,7 +35,7 @@ class OAuth(object):
         #credentials = parse_qs(response.content)
         #self.request_token = credentials.get('oauth_token')[0]
         #self.request_token_secret = credentials.get('oauth_token_secret')[0]
-        self.request_token, self.request_token_secret = self.fetch_tokens(response.content, 'oauth_token', 'oauth_token_secret')
+        self.request_token, self.request_token_secret = self.fetch_tokens(response.content)
         print(self.request_token, self.request_token_secret) 
         return self.request_token, self.request_token_secret
         
@@ -54,7 +54,7 @@ class OAuth(object):
         """
         self.oauth = OAuth1(self.ck, client_secret=self.cs, resource_owner_key=self.request_token, resource_owner_secret=self.request_token_secret,verifier=self.verifier)
         response = requests.post(url=ACCESS_TOKEN_URL, auth=self.oauth)
-        self.access_token, self.access_token_secret = self.fetch_tokens(response.content, 'oauth_token', 'oauth_token_secret')
+        self.access_token, self.access_token_secret = self.fetch_tokens(response.content)
         print(self.access_token, self.access_token_secret)
         return self.access_token, self.access_token_secret
 
