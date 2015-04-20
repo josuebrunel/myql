@@ -4,8 +4,8 @@
 #   Filename        : __init__.py
 #   Description     :
 #   Creation Date   : 03-03-2015
-#   Last Modified   : Tue 03 Mar 2015 06:24:16 AM CST
+#   Last Modified   : Mon 20 Apr 2015 04:16:24 PM CEST
 #
 ##################################################
 
-from yahooauth import YahooOAuth
+from auth import OAuth
