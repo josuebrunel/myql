@@ -5,7 +5,6 @@ import requests
 from requests_oauthlib import OAuth1
 from urlparse import parse_qs
 import webbrowser
-import credentials
 
 BASE_URL = "http://query.yahooapis.com/v1/yql"
 REQUEST_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_request_token"
