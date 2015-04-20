@@ -3,6 +3,9 @@ import pdb
 import unittest
 from xml.dom import minidom
 from xml.etree import cElementTree as xtree
+
+from myql.contrib.auth import OAuth
+
 from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
 from myql.contrib.table import Binder, BinderFunction, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
@@ -12,6 +15,15 @@ readline.parse_and_bind('tab: complete')
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logging.getLogger(__name__)
+
+
+class TestOAuth(unittest.TestCase):
+
+    def setUp(self,):
+        pass
+
+    def tearUp(self,):
+        pass
 
 class TestTable(unittest.TestCase):
 

@@ -1,1 +1,1 @@
-from tests import TestTable
+from tests import *
