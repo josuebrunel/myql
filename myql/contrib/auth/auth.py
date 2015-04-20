@@ -16,11 +16,11 @@ CALLBACK_URI = 'oob'
 class OAuth(object):
 
     
-    def __init__(self, ck=None, cs=None):
+    def __init__(self, consumer_key, consumer_secret,request_token=None, request_token_secret=None, verifier=None, access_token=None, access_token_secret=None, from_file=None):
         """
         """
-        self.ck = credentials.ck
-        self.cs = credentials.cs
+        self.ck = consumer_key
+        self.cs = consumer_secret
         self.oauth = OAuth1(self.ck, client_secret=self.cs, callback_uri=CALLBACK_URI)
         
     def fetch_tokens(self, content):
