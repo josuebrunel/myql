@@ -13,14 +13,42 @@ AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/request_auth?oauth_t
 CALLBACK_URI = 'oob'
 
 class OAuth(object):
+    """
+    """
+    def __init__(self, consumer_key, consumer_secret, **kwargs):
+        """
+        """
+        if kwargs.get('from_file'):
+            from_file = kwargs.get('from_file')
+            json_data = self.json_get_data(from_file)
+            vars(self).update(json_data)
+        else:
+            self.consumer_key = consumer_key
+            self.consumer_secret = consumer_secret
+            vars(self).update(kwargs)
 
+        if not self.access_token and not self.access_token_secret:
+           
+            if not self.request_token and not self.request_token_secret:
+                self.get_request_token()
+                self.verifier = self.get_user_authorization()
+            elif not self.verifier:
+                self.verifier = self.get_user_authorization()
+                self.get_access_token() 
+            else:
+                self.get_access_token()
+        else:
+            self.oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, resource_owner_key=self.access_token, resource_owner_secret=self.access_token_secret)
     
-    def __init__(self, consumer_key, consumer_secret,request_token=None, request_token_secret=None, verifier=None, access_token=None, access_token_secret=None, from_file=None):
-        """
-        """
-        self.ck = consumer_key
-        self.cs = consumer_secret
-        self.oauth = OAuth1(self.ck, client_secret=self.cs, callback_uri=CALLBACK_URI)
+        json_data.update({
+            'request_token': self.request_token,
+            'request_token_secret': self.request_token_secret,
+            'verifier': self.verifier,
+            'access_token': self.access_token,
+            'access_token_secret': self.access_token_secret
+        })
+
+        self.json_wirte_data(json_data, from_file)
         
     def fetch_tokens(self, content):
         """Parse content to fetch request/access token/token-secret
@@ -31,24 +59,25 @@ class OAuth(object):
     def json_get_data(self, filename):
         """Returns content of a json file
         """
-        with open(filename) as f:
-            json_data = json.load(filename)
+        with open(filename) as fp:
+            json_data = json.load(fp)
 
         return json_data
 
     def json_wirte_data(self, json_data, filename):
         """Write data into a json file
         """
-        with open(filename, 'w') as f:
-            json.dump(json_data, f)
+        with open(filename, 'w') as fp:
+            json.dump(json_data, fp, indent=4, encoding= 'utf-8', sort_keys=True)
             return True
 
         return False
 
-    def request_token(self,):
+    def get_request_token(self,):
         """Get request token
         """
-        response = requests.post(url=REQUEST_TOKEN_URL, auth=self.oauth)
+        oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, callback_uri=CALLBACK_URI)
+        response = requests.post(url=REQUEST_TOKEN_URL, auth=oauth)
         self.request_token, self.request_token_secret = self.fetch_tokens(response.content)
         print(self.request_token, self.request_token_secret) 
         return self.request_token, self.request_token_secret
@@ -59,23 +88,20 @@ class OAuth(object):
         authorization_url = AUTHORIZE_TOKEN_URL+self.request_token
         print(authorization_url)
         webbrowser.open(authorization_url)
-        self.verifier = raw_input("Please input a verifier: ")
+        verifier = raw_input("Please input a verifier: ")
         print(self.verifier)
-    
+        return verifier
 
     def get_access_token(self):
         """Get access token
         """
-        self.oauth = OAuth1(self.ck, client_secret=self.cs, resource_owner_key=self.request_token, resource_owner_secret=self.request_token_secret,verifier=self.verifier)
-        response = requests.post(url=ACCESS_TOKEN_URL, auth=self.oauth)
+        oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, resource_owner_key=self.request_token, resource_owner_secret=self.request_token_secret,verifier=self.verifier)
+        response = requests.post(url=ACCESS_TOKEN_URL, auth=oauth)
         self.access_token, self.access_token_secret = self.fetch_tokens(response.content)
         print(self.access_token, self.access_token_secret)
         return self.access_token, self.access_token_secret
 
 if '__main__' == __name__:
 
-    auth = OAuth()
-    auth.request_token()
-    auth.get_user_authorization()
-    auth.get_access_token()
+    auth = OAuth(None, None, from_file='credentials.json')
 
