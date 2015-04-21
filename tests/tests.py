@@ -4,6 +4,7 @@ import unittest
 from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 
+from myql import MYQL
 from myql.contrib.auth import OAuth
 
 from myql.contrib.table import Table
@@ -24,6 +25,12 @@ class TestOAuth(unittest.TestCase):
 
     def tearUp(self,):
         pass
+
+    def test_get_guid(self,):
+        oauth = OAuth(None, None, from_file='credentials.json')
+        yql = MYQL(format='json', oauth=oauth)
+        response = yql.getGUID('josue_brunel')
+        pdb.set_trace()
 
 class TestTable(unittest.TestCase):
 
