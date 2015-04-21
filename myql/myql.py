@@ -113,24 +113,6 @@ class MYQL(object):
     return response
 
 
-  # def loadConfig(self, module):
-  #   '''Loads OAuth config (consumer_key, consumer_secret) from module
-  #   '''
-  #   try:
-  #     config_module = importlib.import_module(module)
-  #   except Exception, e:
-  #     raise errors.NoConfigFileError(e)
-
-  #   try:
-  #     ck = config_module.consumer_key
-  #     cs = config_module.consumer_secret
-  #   except Exception, e:
-  #     raise errors.NoConfigParameter(e)
-    
-  #   self.yoauth = yahooauth.YahooOAuth(ck, cs)
-
-  #   return config_module
-
   ######################################################
   #
   #                 MAIN METHODS
