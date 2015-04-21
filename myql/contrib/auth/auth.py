@@ -32,6 +32,7 @@ class OAuth(object):
             if not self.request_token and not self.request_token_secret:
                 self.get_request_token()
                 self.verifier = self.get_user_authorization()
+                self.get_access_token()
             elif not self.verifier:
                 self.verifier = self.get_user_authorization()
                 self.get_access_token() 
@@ -49,6 +50,11 @@ class OAuth(object):
         })
 
         self.json_wirte_data(json_data, from_file)
+
+    def refresh_token(self):
+        """Refresh access token
+        """
+        pass
         
     def fetch_tokens(self, content):
         """Parse content to fetch request/access token/token-secret
@@ -97,8 +103,11 @@ class OAuth(object):
         """
         oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, resource_owner_key=self.request_token, resource_owner_secret=self.request_token_secret,verifier=self.verifier)
         response = requests.post(url=ACCESS_TOKEN_URL, auth=oauth)
+        import pdb
+        pdb.set_trace()
         self.access_token, self.access_token_secret = self.fetch_tokens(response.content)
         print(self.access_token, self.access_token_secret)
         return self.access_token, self.access_token_secret
 
-
+if '__main__' == __name__:
+    auth = OAuth(None, None, from_file='credentials.json')
