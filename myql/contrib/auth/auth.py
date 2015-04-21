@@ -101,7 +101,4 @@ class OAuth(object):
         print(self.access_token, self.access_token_secret)
         return self.access_token, self.access_token_secret
 
-if '__main__' == __name__:
-
-    auth = OAuth(None, None, from_file='credentials.json')
 
