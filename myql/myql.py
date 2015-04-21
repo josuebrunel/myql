@@ -16,11 +16,11 @@ class MYQL(object):
   - diagnostics : set to <True> to see diagnostics on queries
   - community : set to <True> to have access to community tables
   '''
-  default_url = 'https://query.yahooapis.com/v1/public/yql'
-  oauth_url = 'http://query.yahooapis.com/v1/yql'
+  public_url = 'https://query.yahooapis.com/v1/public/yql'
+  private_url = 'http://query.yahooapis.com/v1/yql'
   community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
   
-  def __init__(self, table=None, url=default_url, community=False, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None):
+  def __init__(self, table=None, url=public_url, community=False, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None):
     self.url = url
     self.table = table
     self.format = format
@@ -33,6 +33,9 @@ class MYQL(object):
     self.crossProduct = crossProduct
     self.jsonCompact = jsonCompact
     self.debug = debug
+    
+    if oauth:
+        self.oauth = oauth.oauth
 
   def __repr__(self):
     '''Returns information on the current instance
@@ -46,7 +49,7 @@ class MYQL(object):
       
     payload = {
 	'q' : query,
-	'callback' : '', #This is not javascript
+	'callback' : 'oop', #This is not javascript
 	'diagnostics' : self.diagnostics, 
 	'format' : format,
     'debug': self.debug,
@@ -79,8 +82,11 @@ class MYQL(object):
 
   def executeQuery(self, payload):
     '''Execute the query and returns and response'''
-      
-    response = requests.get(self.url, params= payload)
+    if self.oauth:
+        self.url = self.private_url
+        response = requests.get(self.url, params= payload, auth= self.oauth)
+    else:
+        response = requests.get(self.url, params= payload)
 
     return response
 
