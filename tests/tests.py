@@ -30,7 +30,6 @@ class TestOAuth(unittest.TestCase):
         oauth = OAuth(None, None, from_file='credentials.json')
         yql = MYQL(format='json', oauth=oauth)
         response = yql.getGUID('josue_brunel')
-        pdb.set_trace()
 
 class TestTable(unittest.TestCase):
 

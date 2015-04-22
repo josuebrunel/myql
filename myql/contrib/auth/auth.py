@@ -103,8 +103,6 @@ class OAuth(object):
         """
         oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, resource_owner_key=self.request_token, resource_owner_secret=self.request_token_secret,verifier=self.verifier)
         response = requests.post(url=ACCESS_TOKEN_URL, auth=oauth)
-        import pdb
-        pdb.set_trace()
         self.access_token, self.access_token_secret = self.fetch_tokens(response.content)
         print(self.access_token, self.access_token_secret)
         return self.access_token, self.access_token_secret
