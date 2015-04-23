@@ -72,10 +72,10 @@ class OAuth(object):
     def refresh_token(self):
         """Refresh access token
         """
-        oauth = OAuth1(self.consumer_key, resource_owner_key=self.access_token, oauth_session_handle= self.session_handle)
+        oauth = OAuth1(self.consumer_key, resource_owner_key=self.access_token, callback_uri=CALLBACK_URI)
+        oauth.client.oauth_session_handle = self.session_handle
         response = requests.post(REQUEST_TOKEN_URL, auth=oauth)
         tokens = self.fetch_tokens(response.content)
-        #self.oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, resource_owner_key=self.access_token, resource_owner_secret=self.access_token_secret)
         return tokens
         
     def fetch_tokens(self, content):
@@ -136,3 +136,4 @@ class OAuth(object):
 
 if '__main__' == __name__:
     auth = OAuth(None, None, from_file='credentials.json')
+    auth.refresh_token()
