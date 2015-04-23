@@ -1,28 +1,28 @@
-YahooOAuth
+OAuth
 ==========
 
-***YahooOAuth*** is 3 legged *OAuth* module dedicated to the *Yahoo! OAuth Provider*. It uses [rauth](http://rauth.readthedocs.org/en/latest/) as *oauth* library.
+***Auth*** is 3 legged *OAuth* module dedicated to the *Yahoo! OAuth Provider*. It uses [rauth](http://rauth.readthedocs.org/en/latest/) as *oauth* library.
 
 You only need **2** parameters to make it work :
 - Your ***consumer key***
 - Your ***consumer secret***
 
 I tried to make it as painless as possible for me (and you too ;) ). Thus **3 legged OAuth** , **3 methods** and **3 steps** ( in order ) :
-* YahooOAuth.get_request_token()
-* YahooOAuth.get_user_authorization()
-* YahooOAuth.get_access_token()
+* Auth.get_request_token()
+* Auth.get_user_authorization()
+* Auth.get_access_token()
 
 Quick start
 -----------
 
 ```python
->>> from lokingyql import YahooOAuth
->>> from lokingyql.config import consumer_key, consumer_secret # config file where you have your consumer_key and consumer_secret
+>>> from myql import OAuth
+>>> from myql.config import consumer_key, consumer_secret # config file where you have your consumer_key and consumer_secret
 >>> consumer_key
 'dj0yJmk9aVRSd3ZabElmTzJNJmQ9WVdrOWEyNW1VRmRGTnpZbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1hMg--'
 >>> consumer_secret
 '***************************' # Sorry guys it's kinda personal
->>> auth = YahooOAuth(consumer_key, consumer_secret)
+>>> auth = Auth(consumer_key, consumer_secret)
 >>> #Step 1:Getting request token
 ...
 >>> auth.get_request_token()
