@@ -1,6 +1,7 @@
 import pdb
 import json
 import time
+import logging
 import requests
 from requests_oauthlib import OAuth1
 from urlparse import parse_qs
@@ -47,21 +48,28 @@ class OAuth(object):
             'verifier': self.verifier,
             'access_token': self.access_token,
             'access_token_secret': self.access_token_secret,
-            'session_hanlde': self.session_handle,
+            'session_handle': self.session_handle,
             'token_time': time.time()
         })
 
         self.json_wirte_data(json_data, from_file)
     
-    def isTokenValid(self):
+    def isStillValid(self):
         """Check if the token hasn't expired
         """
-        pass
+        elapsed_time = time.time() - vars(self).get('token_time') 
+        if elapsed_time > 3000 : 
+            return False
+        return True
 
     def refresh_token(self):
         """Refresh access token
         """
-        pass
+        oauth = OAuth1(self.consumer_key, resource_owner_key=self.access_token, oauth_session_handle= self.session_handle)
+        response = requests.post(REQUEST_TOKEN_URL, auth=oauth)
+        tokens = self.fetch_tokens(response.content)
+        #self.oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, resource_owner_key=self.access_token, resource_owner_secret=self.access_token_secret)
+        return tokens
         
     def fetch_tokens(self, content):
         """Parse content to fetch request/access token/token-secret
