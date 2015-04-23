@@ -13,6 +13,9 @@ ACCESS_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_token"
 AUTHORIZE_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/request_auth?oauth_token="
 CALLBACK_URI = 'oob'
 
+logging.basicConfig(level=logging.DEBUG, format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
+logging.getLogger(__name__)
+
 class OAuth(object):
     """
     """
@@ -57,8 +60,11 @@ class OAuth(object):
     def isStillValid(self):
         """Check if the token hasn't expired
         """
-        elapsed_time = time.time() - vars(self).get('token_time') 
-        if elapsed_time > 3000 : 
+        elapsed_time = time.time() - vars(self).get('token_time',0) 
+        if elapsed_time > 3000 and elapsed_time < 3600:
+            self.refresh_token()
+            True
+        elif elapsed_time > 3600:
             return False
         return True
 
@@ -101,19 +107,19 @@ class OAuth(object):
         oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, callback_uri=CALLBACK_URI)
         response = requests.post(url=REQUEST_TOKEN_URL, auth=oauth)
         tokens = self.fetch_tokens(response.content)
-        print(tokens)
+        logging.debug(tokens)
         self.request_token, self.request_token_secret = tokens.get('oauth_token'), tokens.get('oauth_token_secret')
-        print(self.request_token, self.request_token_secret) 
+        logging.debug("{0}, {1}".format(self.request_token, self.request_token_secret)) 
         return tokens
         
     def get_user_authorization(self,):
         """Get authorization
         """
         authorization_url = AUTHORIZE_TOKEN_URL+self.request_token
-        print(authorization_url)
+        logging.debug(authorization_url)
         webbrowser.open(authorization_url)
         verifier = raw_input("Please input a verifier: ")
-        print(verifier)
+        logging.debug(verifier)
         return verifier
 
     def get_access_token(self):
@@ -122,9 +128,9 @@ class OAuth(object):
         oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, resource_owner_key=self.request_token, resource_owner_secret=self.request_token_secret,verifier=self.verifier)
         response = requests.post(url=ACCESS_TOKEN_URL, auth=oauth)
         tokens = self.fetch_tokens(response.content)
-        print(tokens)
+        logging.debug(tokens)
         self.access_token, self.access_token_secret, self.session_handle = tokens.get('oauth_token'), tokens.get('oauth_token_secret'), tokens.get('oauth_session_handle')
-        print(self.access_token, self.access_token_secret)
+        logging.debug("{0} {1}".format(self.access_token, self.access_token_secret))
         return tokens
 
 if '__main__' == __name__:
