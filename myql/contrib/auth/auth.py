@@ -27,13 +27,13 @@ class OAuth(object):
             self.consumer_secret = consumer_secret
             vars(self).update(kwargs)
 
-        if not self.access_token and not self.access_token_secret:
+        if not vars(self).get('access_token') and not vars(self).get('access_token_secret'):
            
-            if not self.request_token and not self.request_token_secret:
+            if not vars(self).get('request_token') and not vars(self).get('request_token_secret'):
                 self.get_request_token()
                 self.verifier = self.get_user_authorization()
                 self.get_access_token()
-            elif not self.verifier:
+            elif not vars(self).get('verifier'):
                 self.verifier = self.get_user_authorization()
                 self.get_access_token() 
             else:
@@ -93,6 +93,7 @@ class OAuth(object):
         oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, callback_uri=CALLBACK_URI)
         response = requests.post(url=REQUEST_TOKEN_URL, auth=oauth)
         tokens = self.fetch_tokens(response.content)
+        print(tokens)
         self.request_token, self.request_token_secret = tokens.get('oauth_token'), tokens.get('oauth_token_secret')
         print(self.request_token, self.request_token_secret) 
         return tokens
@@ -104,7 +105,7 @@ class OAuth(object):
         print(authorization_url)
         webbrowser.open(authorization_url)
         verifier = raw_input("Please input a verifier: ")
-        print(self.verifier)
+        print(verifier)
         return verifier
 
     def get_access_token(self):
@@ -113,7 +114,8 @@ class OAuth(object):
         oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, resource_owner_key=self.request_token, resource_owner_secret=self.request_token_secret,verifier=self.verifier)
         response = requests.post(url=ACCESS_TOKEN_URL, auth=oauth)
         tokens = self.fetch_tokens(response.content)
-        self.access_token, self.access_token_secret, self.session_handle = tokens.get('oauth_token'), tokens.get('oauth_token_access'), tokens.get('oauth_session_handle',None)
+        print(tokens)
+        self.access_token, self.access_token_secret, self.session_handle = tokens.get('oauth_token'), tokens.get('oauth_token_secret'), tokens.get('oauth_session_handle')
         print(self.access_token, self.access_token_secret)
         return tokens
 
