@@ -35,7 +35,7 @@ class MYQL(object):
     self.debug = debug
     
     if oauth:
-        self.oauth = oauth.oauth
+        self.oauth = oauth
 
   def __repr__(self):
     '''Returns information on the current instance
@@ -84,7 +84,9 @@ class MYQL(object):
     '''Execute the query and returns and response'''
     if self.oauth:
         self.url = self.private_url
-        response = requests.get(self.url, params= payload, auth= self.oauth)
+        if not self.oauth.isValid():
+            print("Reset your credentials : they don't seem to be valid anymore")
+        response = requests.get(self.url, params= payload, auth= self.oauth.oauth)
     else:
         response = requests.get(self.url, params= payload)
 

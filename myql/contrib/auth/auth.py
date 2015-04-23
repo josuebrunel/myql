@@ -57,12 +57,13 @@ class OAuth(object):
 
         self.json_wirte_data(json_data, from_file)
     
-    def isStillValid(self):
+    def isValid(self):
         """Check if the token hasn't expired
         """
         elapsed_time = time.time() - vars(self).get('token_time',0) 
         if elapsed_time > 3000 and elapsed_time < 3600:
             self.refresh_token()
+            logging.debug("Token Refreshed")
             True
         elif elapsed_time > 3600:
             return False
