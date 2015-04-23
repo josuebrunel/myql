@@ -46,10 +46,17 @@ class OAuth(object):
             'request_token_secret': self.request_token_secret,
             'verifier': self.verifier,
             'access_token': self.access_token,
-            'access_token_secret': self.access_token_secret
+            'access_token_secret': self.access_token_secret,
+            'session_hanlde': self.session_handle,
+            'token_time': time.time()
         })
 
         self.json_wirte_data(json_data, from_file)
+    
+    def isTokenValid(self):
+        """Check if the token hasn't expired
+        """
+        pass
 
     def refresh_token(self):
         """Refresh access token
@@ -60,7 +67,8 @@ class OAuth(object):
         """Parse content to fetch request/access token/token-secret
         """
         stuff = parse_qs(content)
-        return stuff.get('oauth_token')[0], stuff.get('oauth_token_secret')[0]
+        stuff = {k:v[0] for (k,v) in stuff.items()}
+        return stuff
 
     def json_get_data(self, filename):
         """Returns content of a json file
@@ -84,9 +92,10 @@ class OAuth(object):
         """
         oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, callback_uri=CALLBACK_URI)
         response = requests.post(url=REQUEST_TOKEN_URL, auth=oauth)
-        self.request_token, self.request_token_secret = self.fetch_tokens(response.content)
+        tokens = self.fetch_tokens(response.content)
+        self.request_token, self.request_token_secret = tokens.get('oauth_token'), tokens.get('oauth_token_secret')
         print(self.request_token, self.request_token_secret) 
-        return self.request_token, self.request_token_secret
+        return tokens
         
     def get_user_authorization(self,):
         """Get authorization
@@ -103,9 +112,10 @@ class OAuth(object):
         """
         oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, resource_owner_key=self.request_token, resource_owner_secret=self.request_token_secret,verifier=self.verifier)
         response = requests.post(url=ACCESS_TOKEN_URL, auth=oauth)
-        self.access_token, self.access_token_secret = self.fetch_tokens(response.content)
+        tokens = self.fetch_tokens(response.content)
+        self.access_token, self.access_token_secret, self.session_handle = tokens.get('oauth_token'), tokens.get('oauth_token_access'), tokens.get('oauth_session_handle',None)
         print(self.access_token, self.access_token_secret)
-        return self.access_token, self.access_token_secret
+        return tokens
 
 if '__main__' == __name__:
     auth = OAuth(None, None, from_file='credentials.json')
