@@ -82,7 +82,7 @@ class MYQL(object):
 
   def executeQuery(self, payload):
     '''Execute the query and returns and response'''
-    if self.oauth:
+    if vars(self).get('oauth'): 
         self.url = self.private_url
         if not self.oauth.isValid():
             print("Reset your credentials : they don't seem to be valid anymore")
