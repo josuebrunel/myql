@@ -49,7 +49,7 @@ class MYQL(object):
       
     payload = {
 	'q' : query,
-	'callback' : 'oop', #This is not javascript
+	'callback' : '', #This is not javascript
 	'diagnostics' : self.diagnostics, 
 	'format' : format,
     'debug': self.debug,
