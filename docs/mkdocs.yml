@@ -1,1 +1,6 @@
-site_name: My Docs
+site_name: myql
+pages:
+-   [index.md, Home]
+-   [table.md, OpenTable]
+-   [contrib.md, Contribute]
+theme: readthedocs

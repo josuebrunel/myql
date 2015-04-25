@@ -5,7 +5,7 @@ MYQL
 
 MYQL is a Python wrapper of the Yahoo Query Language.
 
-Yahoo! Query Langauge Documentation and Support
+Yahoo! Query Language Documentation and Support
 ===============================================
 
 * Yahoo! Query Language - http://developer.yahoo.com/yql/
@@ -50,8 +50,7 @@ how to use
 >>> yql.diagnostics = True # To turn diagnostics on
 ```
 
-access to community tables
---------------------------
+####access to community tables
 
 ```python
 >>> yql = myql.MYQL()
@@ -73,8 +72,7 @@ access to community tables
 >>> # do your magic 
 ```
 
-changing response format (xml or json)
---------------------------------------
+####changing response format (xml or json)
 
 The response format is by default ***json***.
 
@@ -94,18 +92,15 @@ u'<?xml version="1.0" encoding="UTF-8"?>\n<query xmlns:yahoo="http://www.yahooap
 Methods
 -------
 
-use(data_provider_url)
------------------------
-
+####use(data_provider_url)
 Changes the data provider
 
 ```python
 >>> yql.use('http://myserver.com/mytables.xml') 
 ```
 
-desc(tablename)
----------------
- returns table description
+####desc(tablename)
+Returns table description
  
 ```python
 >>> response = yql.desc('weather.forecast')
@@ -114,8 +109,7 @@ desc(tablename)
 >>>
 ```
 
-rawQuery(query)
-----------------
+####rawQuery(query)
 
 Allows you to directly type your query
 
@@ -124,8 +118,7 @@ Allows you to directly type your query
 >>> # deal with the response
 ```
 
-select(table, fields, limit).where(filters, ...)
-------------------------------------------------
+####select(table, fields, limit).where(filters, ...)
 
 Select a table i.e *weather.forecast*.
 If *table* not provided, it will use the default table. If there's no such thing as a default table, it will raise a *NoTableSelectedError*
@@ -147,9 +140,7 @@ If *table* not provided, it will use the default table. If there's no such thing
 >>>
 ```
 
-get(table, fields, limit)
---------------------------
-
+####get(table, fields, limit)
 Same as ***SELECT***, but instead returns data.
 
 **REMINDER** : Some tables require a **where clause**, therefore ***GET*** won't work on those tables, use *select(...).where(...)* instead .
