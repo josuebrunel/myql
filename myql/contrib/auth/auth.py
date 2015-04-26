@@ -32,23 +32,25 @@ class OAuth(object):
             vars(self).update(kwargs)
 
         if not vars(self).get('access_token') and not vars(self).get('access_token_secret'):
-           
-            if not vars(self).get('request_token') and not vars(self).get('request_token_secret'):
-                self.get_request_token()
-                self.verifier = self.get_user_authorization()
-                self.get_access_token()
-            elif not vars(self).get('verifier'):
-                self.verifier = self.get_user_authorization()
-                self.get_access_token() 
-            else:
-                self.get_access_token()
-        else:
-            self.oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, resource_owner_key=self.access_token, resource_owner_secret=self.access_token_secret)
+            self.get_request_token()
+            self.verifier = self.get_user_authorization()
+            self.get_access_token()
+           # if not vars(self).get('request_token') and not vars(self).get('request_token_secret'):
+           #     self.get_request_token()
+           #     self.verifier = self.get_user_authorization()
+           #     self.get_access_token()
+           # elif not vars(self).get('verifier'):
+           #     self.verifier = self.get_user_authorization()
+           #     self.get_access_token() 
+           # else:
+           #     self.get_access_token()
+        #else:
+        self.oauth = OAuth1(self.consumer_key, client_secret=self.consumer_secret, resource_owner_key=self.access_token, resource_owner_secret=self.access_token_secret)
     
         json_data.update({
-            'request_token': self.request_token,
-            'request_token_secret': self.request_token_secret,
-            'verifier': self.verifier,
+            #'request_token': self.request_token,
+            #'request_token_secret': self.request_token_secret,
+            #'verifier': self.verifier,
             'access_token': self.access_token,
             'access_token_secret': self.access_token_secret,
             'session_handle': self.session_handle,
@@ -72,8 +74,9 @@ class OAuth(object):
     def refresh_token(self):
         """Refresh access token
         """
-        oauth = OAuth1(self.consumer_key, resource_owner_key=self.access_token,resource_owner_secret=self.access_token_secret, callback_uri=CALLBACK_URI)
-        response = requests.post(REQUEST_TOKEN_URL, headers={'oauth_session_handle': self.session_handle}, auth=oauth)
+        oauth = OAuth1(self.consumer_key, resource_owner_key=self.access_token,resource_owner_secret=self.access_token_secret)
+        response = requests.post(ACCESS_TOKEN_URL, headers={'oauth_session_handle': self.session_handle}, auth=oauth)
+        pdb.set_trace()
         tokens = self.fetch_tokens(response.content)
         return tokens
         
