@@ -1,7 +1,8 @@
 MYQL
 =========
 
-[![Build Status](https://travis-ci.org/josuebrunel/myql.svg?branch=master)](https://travis-ci.org/josuebrunel/myql) ![Alt](https://readthedocs.org/projects/pip/badge/?version=latest)
+[![Build Status](https://travis-ci.org/josuebrunel/myql.svg?branch=master)](https://travis-ci.org/josuebrunel/myql) [![Documentation Status](https://readthedocs.org/projects/myql/badge/?version=latest)](https://readthedocs.org/projects/myql/?badge=latest)
+
 
 MYQL is a Python wrapper of the Yahoo Query Language.
 
