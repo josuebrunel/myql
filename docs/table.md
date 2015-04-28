@@ -34,13 +34,22 @@ Save the table as a *xml file* with Table Object name if *name* is not provided.
 ## Inputs
 There are 3 kind of *inputs* as described in the [documentation](https://developer.yahoo.com/yql/guide/yql-opentables-reference.html#yql-opentables-key) :
 
-* _key_ representing by _InputKey_  
-* _map_ representing by _InputMap_
-* _value_ representing by _InputValue_ 
+* ***key***  
+* ***map*** 
+* ***value***  
 
-### **Definition**
+### **Definitions**
+
+* #### *InputKey(id, type, paramType, like='', required=False, default='', private=False, const=False, batchable=False, maxBatchItems=0)*
+
+* #### *InputValue(id, type, paramType, like='', required=False, default='', private=False, const=False, batchable=False, maxBatchItems=0)*
+
+* #### *InputMap(id, type, paramType, like='', required=False, default='', private=False, const=False, batchable=False, maxBatchItems=0)*
+
+All of those objects are based on ***BaseInput***.
 
 ### **Methods**
+No methods defined
 
 ## Paging
 
