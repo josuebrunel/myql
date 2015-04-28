@@ -52,10 +52,29 @@ All of those objects are based on ***BaseInput***.
 No methods defined
 
 ## Paging
+This class describe a ***paging*** element. A ***paging*** is deifined by the 3 classes below :
 
-### **Definition**
+* ***PagingPage***
+* ***PagingUrl***
+* ***PagingOffset***
+
+### **Definitions**
+
+* #### *PagingPage(start={}, pageSize={}, total={})*
+```python
+>>> mypage = PagingPage({'id': 'ItemPage', 'default': '1'}, {'id':'Count' ,'max':'25'},{'default': '10'})
+```
+* #### *PagingUrl(nextpage)*
+```python
+>>> mypage = PagingUrl("ysearchresponse.nextpage")
+```
+* #### *PagingOffset(matrix, start={}, pageSize={}, total={})*
+```python
+>>> mypage = PagingOffset({'id': 'ItemPage', 'default': '1'}, {'id':'Count' ,'max':'25'},{'default': '10'})
+```
 
 ### **Methods**
+No methods defined
 
 ## Binder
 This class represents an element under **<bindings>**. Which means :
