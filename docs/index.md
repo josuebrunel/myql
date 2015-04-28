@@ -10,7 +10,7 @@ Yahoo! Query Language Documentation and Support
 * Yahoo! Developer Network: http://developer.yahoo.com
 * Yahoo! Application Platform - http://developer.yahoo.com/yap/
 * Yahoo! Social APIs - http://developer.yahoo.com/social/
-* Yahoo! QUery Language Console https://developer.yahoo.com/yql/console/
+* Yahoo! Query Language Console https://developer.yahoo.com/yql/console/
 
 Installation
 ============
