@@ -9,7 +9,7 @@ class SelectBinder(BinderModel):
     urls = ['http://lol.com/services?artist={artis}','http://lol.com/services/song={song}']
     paging = PagingPage({'id': 'ItemPage', 'default': '1'}, {'id':'Count' ,'max':'25'},{'default': '10'})
     artist = InputKey(id='artist', type='xs:string', paramType='path')
-    song = InputKey(id='song', type='xs:string', paramType='path', required='true')
+    song = InputKey(id='song', type='xs:string', paramType='path', required=True)
 
 class InsertBinder(BinderModel):
     name = 'insert'
@@ -19,7 +19,7 @@ class InsertBinder(BinderModel):
     urls = ['http://lol.com/services?artist={artis}','http://lol.com/services/song={song}']
     paging = PagingUrl(nextpage={'path':'yqlsearch.nextpage'})
     artist = InputKey(id='artist', type='xs:string', paramType='path')
-    song = InputValue(id='song', type='xs:string', paramType='path', required='true')
+    song = InputValue(id='song', type='xs:string', paramType='path', required=True)
     
 
 class TestTable(TableModel):

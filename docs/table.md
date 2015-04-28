@@ -41,23 +41,32 @@ There are 3 kind of *inputs* as described in the [documentation](https://develop
 ### **Definitions**
 
 * #### *InputKey(id, type, paramType, like='', required=False, default='', private=False, const=False, batchable=False, maxBatchItems=0)*
-
+```python
+song = InputKey(id='song', type='xs:string', paramType='path', required=True)
+```
 * #### *InputValue(id, type, paramType, like='', required=False, default='', private=False, const=False, batchable=False, maxBatchItems=0)*
-
+```python
+song = InputValue(id='song', type='xs:string', paramType='path', required=True, const='12' )
+```
 * #### *InputMap(id, type, paramType, like='', required=False, default='', private=False, const=False, batchable=False, maxBatchItems=0)*
 
-All of those objects are based on ***BaseInput***.
+All of those classes are based on ***BaseInput***.
+
+***like*** is a replacement for ***as*** which is a python keyword. In the *xml* file, ***as*** will be displayed.
+
+
 
 ### **Methods**
 No methods defined
 
 ## Paging
-This class describe a ***paging*** element. A ***paging*** is deifined by the 3 classes below :
+This class describe a ***paging*** element. A ***paging*** is deifined by one of the 3 classes below :
 
 * ***PagingPage***
 * ***PagingUrl***
 * ***PagingOffset***
 
+Check out the full [documentation](https://developer.yahoo.com/yql/guide/yql-opentables-reference.html#yql-opentables-paging)
 ### **Definitions**
 
 * #### *PagingPage(start={}, pageSize={}, total={})*
@@ -73,6 +82,8 @@ This class describe a ***paging*** element. A ***paging*** is deifined by the 3 
 >>> mypage = PagingOffset({'id': 'ItemPage', 'default': '1'}, {'id':'Count' ,'max':'25'},{'default': '10'})
 ```
 
+All these classes above subclass ***BasePaging*** .
+
 ### **Methods**
 No methods defined
 
@@ -83,6 +94,7 @@ This class represents an element under **<bindings>**. Which means :
 * insert
 * update
 * delete
+* function (stored function)
 
 You can read about the full documentation [here](https://developer.yahoo.com/yql/guide/yql-opentables-reference.html#yql-opentables-select)
 
@@ -97,18 +109,121 @@ You can read about the full documentation [here](https://developer.yahoo.com/yql
 ### **Methods**
 
 #### *Binder.addInput(input_object)* : 
-Add a input object to the binder
+Add an input object to the binder
 #### *Binder.removeInput(input_id, input_type)*
 Remove an input object from the binder. ***input_type*** may be ***key, value or map***
 #### *Binder.addUrl(url)*
+Add an url to the binder
 #### *Binder.removeUrl(url)*
+Remove an url from the binder
 #### *Binder.addPaging(paging_instance)*
+Add a paging to the binder
 #### *Binder.removePaging(paging_instance)*
+Remove a paging from the binder
 
 ## MetaClasses
- 
-### **Definition**
 
-### **Methods**
+They say *"A picture is worth a thousand of word"* and I say *"A code snippet 
+is worth ..."* . You got it (^_^).  
+***BinderModel*** and ***TableModel*** are the only classes to use here.
 
+Copy and past the code snippet below in a *example.py*
 
+```python
+from binder import BinderModel, InputKey, PagingPage, PagingUrl, InputValue, BinderFunction
+from table import TableModel, BinderFrom
+
+class SelectBinder(BinderModel):
+    name = 'select'
+    itemPath = 'products.product'
+    produces = 'xml'
+    pollingFrequencySeconds = 30
+    urls = ['http://lol.com/services?artist={artis}','http://lol.com/services/song={song}']
+    paging = PagingPage({'id': 'ItemPage', 'default': '1'}, {'id':'Count' ,'max':'25'},{'default': '10'})
+    artist = InputKey(id='artist', type='xs:string', paramType='path')
+    song = InputKey(id='song', type='xs:string', paramType='path', required=True)
+
+class InsertBinder(BinderModel):
+    name = 'insert'
+    itemPath = 'products.product'
+    produces = 'xml'
+    pollingFrequencySeconds = 30
+    urls = ['http://lol.com/services?artist={artis}','http://lol.com/services/song={song}']
+    paging = PagingUrl(nextpage={'path':'yqlsearch.nextpage'})
+    artist = InputKey(id='artist', type='xs:string', paramType='path')
+    song = InputValue(id='song', type='xs:string', paramType='path', required=True)
+    
+
+class TestTable(TableModel):
+    name = 'Test'
+    author = 'Josue Kouka'
+    apiKeyURL = 'http://josuebrunel.org/api'
+    documentationURL = 'http://josuebrunel.org/doc.html'
+    description = "Just a test table"
+    sampleQuery = ['SELECT * FROM mytable','SELECT name FROM mytable WHERE id=4656', "SELECT * FROM mytable WHERE name='Josh'"]
+    select = BinderFrom(SelectBinder)
+    insert = BinderFrom(InsertBinder)
+    func1 = BinderFunction('concat', func_code="console.log('Hello Josh!!!')")
+
+TestTable.table.save(name='Example')
+```
+
+Run 
+
+```shell
+$ python example.py
+$ cat Example.xml
+```
+
+```xml
+<?xml version="1.0" ?>
+<table https="false" securityLevel="any" xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+    <meta>
+        <apiKey>http://josuebrunel.org/api</apiKey>
+        <author>Josue Kouka</author>
+        <description>Just a test table</description>
+        <documentationURL>http://josuebrunel.org/doc.html</documentationURL>
+        <sampleQuery>SELECT * FROM mytable</sampleQuery>
+        <sampleQuery>SELECT name FROM mytable WHERE id=4656</sampleQuery>
+        <sampleQuery>SELECT * FROM mytable WHERE name='Josh'</sampleQuery>
+    </meta>
+    <bindings>
+        <function name="concat">
+            <execute>
+    ![CDATA]console.log('Hello Josh!!!')]]
+    </execute>
+        </function>
+        <insert itemPath="products.product" produces="xml">
+            <urls>
+                <url>http://lol.com/services?artist={artis}</url>
+                <url>http://lol.com/services/song={song}</url>
+            </urls>
+            <inputs>
+                <value id="song" required="true" type="xs:string"/>
+                <key id="artist" type="xs:string"/>
+            </inputs>
+            <paging model="url">
+                <nextpage path="yqlsearch.nextpage"/>
+            </paging>
+        </insert>
+        <select itemPath="products.product" produces="xml">
+            <urls>
+                <url>http://lol.com/services?artist={artis}</url>
+                <url>http://lol.com/services/song={song}</url>
+            </urls>
+            <inputs>
+                <key id="song" required="true" type="xs:string"/>
+                <key id="artist" type="xs:string"/>
+            </inputs>
+            <paging model="page">
+                <start default="1" id="ItemPage"/>
+                <total default="10"/>
+                <pageSize id="Count" max="25"/>
+            </paging>
+        </select>
+    </bindings>
+</table>
+
+```
+
+Voila, i think we're done here
