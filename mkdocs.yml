@@ -1,4 +1,4 @@
-site_name: myql
+site_name: MYQL
 pages:
 -   [index.md, Home]
 -   [table.md, OpenTable]
