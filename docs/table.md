@@ -94,7 +94,7 @@ This class represents an element under **<bindings>**. Which means :
 * insert
 * update
 * delete
-* function (stored function)
+
 
 You can read about the full documentation [here](https://developer.yahoo.com/yql/guide/yql-opentables-reference.html#yql-opentables-select)
 
@@ -110,28 +110,70 @@ You can read about the full documentation [here](https://developer.yahoo.com/yql
 
 #### *Binder.addInput(input_object)* : 
 Add an input object to the binder
+```python
+>>> song = InputKey(id='song', type='xs:string', paramType='path', required=True)
+>>> select.addBinder(song)
+```
 #### *Binder.removeInput(input_id, input_type)*
 Remove an input object from the binder. ***input_type*** may be ***key, value or map***
+```python
+>>> select.removeBinder('song','select')
+```
 #### *Binder.addUrl(url)*
 Add an url to the binder
+```python
+>>> select.addUrl('http://lol.com/{song}')
+```
 #### *Binder.removeUrl(url)*
 Remove an url from the binder
+```python
+>>> select.removeUrl('http://lol.com/{song}')
+```
 #### *Binder.addPaging(paging_instance)*
 Add a paging to the binder
-#### *Binder.removePaging(paging_instance)*
+```python
+>>> mypage = PagingUrl("ysearchresponse.nextpage")
+>>> select.addPaging(mypage)
+```
+#### *Binder.removePaging()*
 Remove a paging from the binder
+```python
+>>> select.removePaging()
+```
 
-## MetaClasses
+## BinderFunction
 
-They say *"A picture is worth a thousand of word"* and I say *"A code snippet 
-is worth ..."* . You got it (^_^).  
-***BinderModel*** and ***TableModel*** are the only classes to use here.
+This class represents a stored function. Read the full documentation [here](https://developer.yahoo.com/yql/guide/yql-opentables-reference.html#reference-function)
 
-Copy and past the code snippet below in a *example.py*
+### **Definition**
+
+#### *BinderFunction(func_name, func_code='', func_file=None, inputs=[])*
+
+* ***func_name***   : function name
+* ***func_code***   : function code passed as string
+* ***func_file***   : file containing the function
+* ***inputs***      : list of inputs
 
 ```python
-from binder import BinderModel, InputKey, PagingPage, PagingUrl, InputValue, BinderFunction
-from table import TableModel, BinderFrom
+>>> myfunc = BinderFunction('concat', func_code="console.log('Hello Josh!!!')")
+```
+
+### **Methods**
+
+As ***Binder***, ***BinderFunction*** is a subclass of ***BaseBinder***. They both share the same methods
+
+## Using MetaClasses to define a Table
+ 
+***BinderModel*** and ***TableModel*** are the only classes to keep in mind here. They're respectively subclasses of ***BinderMeta*** and ***TableMeta***. Those last two help providing a powerful API to define YQL Table.
+
+They say *"A picture is worth a thousand of words"* and I say *"A code snippet 
+is worth ..."* . You got it (^_^). 
+
+Copy and paste the code snippet below in a *example.py*
+
+```python
+from myql.contrib.table.binder import BinderModel, InputKey, PagingPage, PagingUrl, InputValue, BinderFunction
+from myql.contrib.table import TableModel, BinderFrom
 
 class SelectBinder(BinderModel):
     name = 'select'
