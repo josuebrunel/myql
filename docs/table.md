@@ -2,40 +2,85 @@ YQL Open Table
 ==============
 
 ## Table
-
 This class represents the **root** element of a YQL Table Definition File. You can read about the full documentation [here](https://developer.yahoo.com/yql/guide/yql-opentables-reference.html#yql-opentables-tables-element)
 
-```python
-def __init__(self, name, author, apiKeyURL, documentationURL, sampleQuery=[], description=None, table_attr=None, bindings=[])
-```
+### **Definition**
+
+#### *Table(name, author, apiKeyURL, documentationURL, sampleQuery=[], description=None, table_attr=None, bindings=[])*
 
 ```python
 >>> from myql.contrib.table import Table
 >>> mytable = Table('mytable', 'Josue Kouka', 'http://josuerunel.org/mytable/','http://josuerunel.org/mytable/docs.html',sampleQuery = ['SELECT * FROM mytable', 'SELECT name FROM mytable WHERE id = 77'], description='Just a simple tabe', table_attr={'xmlns':'http://query.yahooapis.com/v1/schema/table.xsd', 'securityLevel':'any', 'https':'false'})
 ```
 
-####Table.addBinder(binder_object)
+### **Methods**
+
+#### *Table.addBinder(binder_object)*
 Add a binder to the table 
 ```python
 >>> mytable.addBinder(select_binder)
 ```
-####Table.removeBinder(binder_object)
+#### *Table.removeBinder(binder_object)*
 Remove a binder from the table
 ```python
 >>> mytable.removeBinder(select_binder)
 ```
-####Table.save(name=None, path=None)
+#### *Table.save(name=None, path=None)*
 Save the table as a *xml file* with Table Object name if *name* is not provided. If *path*, saves the *xml file* to the specified location
 ```python
 >>> mytable.save(name='test',path='/var/www/josuebrunel.org/mytable/')
 ```
 
-## Binder
-
 ## Inputs
+There are 3 kind of *inputs* as described in the [documentation](https://developer.yahoo.com/yql/guide/yql-opentables-reference.html#yql-opentables-key) :
+
+* _key_ representing by _InputKey_  
+* _map_ representing by _InputMap_
+* _value_ representing by _InputValue_ 
+
+### **Definition**
+
+### **Methods**
 
 ## Paging
- 
 
+### **Definition**
+
+### **Methods**
+
+## Binder
+This class represents an element under **<bindings>**. Which means :
+
+* select
+* insert
+* update
+* delete
+
+You can read about the full documentation [here](https://developer.yahoo.com/yql/guide/yql-opentables-reference.html#yql-opentables-select)
+
+### **Definition**
+
+#### *Binder(name, itemPath, produces, pollingFrequencySeconds=0, urls=[], inputs=[], paging=None)*
+
+```python
+>>> select = Binder('select', 'products.product', 'xml')
+```
+
+### **Methods**
+
+#### *Binder.addInput(input_object)* : 
+Add a input object to the binder
+#### *Binder.removeInput(input_id, input_type)*
+Remove an input object from the binder. ***input_type*** may be ***key, value or map***
+#### *Binder.addUrl(url)*
+#### *Binder.removeUrl(url)*
+#### *Binder.addPaging(paging_instance)*
+#### *Binder.removePaging(paging_instance)*
+
+## MetaClasses
+ 
+### **Definition**
+
+### **Methods**
 
 
