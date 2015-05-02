@@ -84,6 +84,8 @@ class MYQL(object):
     '''Execute the query and returns and response'''
     if vars(self).get('oauth'): 
         self.url = self.private_url
+        if not self.oauth.token_is_valid(): # Refresh token if token has expired
+            self.oauth.refresh_token()
         response = self.oauth.session.get(self.url, params= payload)
     else:
         response = requests.get(self.url, params= payload)
