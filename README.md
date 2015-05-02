@@ -39,7 +39,7 @@ installation
 ============
 
 ```shell
-$ python setup.py install 
+$ pip install myql
 ```
 
 how to use
@@ -151,5 +151,16 @@ Same as ***SELECT***, but instead returns data.
 >>> rep.json()
 {u'query': {u'count': 1, u'lang': u'en-US', u'results': {u'place': {u'woeid': u'23424966', u'name': u'Sao Tome and Principe'}}, u'created': u'2014-08-17T10:32:25Z'}}
 >>>
+```
+
+Using OAuth to fetch protected resources
+=========================================
+
+```python
+>>> from myql.contrib.auth import YOAuth
+>>> oauth = YOAuth(None, None, from_file='credentials.json') # only consumer_key and consumer_secret are required.
+>>> from myql import MYQL
+>>> yql = MYQL(format='xml', oauth=oauth)
+>>> response = yql.getGUID('josue_brunel') # Deal with the response
 ```
 

@@ -1,6 +1,8 @@
 site_name: MYQL
 pages:
 -   [index.md, Home]
--   [table.md, OpenTable]
+-   [myql.md, MYQL]
+-   [oauth.md, YOAuth]
+-   [table.md, Open Table]
 -   [contrib.md, Contribute]
 theme: readthedocs

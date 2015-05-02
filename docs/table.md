@@ -172,7 +172,7 @@ is worth ..."* . You got it (^_^).
 Copy and paste the code snippet below in a *example.py*
 
 ```python
-from myql.contrib.table.binder import BinderModel, InputKey, PagingPage, PagingUrl, InputValue, BinderFunction
+from myql.contrib.table import BinderModel, InputKey, PagingPage, PagingUrl, InputValue, BinderFunction
 from myql.contrib.table import TableModel, BinderFrom
 
 class SelectBinder(BinderModel):
