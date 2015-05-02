@@ -1,5 +1,5 @@
 """
-YOAuth is inspired from Darren Kempiners YahooAPI https://github.com/josuebrunel/python-yahooapi/blob/master/yahooapi.py
+YOAuth is inspired from Darren Kempiners YahooAPI https://github.com/dkempiners/python-yahooapi/blob/master/yahooapi.py
 """
 import json
 import time
