@@ -59,8 +59,10 @@ class YOAuth(object):
             # Fetching request token/token_secret
             request_token, request_token_secret = self.oauth.get_request_token(params={'oauth_callback': CALLBACK_URI})
             logging.debug("REQUEST_TOKEN = {0}\n REQUEST_TOKEN_SECRET = {1}\n".format(request_token, request_token_secret))
-            authorize_url = self.oauth.get_authorize_url(request_token)
+            #authorize_url = self.oauth.get_authorize_url(request_token)
+            authorize_url = AUTHORIZE_TOKEN_URL+request_token
             logging.debug(authorize_url)
+            webbrowser.open(authorize_url)
             verifier = raw_input("Enter verifier : ")
             logging.debug("VERIFIER = {0}".format(verifier))
 
