@@ -51,7 +51,10 @@ class YOAuth(object):
         )
 
         if vars(self).get('access_token') and vars(self).get('access_token_secret') and vars(self).get('session_handle'):
-            self.session = self.refresh_token() # Even though it hasn't expired
+            if not self.token_is_valid():
+                self.session = self.refresh_token() 
+            else:
+                self.session = self.oauth.get_session((self.access_token, self.access_token_secret))
         else:
             # Fetching request token/token_secret
             request_token, request_token_secret = self.oauth.get_request_token(params={'oauth_callback': CALLBACK_URI})
@@ -108,6 +111,18 @@ class YOAuth(object):
         session = self.oauth.get_session((self.access_token, self.access_token_secret))
 
         return session
+
+    def token_is_valid(self,):
+        """Check the validity of the token :3600s
+        """
+        elapsed_time = time.time() - self.token_time
+        if elapsed_time > 3600:
+            logging.debug("TOKEN HAS EXPIRED")
+            return False
+
+        logging.debug("TOKEN IS STILL VALID")
+        return True
+
 
 
 if '__main__' == __name__:
