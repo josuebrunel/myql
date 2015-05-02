@@ -105,7 +105,7 @@ class YOAuth(object):
         """Refresh access token
         """
         logging.debug("REFRESHING TOKEN")
-        self.access_token_time = time.time()
+        self.token_time = time.time()
         self.acess_token, self.access_token_secret = self.oauth.get_access_token(self.access_token, self.access_token_secret, params={"oauth_session_handle": self.session_handle})
 
         session = self.oauth.get_session((self.access_token, self.access_token_secret))
@@ -116,6 +116,7 @@ class YOAuth(object):
         """Check the validity of the token :3600s
         """
         elapsed_time = time.time() - self.token_time
+        logging.debug("ELAPSED TIME : {0}".format(elapsed_time))
         if elapsed_time > 3600:
             logging.debug("TOKEN HAS EXPIRED")
             return False
