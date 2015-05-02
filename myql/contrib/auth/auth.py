@@ -74,7 +74,8 @@ class OAuth(object):
     def refresh_token(self):
         """Refresh access token
         """
-        oauth = OAuth1(self.consumer_key, resource_owner_key=self.access_token,resource_owner_secret=self.access_token_secret)
+        #oauth = OAuth1(self.consumer_key, resource_owner_key=self.access_token,resource_owner_secret=self.access_token_secret)
+        oauth = OAuth1(resource_owner_key=self.access_token,resource_owner_secret=self.access_token_secret)
         response = requests.post(ACCESS_TOKEN_URL, headers={'oauth_session_handle': self.session_handle}, auth=oauth)
         pdb.set_trace()
         tokens = self.fetch_tokens(response.content)
