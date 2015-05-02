@@ -5,7 +5,7 @@ from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 
 from myql import MYQL
-from myql.contrib.auth import OAuth
+from myql.contrib.auth import YOAuth
 
 from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
@@ -27,10 +27,11 @@ class TestOAuth(unittest.TestCase):
         pass
 
     def test_get_guid(self,):
-        oauth = OAuth(None, None, from_file='credentials.json')
+        oauth = YOAuth(None, None, from_file='credentials.json')
         yql = MYQL(format='json', oauth=oauth)
         response = yql.getGUID('josue_brunel')
-        logging.debug(response.status_code,200)
+        logging.debug(response.content)
+        self.assertEquals(response.status_code,200)
 
 
 class TestTable(unittest.TestCase):

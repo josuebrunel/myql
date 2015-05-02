@@ -1,5 +1,5 @@
 import requests
-from contrib.auth import OAuth
+from contrib.auth import YOAuth
 import errors
 
 import importlib
@@ -84,9 +84,7 @@ class MYQL(object):
     '''Execute the query and returns and response'''
     if vars(self).get('oauth'): 
         self.url = self.private_url
-        if not self.oauth.isValid():
-            print("Reset your credentials : they don't seem to be valid anymore")
-        response = requests.get(self.url, params= payload, auth= self.oauth.oauth)
+        response = self.oauth.session.get(self.url, params= payload)
     else:
         response = requests.get(self.url, params= payload)
 
