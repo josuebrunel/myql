@@ -69,16 +69,17 @@ class YOAuth(object):
             self.access_token_secret = parsed_acess['oauth_token_secret']
             self.session_handle = parsed_acess['oauth_session_handle']
 
-            json_data.update({
-                'access_token' : self.access_token,
-                'access_token_secret' : self.access_token_secret,
-                'session_handle' : self.session_handle,
-                'token_time' : self.token_time
-            })
-
-            self.json_wirte_data(json_data, self.from_file)
-
             self.session = self.oauth.get_session((self.access_token, self.access_token_secret))
+
+        json_data.update({
+            'access_token' : self.access_token,
+            'access_token_secret' : self.access_token_secret,
+            'session_handle' : self.session_handle,
+            'token_time' : self.token_time
+        })
+
+        self.json_wirte_data(json_data, self.from_file)
+
 
     def json_get_data(self, filename):
         """Returns content of a json file
