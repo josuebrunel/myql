@@ -16,7 +16,7 @@ The ***YOAuth*** class is used to generates an oauth *session* which will be use
 * ***session_handler*** : The OAuth Session Handler which is required when refreshing the token
 * ***from_file*** : File containing the credentials.
 
-The minimum information required in a ***credentials file***  are the ***consumer_key*** and the ***consumer_secret***.
+The **minimum** information required in a ***credentials file***  are the ***consumer_key*** and the ***consumer_secret***.
 If ***from_file*** is provided, the class will be instanciated with data within this file.
 
 ```python
@@ -41,6 +41,17 @@ Using a credentials json file
 ### **Methods**
 
 - #### *OAuth.json_get_data(filename)*
+
+Return a dict containing the credentials
+
 - #### *OAuth.json_write_data(json_data, filename)*
+
+Update the credentials file
+
 - #### *OAuth.token_is_valid()*
+
+Check if the token is still valid
+
 - #### *OAuth.refresh_token()*
+
+Refresh the expired token
