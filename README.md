@@ -1,7 +1,7 @@
 MYQL
 =========
 
-[![Build Status](https://travis-ci.org/josuebrunel/myql.svg?branch=master)](https://travis-ci.org/josuebrunel/myql) [![Documentation Status](https://readthedocs.org/projects/myql/badge/?version=latest)](https://myql.readthedocs.org)
+[![Build Status](https://travis-ci.org/josuebrunel/myql.svg?branch=master)](https://travis-ci.org/josuebrunel/myql) [![Documentation Status](https://readthedocs.org/projects/myql/badge/?version=latest)](https://myql.readthedocs.org) [![PyPI version](https://badge.fury.io/py/myql.svg)](http://badge.fury.io/py/myql)
 
 
 MYQL is a Python wrapper of the Yahoo Query Language.
@@ -9,8 +9,8 @@ MYQL is a Python wrapper of the Yahoo Query Language.
 Yahoo! Query Language Documentation and Support
 ===============================================
 
-* Yahoo! Query Language - (http://developer.yahoo.com/yql/)
-* Yahoo! Developer Network: (http://developer.yahoo.com)
+* Yahoo! Query Language - http://developer.yahoo.com/yql/
+* Yahoo! Developer Network: http://developer.yahoo.com
 * Yahoo! Application Platform - http://developer.yahoo.com/yap/
 * Yahoo! Social APIs - http://developer.yahoo.com/social/
 * Yahoo! QUery Language Console https://developer.yahoo.com/yql/console/
