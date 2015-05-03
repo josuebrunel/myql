@@ -12,6 +12,8 @@ setup(
   author = "Josue Kouka",
   author_email = "josuebrunel@gmail.com",
   url = "https://github.com/josuebrunel/MYQL",
+  download_url = "https://github.com/josuebrunel/myql/tarball/1.2",
+  keywords = ['myql', 'yql', 'yahoo', 'query', 'language'],
   packages = find_packages(),
   platforms=['Any'],
   license='BSD',
