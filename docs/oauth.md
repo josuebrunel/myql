@@ -3,9 +3,7 @@ YOAuth as Yahoo OAuth
 
 Before going any further i would like to thank [Darren Kempiners](https://github.com/dkempiners) and [Andrew Martin](https://github.com/almartin82) for their help.
 
-## YOAuth
-
-This class is used to generates an oauth *session* which will be used in your requests to the *YQL Service* 
+The ***YOAuth*** class is used to generates an oauth *session* which will be used in your requests to the *YQL Service* 
 
 ### **Definition**
 
@@ -20,6 +18,25 @@ This class is used to generates an oauth *session* which will be used in your re
 
 The minimum information required in a ***credentials file***  are the ***consumer_key*** and the ***consumer_secret***.
 If ***from_file*** is provided, the class will be instanciated with data within this file.
+
+```python
+>>> from myql.contrib.auth import YOAuth
+>>> oauth = YOAuth('khdhkfhbb7rit93ffhbfh', 'urysfjue76885hgf')
+```
+
+Using a credentials json file
+
+*credentials.json*
+```json
+{
+    "consumer_key" : "khdhkfhbb7rit93ffhbfh",
+    "consumer_secret": "urysfjue76885hgf"
+}
+```
+
+```python
+>>> oauth = YOAuth(None, None, from_file=os.path.realpath('credentials.json'))
+```
 
 ### **Methods**
 
