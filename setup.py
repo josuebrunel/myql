@@ -12,7 +12,7 @@ setup(
   author = "Josue Kouka",
   author_email = "josuebrunel@gmail.com",
   url = "https://github.com/josuebrunel/MYQL",
-  download_url = "https://github.com/josuebrunel/myql/tarball/1.2",
+  download_url = "https://github.com/josuebrunel/myql/archives/1.2.tar.gz",
   keywords = ['myql', 'yql', 'yahoo', 'query', 'language'],
   packages = find_packages(),
   classifiers = [
