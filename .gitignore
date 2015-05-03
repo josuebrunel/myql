@@ -59,3 +59,4 @@ docs/_build/
 myconfig.py
 *.xml
 site
+*.json
