@@ -15,6 +15,13 @@ setup(
   download_url = "https://github.com/josuebrunel/myql/tarball/1.2",
   keywords = ['myql', 'yql', 'yahoo', 'query', 'language'],
   packages = find_packages(),
+  classifiers = [
+    'Programming Language :: Python :: 2.7',
+    'Development Status :: 4 - Beta',
+    'Environment :: Console',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: MIT License'
+  ],
   platforms=['Any'],
   license='BSD',
   install_requires = required
