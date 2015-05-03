@@ -1,4 +1,10 @@
 site_name: MYQL
+repo_url: https://github.com/josuebrunel/myql
+repo_name: https://github.com/josuebrunel/myql
+site_url: http://myql.readthedocs.org/en/latest/myql/
+site_description: MYQL documentation
+site_author: Josue Kouka
+google_analytics: ['UA-32441224-4', 'readthedocs.org']
 pages:
 -   [index.md, Home]
 -   [myql.md, MYQL]
