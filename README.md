@@ -1,9 +1,8 @@
 MYQL
 =========
 
+[![Build Status](https://travis-ci.org/josuebrunel/myql.svg?branch=master)](https://travis-ci.org/josuebrunel/myql) [![Documentation Status](https://readthedocs.org/projects/myql/badge/?version=latest)](https://myql.readthedocs.org) [![PyPI version](https://badge.fury.io/py/myql.svg)](http://badge.fury.io/py/myql) 
 [![Join the chat at https://gitter.im/josuebrunel/myql](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/josuebrunel/myql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-[![Build Status](https://travis-ci.org/josuebrunel/myql.svg?branch=master)](https://travis-ci.org/josuebrunel/myql) [![Documentation Status](https://readthedocs.org/projects/myql/badge/?version=latest)](https://myql.readthedocs.org) [![PyPI version](https://badge.fury.io/py/myql.svg)](http://badge.fury.io/py/myql)
 
 
 MYQL is a Python wrapper of the Yahoo Query Language.
