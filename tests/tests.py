@@ -38,7 +38,8 @@ class TestOAuth(unittest.TestCase):
         teams = ('mlb.l.1328.t.1','mlb.l.1328.t.2')
         year = '2015-05-05'
         for team in teams:
-            response = yql.rawQuery("SELECT * FROM fantasysports.teams.roster WHERE team_key = '{0}'  AND date = '{1}' ".format(team, year))
+            #response = yql.rawQuery("SELECT * FROM fantasysports.teams.roster WHERE team_key = '{0}'  AND date = '{1}' ".format(team, year))
+            response = yql.select('fantasysports.teams.roster').where(['team_key','=',team],['date','=',year])
             if not response.status_code == 200:
                 return False
 
