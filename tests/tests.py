@@ -1,4 +1,4 @@
-import os, logging
+import os, logging, time
 import pdb
 import unittest
 from xml.dom import minidom
@@ -17,7 +17,6 @@ readline.parse_and_bind('tab: complete')
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logging.getLogger(__name__)
 
-
 class TestOAuth(unittest.TestCase):
 
     def setUp(self,):
@@ -32,6 +31,16 @@ class TestOAuth(unittest.TestCase):
         response = yql.getGUID('josue_brunel')
         logging.debug(response.content)
         self.assertEquals(response.status_code,200)
+
+    def test_yahoo_fantasy_sport(self,):
+        oauth = YOAuth(None, None, from_file='credentials.json')
+        yql = MYQL(format='json', oauth=oauth)
+        #response = yql.select('fantasysports.teams.roster').where(['team_key', '=', 'mlb.l.1328.t.1'], ['date', '=', '2015-05-05'])
+        response = yql.rawQuery("SELECT * FROM fantasysports.teams.roster WHERE team_key IN ('mlb.l.1328.t.1','mlb.l.1328.t.2') AND date = '2015-05-05'")
+        pdb.set_trace()
+        #time.sleep(10)
+        #response2 = yql.rawQuery("SELECT * FROM fantasysports.teams.roster WHERE team_key = 'mlb.l.1328.t.2' AND date = '2015-05-05'")
+        #response2 = yql.select('fantasysports.teams.roster').where(['team_key', '=', 'mlb.l.1328.t.2'], ['date', '=', '2015-05-05'])
 
 
 class TestTable(unittest.TestCase):
