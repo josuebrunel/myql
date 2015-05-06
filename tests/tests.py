@@ -35,12 +35,16 @@ class TestOAuth(unittest.TestCase):
     def test_yahoo_fantasy_sport(self,):
         oauth = YOAuth(None, None, from_file='credentials.json')
         yql = MYQL(format='json', oauth=oauth)
-        #response = yql.select('fantasysports.teams.roster').where(['team_key', '=', 'mlb.l.1328.t.1'], ['date', '=', '2015-05-05'])
-        response = yql.rawQuery("SELECT * FROM fantasysports.teams.roster WHERE team_key IN ('mlb.l.1328.t.1','mlb.l.1328.t.2') AND date = '2015-05-05'")
-        pdb.set_trace()
-        #time.sleep(10)
-        #response2 = yql.rawQuery("SELECT * FROM fantasysports.teams.roster WHERE team_key = 'mlb.l.1328.t.2' AND date = '2015-05-05'")
-        #response2 = yql.select('fantasysports.teams.roster').where(['team_key', '=', 'mlb.l.1328.t.2'], ['date', '=', '2015-05-05'])
+        teams = ('mlb.l.1328.t.1','mlb.l.1328.t.2')
+        year = '2015-05-05'
+        for team in teams:
+            response = yql.rawQuery("SELECT * FROM fantasysports.teams.roster WHERE team_key = '{0}'  AND date = '{1}' ".format(team, year))
+            if not response.status_code == 200:
+                return False
+
+            data = response.json()
+            current_team = data['query']['results']['team']
+            print current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves']
 
 
 class TestTable(unittest.TestCase):
