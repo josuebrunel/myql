@@ -10,7 +10,7 @@ def read(fname):
 
 setup(
   name = "myql",
-  version = "1.2",
+  version = "1.2.1",
   description = "Python Wrapper for the Yahoo ! Query Language",
   long_description = read("README.rst"),
   author = "Josue Kouka",

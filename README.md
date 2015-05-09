@@ -16,22 +16,27 @@ Yahoo! Query Language Documentation and Support
 * Yahoo! Social APIs - http://developer.yahoo.com/social/
 * Yahoo! QUery Language Console https://developer.yahoo.com/yql/console/
 
-version 1.2
-===========
 
+
+Releases Notes
+==============
+
+v 1.2.1
+------
+* Multiple requests while using OAuth fixed
+
+v 1.2.0
+-------
 * OpenTable classes
 * Access to resources requiring authentication
 
-version 0.5.6
-=============
+v 0.5.6
+-------------
 * fetch data
 * access to community data
 * select data format (xml/json)
 * change data source
 * filter data 
-
-fixes:
-------
 * fix handling of default and on the fly response format
 * fix limit on ***select(...).where(...)*** when no limit value is passed
 * fix limit on ***get(...)***
