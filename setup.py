@@ -18,7 +18,7 @@ setup(
   author = "Josue Kouka",
   author_email = "josuebrunel@gmail.com",
   url = "https://github.com/josuebrunel/MYQL",
-  download_url = "https://github.com/josuebrunel/myql/archives/{0}.tar.gz".format(__version__),
+  download_url = "https://github.com/josuebrunel/myql/archive/{0}.tar.gz".format(__version__),
   keywords = ['myql', 'yql', 'yahoo', 'query', 'language'],
   packages = find_packages(),
   classifiers = [
