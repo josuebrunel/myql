@@ -18,7 +18,7 @@ Yahoo! Query Language Documentation and Support
 
 
 
-Releases Notes
+Release Notes
 ==============
 
 v 1.2.1

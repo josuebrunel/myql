@@ -20,8 +20,8 @@ Yahoo! Query Language Documentation and Support
 -  Yahoo! QUery Language Console
    https://developer.yahoo.com/yql/console/
 
-Releases Notes
-==============
+Release Notes
+=============
 
 v 1.2.1
 -------
