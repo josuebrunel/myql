@@ -1,4 +1,4 @@
-import os, logging, time
+import os, logging, time, json
 import pdb
 import unittest
 from xml.dom import minidom
@@ -19,6 +19,11 @@ readline.parse_and_bind('tab: complete')
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logging.getLogger(__name__)
 
+
+def pretty_json(data):
+    data = json.loads(data)
+    return json.dumps(data, indent=4, sort_keys=False)
+
 class TestMYQL(unittest.TestCase):
 
     def setUp(self,):
@@ -31,7 +36,7 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.rawQuery('select name, woeid from geo.states where place="Congo"')
         self.assertEquals(response.status_code,200)
         try:
-            logging.debug(response.json())
+            logging.debug(pretty_json(response.content))
         except Exception,e:
             logging.error(e)
 
@@ -39,7 +44,7 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.get('geo.countries', ['name', 'woeid'], 1)
         self.assertEquals(response.status_code,200)
         try:
-            logging.debug(response.json())
+            logging.debug(pretty_json(response.content))
         except Exception,e:
             logging.error(e)
 
@@ -47,7 +52,7 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.select('geo.countries', ['name', 'code', 'woeid']).where(['name', '=', 'Canada'])
         self.assertEquals(response.status_code,200)
         try:
-            logging.debug(response.json())
+            logging.debug(pretty_json(response.content))
         except Exception,e:
             logging.error(e)
 
@@ -55,7 +60,7 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG","MSFT")])
         self.assertEquals(response.status_code,200)
         try:
-            logging.debug(response.json())
+            logging.debug(pretty_json(response.content))
         except Exception,e:
             logging.error(e)
 
