@@ -11,11 +11,54 @@ from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
 from myql.contrib.table import Binder, BinderFunction, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
 
+from myql.contrib.stockscraper import stockretriever
+
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logging.getLogger(__name__)
+
+class TestMYQL(unittest.TestCase):
+
+    def setUp(self,):
+        self.yql = MYQL(format='json',community=True)
+        
+    def tearDown(self):
+        pass
+
+    def test_raw_query(self,):
+        response = self.yql.rawQuery('select name, woeid from geo.states where place="Congo"')
+        self.assertEquals(response.status_code,200)
+        try:
+            logging.debug(response.json())
+        except Exception,e:
+            logging.error(e)
+
+    def test_get(self,):
+        response = self.yql.get('geo.countries', ['name', 'woeid'], 1)
+        self.assertEquals(response.status_code,200)
+        try:
+            logging.debug(response.json())
+        except Exception,e:
+            logging.error(e)
+
+    def test_select(self,):
+        response = self.yql.select('geo.countries', ['name', 'code', 'woeid']).where(['name', '=', 'Canada'])
+        self.assertEquals(response.status_code,200)
+        try:
+            logging.debug(response.json())
+        except Exception,e:
+            logging.error(e)
+
+    def test_select_in(self,):
+        response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG","MSFT")])
+        self.assertEquals(response.status_code,200)
+        try:
+            logging.debug(response.json())
+        except Exception,e:
+            logging.error(e)
+
 
 class TestOAuth(unittest.TestCase):
 
@@ -47,6 +90,12 @@ class TestOAuth(unittest.TestCase):
             current_team = data['query']['results']['team']
             print current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves']
 
+class TestStockParser(unittest.TestCase):
+    
+    def test_get_current_info(self,):
+       
+        data = stockretriever.get_current_info(["YHOO","AAPL","GOOG"])
+        logging.debug(data)
 
 class TestTable(unittest.TestCase):
 

@@ -4,6 +4,7 @@ else
     method=''
 fi
 
+python -m unittest tests.TestMYQL$method
 python -m unittest tests.TestTable$method
 if [ -f credentials.json ]; then
     python -m unittest tests.TestOAuth
