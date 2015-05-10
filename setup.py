@@ -29,6 +29,6 @@ setup(
     'License :: OSI Approved :: MIT License'
   ],
   platforms=['Any'],
-  license='BSD',
+  license='GNU',
   install_requires = required
 )
