@@ -11,7 +11,7 @@ from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
 from myql.contrib.table import Binder, BinderFunction, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
 
-from myql.contrib.stockscraper import stockretriever
+#from myql.contrib.stockscraper import stockretriever
 
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
@@ -95,12 +95,12 @@ class TestOAuth(unittest.TestCase):
             current_team = data['query']['results']['team']
             print current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves']
 
-class TestStockParser(unittest.TestCase):
-    
-    def test_get_current_info(self,):
-       
-        data = stockretriever.get_current_info(["YHOO","AAPL","GOOG"])
-        logging.debug(data)
+#class TestStockParser(unittest.TestCase):
+#    
+#    def test_get_current_info(self,):
+#       
+#        data = stockretriever.get_current_info(["YHOO","AAPL","GOOG"])
+#        logging.debug(data)
 
 class TestTable(unittest.TestCase):
 
