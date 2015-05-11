@@ -22,7 +22,7 @@ logging.getLogger(__name__)
 
 def pretty_json(data):
     data = json.loads(data)
-    return json.dumps(data, indent=4, sort_keys=False)
+    return json.dumps(data, indent=4, sort_keys=True)
 
 class TestMYQL(unittest.TestCase):
 
