@@ -100,7 +100,7 @@ class TestStockParser(unittest.TestCase):
     def test_get_current_info(self,):
        
         data = stockretriever.get_current_info(["YHOO","AAPL","GOOG"])
-        logging.debug(data)
+        logging.debug(pretty_json(data.content))
 
 class TestTable(unittest.TestCase):
 
