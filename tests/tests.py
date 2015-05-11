@@ -96,7 +96,13 @@ class TestOAuth(unittest.TestCase):
             print current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves']
 
 class TestStockParser(unittest.TestCase):
-    
+
+    def setUp(self,):
+        pass
+
+    def tearDown(self):
+        pass
+
     def get_current_info(self,):
        
         data = stockretriever.get_current_info(["YHOO","AAPL","GOOG"])
@@ -112,6 +118,7 @@ class TestStockParser(unittest.TestCase):
         data = stockretriever.get_historical_info('YHOO')
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)   
+
 
 class TestTable(unittest.TestCase):
 
