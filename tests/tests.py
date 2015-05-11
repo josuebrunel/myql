@@ -107,7 +107,11 @@ class TestStockParser(unittest.TestCase):
         data = stockretriever.get_news_feed('YHOO')
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)
-        
+
+    def get_historical_info(self,):
+        data = stockretriever.get_historical_info('YHOO')
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)   
 
 class TestTable(unittest.TestCase):
 
