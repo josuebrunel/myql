@@ -97,10 +97,17 @@ class TestOAuth(unittest.TestCase):
 
 class TestStockParser(unittest.TestCase):
     
-    def test_get_current_info(self,):
+    def get_current_info(self,):
        
         data = stockretriever.get_current_info(["YHOO","AAPL","GOOG"])
         logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)
+
+    def get_news_feed(self,):
+        data = stockretriever.get_news_feed('YHOO')
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)
+        
 
 class TestTable(unittest.TestCase):
 
