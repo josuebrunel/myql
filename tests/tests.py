@@ -34,39 +34,48 @@ class TestMYQL(unittest.TestCase):
 
     def test_raw_query(self,):
         response = self.yql.rawQuery('select name, woeid from geo.states where place="Congo"')
-        self.assertEquals(response.status_code,200)
         try:
             logging.debug(pretty_json(response.content))
         except Exception,e:
             logging.error(e)
+        self.assertEquals(response.status_code,200)
 
     def test_get(self,):
         response = self.yql.get('geo.countries', ['name', 'woeid'], 1)
-        self.assertEquals(response.status_code,200)
         try:
             logging.debug(pretty_json(response.content))
         except Exception,e:
             logging.error(e)
+        self.assertEquals(response.status_code,200)
 
     def test_select(self,):
         response = self.yql.select('geo.countries', ['name', 'code', 'woeid']).where(['name', '=', 'Canada'])
-        self.assertEquals(response.status_code,200)
         try:
             logging.debug(pretty_json(response.content))
         except Exception,e:
             logging.error(e)
+        self.assertEquals(response.status_code,200)
 
     def test_select_in(self,):
         response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG")])
-        self.assertEquals(response.status_code,200)
         try:
             logging.debug(pretty_json(response.content))
         except Exception,e:
             logging.error(e)
+        self.assertEquals(response.status_code,200)
 
     def test_insert(self,):
-        #response = self.yql.insert('bit.ly.shorten',('login','apiKey','longUrl'),('o_3v1pqulij6','R_ee49daf1a1e6492ba56839b641845223','http://josuebrunel.org'))
         response = self.yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(response.content)
+            logging.error(e)
+ 
+        self.assertEquals(response.status_code,200)
+
+     def test_update(self,):
+        response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',))
         try:
             logging.debug(pretty_json(response.content))
         except Exception,e:
