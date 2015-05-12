@@ -126,6 +126,11 @@ class TestStockParser(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)   
 
+    def get_index_summary(self,):
+        data = stockretriever.get_index_summary('GOOG',('Volume','Change'))
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)   
+
 
 class TestTable(unittest.TestCase):
 
