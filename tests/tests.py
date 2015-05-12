@@ -74,8 +74,8 @@ class TestMYQL(unittest.TestCase):
  
         self.assertEquals(response.status_code,200)
 
-     def test_update(self,):
-        response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',))
+    def test_update(self,):
+        response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=','store://YEl70PraLLMSMuYAauqNc7'])
         try:
             logging.debug(pretty_json(response.content))
         except Exception,e:
