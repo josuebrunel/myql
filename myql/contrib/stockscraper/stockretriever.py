@@ -43,3 +43,10 @@ def get_index_summary(symbol, items=[],format='json'):
     yql = MYQL(format=format, community=True)
     response = yql.select('yahoo.finance.quoteslist',items).where(['symbol','=',symbol])
     return response
+
+def get_industry_index(index_id,items=[],format='json'):
+    """retrieves all symbols that belong to an industry.
+    """
+    yql = MYQL(community=True,format=format)
+    response = yql.select('yahoo.finance.industry',items).where(['id','=',index_id])
+    return response

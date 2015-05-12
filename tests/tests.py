@@ -131,6 +131,11 @@ class TestStockParser(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)   
 
+    def get_industry_index(self,):
+        data = stockretriever.get_industry_index(112)
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)   
+
 
 class TestTable(unittest.TestCase):
 
