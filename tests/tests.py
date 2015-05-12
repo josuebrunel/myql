@@ -57,7 +57,7 @@ class TestMYQL(unittest.TestCase):
             logging.error(e)
 
     def test_select_in(self,):
-        response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG","MSFT")])
+        response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG")])
         self.assertEquals(response.status_code,200)
         try:
             logging.debug(pretty_json(response.content))
