@@ -64,6 +64,14 @@ class TestMYQL(unittest.TestCase):
         except Exception,e:
             logging.error(e)
 
+    def test_insert(self,):
+        response = self.yql.insert('bit.ly.shorten',[('login','o_3v1pqulij6'),('apiKey','R_ee49daf1a1e6492ba56839b641845223'),('longUrl','http://josuebrunel.org')])
+        self.assertEquals(response.status_code,200)
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(e)
+
 
 class TestOAuth(unittest.TestCase):
 
