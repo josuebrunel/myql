@@ -27,9 +27,12 @@ Release Notes
 
 v 1.2.2 ( development )
 -------
-* Issue with **IN** condition in **where** clause fixed
-* Issue when passing an **[]/()** in a **where** claused fixed
-* Import of StockParser from Gurchet Rai https://github.com/gurch101/StockScraper OK
+* Fixed issue with **IN** condition in **where** clause
+* Fixed issue when passing an empty list/tuple (**[]/()**) in a **where** clause
+* Import of StockParser from Gurchet Rai https://github.com/gurch101/StockScraper OK [#68](https://github.com/josuebrunel/myql/issues/68)
+* Insert, Update, Delete methods added [#67](https://github.com/josuebrunel/myql/issues/67) 
+* Dummy *try/except* removed from main module
+
 
 v 1.2.1
 ------

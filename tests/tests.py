@@ -24,47 +24,107 @@ def pretty_json(data):
     data = json.loads(data)
     return json.dumps(data, indent=4, sort_keys=True)
 
+def json_write_data(json_data, filename):
+    with open(filename, 'w') as fp:
+        json.dump(json_data, fp, indent=4, encoding= 'utf-8', sort_keys=True)
+        return True
+    return False
+
+def json_get_data(filename):
+    with open(filename) as fp:
+        json_data = json.load(fp)
+    return json_data
+    
+
 class TestMYQL(unittest.TestCase):
 
     def setUp(self,):
         self.yql = MYQL(format='json',community=True)
+        self.insert_result = None
         
     def tearDown(self):
         pass
 
     def test_raw_query(self,):
         response = self.yql.rawQuery('select name, woeid from geo.states where place="Congo"')
-        self.assertEquals(response.status_code,200)
         try:
             logging.debug(pretty_json(response.content))
         except Exception,e:
             logging.error(e)
+        self.assertEquals(response.status_code,200)
 
     def test_get(self,):
         response = self.yql.get('geo.countries', ['name', 'woeid'], 1)
-        self.assertEquals(response.status_code,200)
         try:
             logging.debug(pretty_json(response.content))
         except Exception,e:
             logging.error(e)
+        self.assertEquals(response.status_code,200)
 
     def test_select(self,):
         response = self.yql.select('geo.countries', ['name', 'code', 'woeid']).where(['name', '=', 'Canada'])
-        self.assertEquals(response.status_code,200)
         try:
             logging.debug(pretty_json(response.content))
         except Exception,e:
             logging.error(e)
+        self.assertEquals(response.status_code,200)
 
     def test_select_in(self,):
         response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG")])
-        self.assertEquals(response.status_code,200)
         try:
             logging.debug(pretty_json(response.content))
         except Exception,e:
             logging.error(e)
+        self.assertEquals(response.status_code,200)
+
+    def test_insert(self,):
+        response = self.yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
+        try:
+            logging.debug(pretty_json(response.content))
+            data = response.json()['query']['results']['inserted']
+            logging.debug(data)
+            json_write_data(data,'yql_storage.json')
+        except Exception,e:
+            logging.error(response.content)
+            logging.error(e)
+ 
+        self.assertEquals(response.status_code,200)
+
+    def test_check_insert(self,):
+        json_data = json_get_data('yql_storage.json')
+        response = self.yql.select('yql.storage').where(['name','=',json_data['select']])
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(response.content)
+            logging.error(e)
+ 
+        self.assertEquals(response.status_code,200)
+       
+    def test_update(self,):
+        json_data = json_get_data('yql_storage.json')
+        response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=',json_data['update']])
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(response.content)
+            logging.error(e)
+ 
+        self.assertEquals(response.status_code,200)
+
+    def test_delete(self,):
+        json_data = json_get_data('yql_storage.json')
+        response = self.yql.delete('yql.storage').where(['name','=',json_data['update']])
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(response.content)
+            logging.error(e)
+ 
+        self.assertEquals(response.status_code,200)
 
 
+       
 class TestOAuth(unittest.TestCase):
 
     def setUp(self,):

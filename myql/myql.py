@@ -1,3 +1,4 @@
+import logging
 import requests
 from contrib.auth import YOAuth
 import errors
@@ -6,6 +7,9 @@ import importlib
 
 __author__ = 'Josue Kouka'
 __email__ = 'josuebrunel@gmail.com'
+
+logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
+logger = logging.getLogger(__name__)
 
 class MYQL(object):
   '''Yet another Python Yahoo! Query Language Wrapper
@@ -46,7 +50,7 @@ class MYQL(object):
     '''Build the payload'''
     if self.community :
       query = self.community_data + query # access to community data tables
-      
+    logger.debug(query)
     payload = {
 	'q' : query,
 	'callback' : '', #This is not javascript
@@ -59,7 +63,7 @@ class MYQL(object):
         payload['crossProduct'] = self.crossProduct
     
     self._payload = payload
-    
+    logger.debug(payload) 
     return payload
 
   def rawQuery(self, query, format='', pretty=False):
@@ -154,21 +158,18 @@ class MYQL(object):
     '''Just a select which returns a response
     >>> yql.get("geo.countries', ['name', 'woeid'], 5")
     '''
-    try:
-      self.table = table
-      if not items:
+    self.table = table
+    if not items:
         items = ['*'] 
-      self._query = "select {1} from {0} ".format(self.table, ','.join(items))
-      if limit:
+    self._query = "select {1} from {0} ".format(self.table, ','.join(items))
+    if limit:
         self._query += "limit {0}".format(limit)
 
-      if not self.table :
+    if not self.table :
         raise errors.NoTableSelectedError('Please select a table')
-       
-      payload = self.payloadBuilder(self._query)
-      response = self.executeQuery(payload)
-    except Exception, e:
-      print(e.text)
+    
+    payload = self.payloadBuilder(self._query)
+    response = self.executeQuery(payload)
 
     return response
       
@@ -179,24 +180,56 @@ class MYQL(object):
     >>> yql.select('geo.countries', limit=5) 
     >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
     '''
-    try:
-      self.table = table
-      if not items:
-        items = ['*']
-      self._query = "select {1} from {0} ".format(self.table, ','.join(items))
-      try: #Checking wether a limit is set or not
-        self._limit = limit
-      except Exception, e:
-        pass
+    self.table = table
+    if not items:
+      items = ['*']
+    self._query = "select {1} from {0} ".format(self.table, ','.join(items))
+    try: #Checking wether a limit is set or not
+      self._limit = limit
     except Exception, e:
-      print(e)
+      pass
 
     return self
+
+  ## INSERT
+  def insert(self, table,items, values):
+      """This method allows to insert data into table
+      >>> yql.insert('bi.ly.shorten',('login','apiKey','longUrl'),('YOUR LOGIN','YOUR API KEY','YOUR LONG URL'))
+      """
+      values = ["'{0}'".format(e) for e in values]
+      self._query = "INSERT INTO {0} ({1}) VALUES ({2})".format(table,','.join(items),','.join(values))
+      payload = self.payloadBuilder(self._query)
+      response = self.executeQuery(payload)
+
+      return response
+
+  ## UPDATE
+  def update(self, table, items, values):
+      """Updates a YQL Table
+      >>> yql.update('yql.storage',['value'],['https://josuebrunel.orkg']).where(['name','=','store://YEl70PraLLMSMuYAauqNc7']) 
+      """
+      self.table = table
+      self._limit = None
+      items_values = ','.join(["{0} = '{1}'".format(k,v) for k,v in zip(items,values)])
+      self._query = "UPDATE {0} SET {1}".format(self.table, items_values)
+
+      return self
+
+  ## DELETE
+  def delete(self, table):
+      """Deletes record in table
+      >>> yql.delete('yql.storage').where(['name','=','store://YEl70PraLLMSMuYAauqNc7'])
+      """
+      self.table = table
+      self._limit = None
+      self._query = "DELETE FROM {0}".format(self.table)
+
+      return self
 
   ## WHERE
   def where(self, *args):
     ''' This method simulates a where condition. Use as follow:
-    >>>yql.select('mytable').where(['name', '=', 'alain'], ['location', '!=', 'paris'])
+    >>> yql.select('mytable').where(['name', '=', 'alain'], ['location', '!=', 'paris'])
     '''
     if not self.table:
       raise errors.NoTableSelectedError('No Table Selected')
