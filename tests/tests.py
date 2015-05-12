@@ -24,10 +24,23 @@ def pretty_json(data):
     data = json.loads(data)
     return json.dumps(data, indent=4, sort_keys=True)
 
+def json_write_data(json_data, filename):
+    with open(filename, 'w') as fp:
+        json.dump(json_data, fp, indent=4, encoding= 'utf-8', sort_keys=True)
+        return True
+    return False
+
+def json_get_data(filename):
+    with open(filename) as fp:
+        json_data = json.laod(fp)
+    return json_data
+    
+
 class TestMYQL(unittest.TestCase):
 
     def setUp(self,):
         self.yql = MYQL(format='json',community=True)
+        self.insert_result = None
         
     def tearDown(self):
         pass
@@ -68,6 +81,9 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
         try:
             logging.debug(pretty_json(response.content))
+            data = response.json()['query']['results']['inserted']
+            logging.debug(data)
+            json_write_data(data,'yql_storage.json')
         except Exception,e:
             logging.error(response.content)
             logging.error(e)
@@ -75,7 +91,8 @@ class TestMYQL(unittest.TestCase):
         self.assertEquals(response.status_code,200)
 
     def test_update(self,):
-        response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=','store://YEl70PraLLMSMuYAauqNc7'])
+        json_data = json_get_data('yql_storage.json')
+        response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=',json_data['update']])
         try:
             logging.debug(pretty_json(response.content))
         except Exception,e:
