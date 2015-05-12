@@ -158,21 +158,18 @@ class MYQL(object):
     '''Just a select which returns a response
     >>> yql.get("geo.countries', ['name', 'woeid'], 5")
     '''
-    try:
-      self.table = table
-      if not items:
+    self.table = table
+    if not items:
         items = ['*'] 
-      self._query = "select {1} from {0} ".format(self.table, ','.join(items))
-      if limit:
+    self._query = "select {1} from {0} ".format(self.table, ','.join(items))
+    if limit:
         self._query += "limit {0}".format(limit)
 
-      if not self.table :
+    if not self.table :
         raise errors.NoTableSelectedError('Please select a table')
-       
-      payload = self.payloadBuilder(self._query)
-      response = self.executeQuery(payload)
-    except Exception, e:
-      print(e.text)
+    
+    payload = self.payloadBuilder(self._query)
+    response = self.executeQuery(payload)
 
     return response
       
