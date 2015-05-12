@@ -25,7 +25,7 @@ Yahoo! Query Language Documentation and Support
 Release Notes
 ==============
 
-v 1.2.2 ( developpement )
+v 1.2.2 ( development )
 -------
 * Issue with **IN** condition in **where** clause fixed
 * Issue when passing an **[]/()** in a **where** claused fixed
