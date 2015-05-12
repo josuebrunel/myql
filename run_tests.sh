@@ -14,7 +14,7 @@ if [ $suite != "all" ];then
     python -m unittest tests$suite$method
 else
     python -m unittest tests.TestMYQL
-    python -m unittest tests.TestStockParser
+    python -m unittest tests.TestStockParser.{get_current_info,get_news_feed,get_historical_info}
     python -m unittest tests.TestTable
 
     if [ -f credentials.json ]; then

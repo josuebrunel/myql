@@ -88,12 +88,14 @@ class TestOAuth(unittest.TestCase):
         for team in teams:
             #response = yql.rawQuery("SELECT * FROM fantasysports.teams.roster WHERE team_key = '{0}'  AND date = '{1}' ".format(team, year))
             response = yql.select('fantasysports.teams.roster').where(['team_key','=',team],['date','=',year])
+            self.assertEquals(response.status_code,200)
             if not response.status_code == 200:
                 return False
 
             data = response.json()
             current_team = data['query']['results']['team']
             print current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves']
+
 
 class TestStockParser(unittest.TestCase):
 
