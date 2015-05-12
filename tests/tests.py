@@ -32,7 +32,7 @@ def json_write_data(json_data, filename):
 
 def json_get_data(filename):
     with open(filename) as fp:
-        json_data = json.laod(fp)
+        json_data = json.load(fp)
     return json_data
     
 
@@ -90,6 +90,17 @@ class TestMYQL(unittest.TestCase):
  
         self.assertEquals(response.status_code,200)
 
+    def test_check_insert(self,):
+        json_data = json_get_data('yql_storage.json')
+        response = self.yql.select('yql.storage').where(['name','=',json_data['select']])
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(response.content)
+            logging.error(e)
+ 
+        self.assertEquals(response.status_code,200)
+       
     def test_update(self,):
         json_data = json_get_data('yql_storage.json')
         response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=',json_data['update']])
