@@ -1,3 +1,4 @@
+import logging
 import requests
 from contrib.auth import YOAuth
 import errors
@@ -6,6 +7,9 @@ import importlib
 
 __author__ = 'Josue Kouka'
 __email__ = 'josuebrunel@gmail.com'
+
+logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
+logger = logging.getLogger(__name__)
 
 class MYQL(object):
   '''Yet another Python Yahoo! Query Language Wrapper
@@ -192,6 +196,20 @@ class MYQL(object):
       print(e)
 
     return self
+
+  ## INSERT
+  def insert(self, table,items, values):
+      """This method allows to insert data into table
+      >>> yql.insert('bi.ly.shorten',('login','apiKey','longUrl'),('YOUR LOGIN','YOUR API KEY','YOUR LONG URL'))
+      """
+      values = ["'{0}'".format(e) for e in values]
+      self._query = "INSERT INTO {0} ({1}) VALUES ({2})".format(table,','.join(items),','.join(values))
+      logger.debug(self._query)
+      payload = self.payloadBuilder(self._query)
+      logger.debug(payload)
+      response = self.executeQuery(payload)
+
+      return response
 
   ## WHERE
   def where(self, *args):
