@@ -1,3 +1,8 @@
+"""This module isn't mine, it's at 99% inspired from https://github.com/gurch101/StockScraper written by Gurchet Rai.
+So all rigts reserved to Gurchet Rai.
+Documentation http://www.gurchet-rai.net/dev/yahoo-finance-yql
+"""
+
 import pdb
 from myql.myql import MYQL
 
@@ -32,3 +37,9 @@ def get_options_info(symbol, items=[], expiration='', format=format):
     response = yql.select('yahoo.finance.options',items).where(['symbol','=',symbol],[] if not expiration else ['expiration','=',expiration])
     return response
 
+def get_index_summary(symbol, items=[],format='json'):
+    """
+    """
+    yql = MYQL(format=format, community=True)
+    response = yql.select('yahoo.finance.quoteslist',items).where(['symbol','=',symbol])
+    return response
