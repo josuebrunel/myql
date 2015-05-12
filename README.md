@@ -25,6 +25,12 @@ Yahoo! Query Language Documentation and Support
 Release Notes
 ==============
 
+v 1.2.2 ( developpement )
+-------
+* Issue with **IN** condition in **where** clause fixed
+* Issue when passing an **[]/()** in a **where** claused fixed
+* Import of StockParser from Gurchet Rai https://github.com/gurch101/StockScraper OK
+
 v 1.2.1
 ------
 * Multiple requests while using OAuth fixed

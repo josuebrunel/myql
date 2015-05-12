@@ -11,7 +11,7 @@ from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
 from myql.contrib.table import Binder, BinderFunction, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
 
-#from myql.contrib.stockscraper import stockretriever
+from myql.contrib.stockscraper import stockretriever
 
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
@@ -22,7 +22,7 @@ logging.getLogger(__name__)
 
 def pretty_json(data):
     data = json.loads(data)
-    return json.dumps(data, indent=4, sort_keys=False)
+    return json.dumps(data, indent=4, sort_keys=True)
 
 class TestMYQL(unittest.TestCase):
 
@@ -57,7 +57,7 @@ class TestMYQL(unittest.TestCase):
             logging.error(e)
 
     def test_select_in(self,):
-        response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG","MSFT")])
+        response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG")])
         self.assertEquals(response.status_code,200)
         try:
             logging.debug(pretty_json(response.content))
@@ -88,6 +88,7 @@ class TestOAuth(unittest.TestCase):
         for team in teams:
             #response = yql.rawQuery("SELECT * FROM fantasysports.teams.roster WHERE team_key = '{0}'  AND date = '{1}' ".format(team, year))
             response = yql.select('fantasysports.teams.roster').where(['team_key','=',team],['date','=',year])
+            self.assertEquals(response.status_code,200)
             if not response.status_code == 200:
                 return False
 
@@ -95,12 +96,46 @@ class TestOAuth(unittest.TestCase):
             current_team = data['query']['results']['team']
             print current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves']
 
-#class TestStockParser(unittest.TestCase):
-#    
-#    def test_get_current_info(self,):
-#       
-#        data = stockretriever.get_current_info(["YHOO","AAPL","GOOG"])
-#        logging.debug(data)
+
+class TestStockParser(unittest.TestCase):
+
+    def setUp(self,):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def get_current_info(self,):
+       
+        data = stockretriever.get_current_info(["YHOO","AAPL","GOOG"])
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)
+
+    def get_news_feed(self,):
+        data = stockretriever.get_news_feed('YHOO')
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)
+
+    def get_historical_info(self,):
+        data = stockretriever.get_historical_info('YHOO')
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)   
+
+    def get_options_info(self,):
+        data = stockretriever.get_options_info('YHOO')
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)   
+
+    def get_index_summary(self,):
+        data = stockretriever.get_index_summary('GOOG',('Volume','Change'))
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)   
+
+    def get_industry_index(self,):
+        data = stockretriever.get_industry_index(112)
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)   
+
 
 class TestTable(unittest.TestCase):
 
