@@ -50,7 +50,7 @@ class MYQL(object):
     '''Build the payload'''
     if self.community :
       query = self.community_data + query # access to community data tables
-      
+    logger.debug(query)
     payload = {
 	'q' : query,
 	'callback' : '', #This is not javascript
@@ -63,7 +63,7 @@ class MYQL(object):
         payload['crossProduct'] = self.crossProduct
     
     self._payload = payload
-    
+    logger.debug(payload) 
     return payload
 
   def rawQuery(self, query, format='', pretty=False):
@@ -204,17 +204,27 @@ class MYQL(object):
       """
       values = ["'{0}'".format(e) for e in values]
       self._query = "INSERT INTO {0} ({1}) VALUES ({2})".format(table,','.join(items),','.join(values))
-      logger.debug(self._query)
       payload = self.payloadBuilder(self._query)
-      logger.debug(payload)
       response = self.executeQuery(payload)
 
       return response
 
+  ## UPDATE
+  def update(self, table, items, values):
+      """Updates a YQL Table
+      >>> yql.update('yql.storage',['value'],['https://josuebrunel.orkg']).where(['name','=','store://YEl70PraLLMSMuYAauqNc7']) 
+      """
+      self.table = table
+      self._limit = None
+      items_values = ','.join(["{0} = '{1}'".format(k,v) for k,v in zip(items,values)])
+      self._query = "UPDATE {0} SET {1}".format(self.table, items_values)
+
+      return self
+
   ## WHERE
   def where(self, *args):
     ''' This method simulates a where condition. Use as follow:
-    >>>yql.select('mytable').where(['name', '=', 'alain'], ['location', '!=', 'paris'])
+    >>> yql.select('mytable').where(['name', '=', 'alain'], ['location', '!=', 'paris'])
     '''
     if not self.table:
       raise errors.NoTableSelectedError('No Table Selected')
