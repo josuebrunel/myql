@@ -111,6 +111,19 @@ class TestMYQL(unittest.TestCase):
             logging.error(e)
  
         self.assertEquals(response.status_code,200)
+
+    def test_delete(self,):
+        json_data = json_get_data('yql_storage.json')
+        response = self.yql.delete('yql.storage').where(['name','=',json_data['update']])
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(response.content)
+            logging.error(e)
+ 
+        self.assertEquals(response.status_code,200)
+
+
        
 class TestOAuth(unittest.TestCase):
 
