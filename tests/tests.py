@@ -121,6 +121,11 @@ class TestStockParser(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)   
 
+    def get_options_info(self,):
+        data = stockretriever.get_options_info('YHOO')
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)   
+
 
 class TestTable(unittest.TestCase):
 
