@@ -221,6 +221,17 @@ class MYQL(object):
 
       return self
 
+  ## DELETE
+  def delete(self, table):
+      """Deletes record in table
+      >>> yql.delete('yql.storage').where(['name','=','store://YEl70PraLLMSMuYAauqNc7'])
+      """
+      self.table = table
+      self._limit = None
+      self._query = "DELETE FROM {0}".format(self.table)
+
+      return self
+
   ## WHERE
   def where(self, *args):
     ''' This method simulates a where condition. Use as follow:
