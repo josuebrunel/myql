@@ -183,17 +183,14 @@ class MYQL(object):
     >>> yql.select('geo.countries', limit=5) 
     >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
     '''
-    try:
-      self.table = table
-      if not items:
-        items = ['*']
-      self._query = "select {1} from {0} ".format(self.table, ','.join(items))
-      try: #Checking wether a limit is set or not
-        self._limit = limit
-      except Exception, e:
-        pass
+    self.table = table
+    if not items:
+      items = ['*']
+    self._query = "select {1} from {0} ".format(self.table, ','.join(items))
+    try: #Checking wether a limit is set or not
+      self._limit = limit
     except Exception, e:
-      print(e)
+      pass
 
     return self
 
