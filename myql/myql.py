@@ -204,8 +204,9 @@ class MYQL(object):
     clause = []
     self._query += ' where '
     for x in args:
-      x = self.clauseFormatter(x)
-      clause.append(x)
+      if x:
+        x = self.clauseFormatter(x)
+        clause.append(x)
 
     self._query += ' and '.join(clause)
 

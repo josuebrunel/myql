@@ -24,3 +24,11 @@ def get_historical_info(symbol,limit=5, format='json'):
     historical_url = 'http://ichart.finance.yahoo.com/table.csv?s={0}'.format(symbol)
     response = yql.select('csv',limit=limit).where(['url','=',historical_url],['columns','=','Date,Open,High,Low,Close,Volume,AdjClose'])
     return response
+
+def get_options_info(symbol, items=[], expiration='', format=format):
+    """get_options_data() uses the yahoo.finance.options table to retrieve call and put options from the options page.
+    """
+    yql = MYQL(format=format,community=True)
+    response = yql.select('yahoo.finance.options',items).where(['symbol','=',symbol],[] if not expiration else ['expiration','=',expiration])
+    return response
+
