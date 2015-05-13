@@ -1,4 +1,4 @@
-import os, logging, time
+import os, logging, time, json
 import pdb
 import unittest
 from xml.dom import minidom
@@ -11,12 +11,120 @@ from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
 from myql.contrib.table import Binder, BinderFunction, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
 
+from myql.contrib.stockscraper import stockretriever
+
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logging.getLogger(__name__)
 
+
+def pretty_json(data):
+    data = json.loads(data)
+    return json.dumps(data, indent=4, sort_keys=True)
+
+def json_write_data(json_data, filename):
+    with open(filename, 'w') as fp:
+        json.dump(json_data, fp, indent=4, encoding= 'utf-8', sort_keys=True)
+        return True
+    return False
+
+def json_get_data(filename):
+    with open(filename) as fp:
+        json_data = json.load(fp)
+    return json_data
+    
+
+class TestMYQL(unittest.TestCase):
+
+    def setUp(self,):
+        self.yql = MYQL(format='json',community=True)
+        self.insert_result = None
+        
+    def tearDown(self):
+        pass
+
+    def test_raw_query(self,):
+        response = self.yql.rawQuery('select name, woeid from geo.states where place="Congo"')
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(e)
+        self.assertEquals(response.status_code,200)
+
+    def test_get(self,):
+        response = self.yql.get('geo.countries', ['name', 'woeid'], 1)
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(e)
+        self.assertEquals(response.status_code,200)
+
+    def test_select(self,):
+        response = self.yql.select('geo.countries', ['name', 'code', 'woeid']).where(['name', '=', 'Canada'])
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(e)
+        self.assertEquals(response.status_code,200)
+
+    def test_select_in(self,):
+        response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG")])
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(e)
+        self.assertEquals(response.status_code,200)
+
+    def test_insert(self,):
+        response = self.yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
+        try:
+            logging.debug(pretty_json(response.content))
+            data = response.json()['query']['results']['inserted']
+            logging.debug(data)
+            json_write_data(data,'yql_storage.json')
+        except Exception,e:
+            logging.error(response.content)
+            logging.error(e)
+ 
+        self.assertEquals(response.status_code,200)
+
+    def test_check_insert(self,):
+        json_data = json_get_data('yql_storage.json')
+        response = self.yql.select('yql.storage').where(['name','=',json_data['select']])
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(response.content)
+            logging.error(e)
+ 
+        self.assertEquals(response.status_code,200)
+       
+    def test_update(self,):
+        json_data = json_get_data('yql_storage.json')
+        response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=',json_data['update']])
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(response.content)
+            logging.error(e)
+ 
+        self.assertEquals(response.status_code,200)
+
+    def test_delete(self,):
+        json_data = json_get_data('yql_storage.json')
+        response = self.yql.delete('yql.storage').where(['name','=',json_data['update']])
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(response.content)
+            logging.error(e)
+ 
+        self.assertEquals(response.status_code,200)
+
+
+       
 class TestOAuth(unittest.TestCase):
 
     def setUp(self,):
@@ -40,12 +148,53 @@ class TestOAuth(unittest.TestCase):
         for team in teams:
             #response = yql.rawQuery("SELECT * FROM fantasysports.teams.roster WHERE team_key = '{0}'  AND date = '{1}' ".format(team, year))
             response = yql.select('fantasysports.teams.roster').where(['team_key','=',team],['date','=',year])
+            self.assertEquals(response.status_code,200)
             if not response.status_code == 200:
                 return False
 
             data = response.json()
             current_team = data['query']['results']['team']
             print current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves']
+
+
+class TestStockParser(unittest.TestCase):
+
+    def setUp(self,):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def get_current_info(self,):
+       
+        data = stockretriever.get_current_info(["YHOO","AAPL","GOOG"])
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)
+
+    def get_news_feed(self,):
+        data = stockretriever.get_news_feed('YHOO')
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)
+
+    def get_historical_info(self,):
+        data = stockretriever.get_historical_info('YHOO')
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)   
+
+    def get_options_info(self,):
+        data = stockretriever.get_options_info('YHOO')
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)   
+
+    def get_index_summary(self,):
+        data = stockretriever.get_index_summary('GOOG',('Volume','Change'))
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)   
+
+    def get_industry_index(self,):
+        data = stockretriever.get_industry_index(112)
+        logging.debug(pretty_json(data.content))
+        self.assertEquals(data.status_code,200)   
 
 
 class TestTable(unittest.TestCase):
