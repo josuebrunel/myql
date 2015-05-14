@@ -198,7 +198,7 @@ Insert values into a table. Arguments 2 and 3 may be **tuples** or **list**.
 Update fields values. This method __is always followed by ***where()***__. Arguments 2 and 3 may be **tuples** or **list**.
 
 ```python
->>> response = yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=',json_data['update']])
+>>> response = yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=','store://Rqb5fbQyDvrfHJiClWnZ6q'])
 >>> response.json() # result prettyfied just for the example
 {
     "query": {
@@ -215,7 +215,7 @@ Update fields values. This method __is always followed by ***where()***__. Argum
 ####delete(table).where(filters, ...)
 Delete records
 ```python
->>> response = self.yql.delete('yql.storage').where(['name','=',json_data['update']])
+>>> response = self.yql.delete('yql.storage').where(['name','=','store://Rqb5fbQyDvrfHJiClWnZ6q'])
 >>> response.json() # result prettyfied just for the example
 {
     "query": {
