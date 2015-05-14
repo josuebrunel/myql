@@ -137,6 +137,64 @@ Same as ***SELECT***, but instead returns data.
 >>>
 ```
 
+####insert(table, (field1, field2, ..., fieldN),(value1, value2, ..., valueN))
+Insert values into a table. Arguments 2 and 3 may be **tuples** or **list**.
+
+```python
+>>> response = yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
+>>> response.json() # result prettyfied just for the example
+{
+    "query": {
+        "count": 1,
+        "created": "2015-05-14T13:25:56Z",
+        "lang": "en-US",
+        "results": {
+            "inserted": {
+                "execute": "store://KkkC5xDw4v32IcWWSQ4YRe",
+                "select": "store://Zc5LHXcmYM7XBfSbo9tzFL",
+                "update": "store://Rqb5fbQyDvrfHJiClWnZ6q"
+            }
+        }
+    }
+}
+```
+
+####update(table,[field1, ..., fieldN],[value1, ..., ...valueN]).where(filters, ...)
+Update fields values. This method __is always followed by ***where()***__. Arguments 2 and 3 may be **tuples** or **list**.
+
+```python
+>>> response = yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=','store://Rqb5fbQyDvrfHJiClWnZ6q'])
+>>> response.json() # result prettyfied just for the example
+{
+    "query": {
+        "count": 1,
+        "created": "2015-05-14T13:32:52Z",
+        "lang": "en-US",
+        "results": {
+            "success": "Updated store://KkkC5xDw4v32IcWWSQ4YRe"
+        }
+    }
+}
+```
+
+####delete(table).where(filters, ...)
+Delete records
+```python
+>>> response = self.yql.delete('yql.storage').where(['name','=','store://Rqb5fbQyDvrfHJiClWnZ6q'])
+>>> response.json() # result prettyfied just for the example
+{
+    "query": {
+        "count": 1,
+        "created": "2015-05-14T13:38:28Z",
+        "lang": "en-US",
+        "results": {
+            "success": "store://Rqb5fbQyDvrfHJiClWnZ6q deleted"
+        }
+    }
+}
+
+```
+
 Using OAuth to fetch protected resources
 =========================================
 
