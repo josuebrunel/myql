@@ -118,7 +118,7 @@ class YOAuth(object):
         """
         elapsed_time = time.time() - self.token_time
         logging.debug("ELAPSED TIME : {0}".format(elapsed_time))
-        if elapsed_time > 3300: # 5 minutes before it expires
+        if elapsed_time > 3540: # 1 minute before it expires
             logging.debug("TOKEN HAS EXPIRED")
             return False
 
