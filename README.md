@@ -32,7 +32,7 @@ v 1.2.2 ( development )
 * Import of StockParser from Gurchet Rai https://github.com/gurch101/StockScraper OK [#68](https://github.com/josuebrunel/myql/issues/68)
 * Insert, Update, Delete methods added [#67](https://github.com/josuebrunel/myql/issues/67) 
 * Dummy *try/except* removed from main module
-
+* Fixed **Invalid OAuth Signature** when using a refreshed token [#64](https://github.com/josuebrunel/myql/issues/64)
 
 v 1.2.1
 ------
