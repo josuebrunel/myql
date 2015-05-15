@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-__version__ = "1.2.1"
+__version__ = "1.2.2"
 
 #requirements.txt
 with open('requirements.txt') as f:
@@ -29,6 +29,6 @@ setup(
     'License :: OSI Approved :: MIT License'
   ],
   platforms=['Any'],
-  license='GNU',
+  license='MIT',
   install_requires = required
 )
