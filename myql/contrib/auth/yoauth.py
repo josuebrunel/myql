@@ -31,6 +31,7 @@ class YOAuth(object):
         from_file : file containing the credentials
         """
         if kwargs.get('from_file'):
+            logging.debug("Checking ")
             self.from_file = kwargs.get('from_file')
             json_data = self.json_get_data(self.from_file)
             vars(self).update(json_data)
@@ -53,8 +54,6 @@ class YOAuth(object):
         if vars(self).get('access_token') and vars(self).get('access_token_secret') and vars(self).get('session_handle'):
             if not self.token_is_valid():
                 self.session = self.refresh_token() 
-            else:
-                self.session = self.oauth.get_session((self.access_token, self.access_token_secret))
         else:
             # Fetching request token/token_secret
             request_token, request_token_secret = self.oauth.get_request_token(params={'oauth_callback': CALLBACK_URI})
@@ -74,7 +73,7 @@ class YOAuth(object):
             self.access_token_secret = parsed_acess['oauth_token_secret']
             self.session_handle = parsed_acess['oauth_session_handle']
 
-            self.session = self.oauth.get_session((self.access_token, self.access_token_secret))
+        self.session = self.oauth.get_session((self.access_token, self.access_token_secret))
 
         json_data.update({
             'access_token' : self.access_token,
@@ -108,7 +107,7 @@ class YOAuth(object):
         """
         logging.debug("REFRESHING TOKEN")
         self.token_time = time.time()
-        self.acess_token, self.access_token_secret = self.oauth.get_access_token(self.access_token, self.access_token_secret, params={"oauth_session_handle": self.session_handle})
+        self.access_token, self.access_token_secret = self.oauth.get_access_token(self.access_token, self.access_token_secret, params={"oauth_session_handle": self.session_handle})
 
         session = self.oauth.get_session((self.access_token, self.access_token_secret))
 
@@ -119,15 +118,10 @@ class YOAuth(object):
         """
         elapsed_time = time.time() - self.token_time
         logging.debug("ELAPSED TIME : {0}".format(elapsed_time))
-        if elapsed_time > 3600:
+        if elapsed_time > 3300: # 5 minutes before it expires
             logging.debug("TOKEN HAS EXPIRED")
             return False
 
         logging.debug("TOKEN IS STILL VALID")
         return True
-
-
-
-if '__main__' == __name__:
-    auth = YOAuth(None, None, from_file='credentials.json')
 
