@@ -45,6 +45,16 @@ class TestMYQL(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test_use(self):
+        self.yql.use('http://www.josuebrunel.org/users.xml',name='users')
+        response = self.yql.rawQuery('select * from users')
+        self.yql.yql_table_url = None
+        try:
+            logging.debug(pretty_json(response.content))
+        except Exception,e:
+            logging.error(e)
+        self.assertEquals(response.status_code,200)
+
     def test_raw_query(self,):
         response = self.yql.rawQuery('select name, woeid from geo.states where place="Congo"')
         try:
