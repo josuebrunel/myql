@@ -50,6 +50,10 @@ class MYQL(object):
     '''Build the payload'''
     if self.community :
       query = self.community_data + query # access to community data tables
+
+    if self.use :
+      query = "use '{0}' as {1}; ".format(self.yql_table_url, self.yql_table_name) + query
+
     logger.debug(query)
     payload = {
 	'q' : query,
@@ -132,12 +136,13 @@ class MYQL(object):
   #####################################################
 
   ##USE
-  def use(self, url):
+  def use(self, url, name='mytable'):
     '''Changes the data provider
     >>> yql.use('http://myserver.com/mytables.xml')
     '''
-    self.url = url
-    return self.url
+    self.yql_table_url = url
+    self.yql_table_name = name
+    return {'table url': url, 'table name': name}
 
   ##DESC
   def desc(self, table=None):
