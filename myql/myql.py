@@ -51,7 +51,7 @@ class MYQL(object):
     if self.community :
       query = self.community_data + query # access to community data tables
 
-    if self.use :
+    if vars(self).get('yql_table_url') : # Attribute only defined when MYQL.use has been called before
       query = "use '{0}' as {1}; ".format(self.yql_table_url, self.yql_table_name) + query
 
     logger.debug(query)
