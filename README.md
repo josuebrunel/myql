@@ -33,6 +33,7 @@ v 1.2.2 ( development )
 * Insert, Update, Delete methods added [#67](https://github.com/josuebrunel/myql/issues/67) 
 * Dummy *try/except* removed from main module
 * Fixed **Invalid OAuth Signature** when using a refreshed token [#64](https://github.com/josuebrunel/myql/issues/64)
+* Fixed misused of ***MYQL.use(...)*** [#76](https://github.com/josuebrunel/myql/issues/76)
 
 v 1.2.1
 ------
