@@ -77,11 +77,11 @@ u'<?xml version="1.0" encoding="UTF-8"?>\n<query xmlns:yahoo="http://www.yahooap
 Methods
 -------
 
-####use(data_provider_url)
+####use(yql_table_url,name=yql_table_name)
 Changes the data provider
 
 ```python
->>> yql.use('http://myserver.com/mytables.xml') 
+>>> yql.use('http://www.josuebrunel.org//users.xml', name='myusers') 
 ```
 
 ####desc(tablename)

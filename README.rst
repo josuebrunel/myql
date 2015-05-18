@@ -2,8 +2,11 @@ MYQL
 ====
 
 `|Build Status| <https://travis-ci.org/josuebrunel/myql>`_
-`|Documentation Status| <https://myql.readthedocs.org>`_ `|PyPI
-version| <http://badge.fury.io/py/myql>`_ `|Join the chat at
+`|Documentation Status| <https://myql.readthedocs.org>`_ `|Latest
+Version| <https://pypi.python.org/pypi/myql/>`_
+`|Downloads| <https://pypi.python.org/pypi/myql>`_
+`|Status| <https://pypi.python.org/pypi/myql>`_
+`|image5| <https://pypi.python.org/pypi/myql>`_ `|Join the chat at
 https://gitter.im/josuebrunel/myql| <https://gitter.im/josuebrunel/myql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge>`_
 `|Code
 Issues| <https://www.quantifiedcode.com/app/project/gh:josuebrunel:myql>`_
@@ -22,6 +25,23 @@ Yahoo! Query Language Documentation and Support
 
 Release Notes
 =============
+
+v 1.2.2 ( development )
+-----------------------
+
+-  Fixed issue with **IN** condition in **where** clause
+-  Fixed issue when passing an empty list/tuple (**[]/()**) in a
+   **where** clause
+-  Import of StockParser from Gurchet Rai
+   https://github.com/gurch101/StockScraper OK
+   `#68 <https://github.com/josuebrunel/myql/issues/68>`_
+-  Insert, Update, Delete methods added
+   `#67 <https://github.com/josuebrunel/myql/issues/67>`_
+-  Dummy *try/except* removed from main module
+-  Fixed **Invalid OAuth Signature** when using a refreshed token
+   `#64 <https://github.com/josuebrunel/myql/issues/64>`_
+-  Fixed misused of ***MYQL.use(...)***
+   `#76 <https://github.com/josuebrunel/myql/issues/76>`_
 
 v 1.2.1
 -------
@@ -173,10 +193,67 @@ instead .
 
 ::
 
-    >>> yql.get('geo.countries', ['name', 'woeid'], 1)
+    >>> rep = yql.get('geo.countries', ['name', 'woeid'], 1)
     >>> rep.json()
     {u'query': {u'count': 1, u'lang': u'en-US', u'results': {u'place': {u'woeid': u'23424966', u'name': u'Sao Tome and Principe'}}, u'created': u'2014-08-17T10:32:25Z'}}
     >>>
+
+insert(table, (field1, field2, ..., fieldN),(value1, value2, ..., valueN))
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Insert values into a table. Arguments 2 and 3 may be **tuples** or
+**list**.
+
+::
+
+    >>> response = yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
+    >>> response.json() # result prettyfied just for the example
+    {
+        "query": {
+            "count": 1,
+            "created": "2015-05-14T13:25:56Z",
+            "lang": "en-US",
+            "results": {
+                "inserted": {
+                    "execute": "store://KkkC5xDw4v32IcWWSQ4YRe",
+                    "select": "store://Zc5LHXcmYM7XBfSbo9tzFL",
+                    "update": "store://Rqb5fbQyDvrfHJiClWnZ6q"
+                }
+            }
+        }
+    }
+
+update(table,[field1, ..., fieldN],[value1, ..., ...valueN]).where(filters, ...)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Update fields values. This method **is always followed by
+***where()*****. Arguments 2 and 3 may be **tuples** or **list**.
+
+::
+
+    >>> response = yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=','store://Rqb5fbQyDvrfHJiClWnZ6q'])
+    >>> response.json() # result prettyfied just for the example
+    {
+        "query": {
+            "count": 1,
+            "created": "2015-05-14T13:32:52Z",
+            "lang": "en-US",
+            "results": {
+                "success": "Updated store://KkkC5xDw4v32IcWWSQ4YRe"
+            }
+        }
+    }
+
+delete(table).where(filters, ...)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Delete records \`\`\`python >>> response =
+self.yql.delete('yql.storage').where(['name','=','store://Rqb5fbQyDvrfHJiClWnZ6q'])
+>>> response.json() # result prettyfied just for the example { "query":
+{ "count": 1, "created": "2015-05-14T13:38:28Z", "lang": "en-US",
+"results": { "success": "store://Rqb5fbQyDvrfHJiClWnZ6q deleted" } } }
+
+\`\`\`
 
 Using OAuth to fetch protected resources
 ========================================
@@ -193,7 +270,10 @@ Using OAuth to fetch protected resources
 Status| image:: https://travis-ci.org/josuebrunel/myql.svg?branch=master
 .. |Documentation
 Status| image:: https://readthedocs.org/projects/myql/badge/?version=latest
-.. |PyPI version| image:: https://badge.fury.io/py/myql.svg
+.. |Latest Version| image:: https://pypip.in/version/myql/badge.svg
+.. |Downloads| image:: https://pypip.in/download/myql/badge.svg
+.. |Status| image:: https://pypip.in/py_versions/myql/badge.svg
+.. |image5| image:: https://pypip.in/implementation/myql/badge.svg
 .. |Join the chat at
 https://gitter.im/josuebrunel/myql| image:: https://badges.gitter.im/Join%20Chat.svg
 .. |Code
