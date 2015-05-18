@@ -33,6 +33,7 @@ v 1.2.2 ( development )
 * Insert, Update, Delete methods added [#67](https://github.com/josuebrunel/myql/issues/67) 
 * Dummy *try/except* removed from main module
 * Fixed **Invalid OAuth Signature** when using a refreshed token [#64](https://github.com/josuebrunel/myql/issues/64)
+* Fixed misused of ***MYQL.use(...)*** [#76](https://github.com/josuebrunel/myql/issues/76)
 
 v 1.2.1
 ------
@@ -112,11 +113,11 @@ u'<?xml version="1.0" encoding="UTF-8"?>\n<query xmlns:yahoo="http://www.yahooap
 Methods
 -------
 
-####use(data_provider_url)
+####use(yql_table_url,name=yql_table_name )
 Changes the data provider
 
 ```python
->>> yql.use('http://myserver.com/mytables.xml') 
+>>> yql.use('http://www.josuebrunel.org//users.xml', name='myusers') 
 ```
 
 ####desc(tablename)

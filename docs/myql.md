@@ -40,7 +40,7 @@ cond = ['yid', '=', 'josue_brunel']
 
 #### *MQYL.buildResponse(response)*
 
-#### *MQYL.use(url)*
+#### *MQYL.use(yql_table_url, name=yql_table_name)*
 
  Change the service provider
 
