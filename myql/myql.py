@@ -54,7 +54,9 @@ class MYQL(object):
     if vars(self).get('yql_table_url') : # Attribute only defined when MYQL.use has been called before
       query = "use '{0}' as {1}; ".format(self.yql_table_url, self.yql_table_name) + query
 
+    self._query = query
     logger.debug(query)
+    
     payload = {
 	'q' : query,
 	'callback' : '', #This is not javascript
@@ -68,6 +70,7 @@ class MYQL(object):
     
     self._payload = payload
     logger.debug(payload) 
+
     return payload
 
   def rawQuery(self, query, format='', pretty=False):
@@ -98,6 +101,7 @@ class MYQL(object):
     else:
         response = requests.get(self.url, params= payload)
 
+    self._response = response # Saving last response object.
     return response
 
   def clauseFormatter(self, cond):
