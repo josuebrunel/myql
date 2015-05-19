@@ -18,7 +18,7 @@ class Base(object):
         try:
             root.remove(t_elt)
             return True
-        except Exception,e:
+        except (Exception,) as e:
             print(e)
 
         return False
@@ -48,7 +48,7 @@ class Base(object):
         try:
             root.remove(t_execute)
             return True
-        except Exception,e:
+        except (Exception,) as e:
             print(e)
 
         return False
@@ -157,7 +157,7 @@ class BaseBinder(Base):
         try:
             t_inputs.remove(key[0])
             return True
-        except Exception,e:
+        except (Exception,) as e:
             print(e)
 
         return False
@@ -172,7 +172,7 @@ class BaseBinder(Base):
         try:
             root.append(paging.etree)
             return True
-        except Exception,e:
+        except (Exception,) as e:
             print(e)
 
         return False
@@ -186,7 +186,7 @@ class BaseBinder(Base):
         try:
             root.remove(t_paging)
             return True
-        except Exception,e:
+        except (Exception,) as e:
             print(e)
 
         return False
