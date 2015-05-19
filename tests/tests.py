@@ -51,7 +51,7 @@ class TestMYQL(unittest.TestCase):
         self.yql.yql_table_url = None
         try:
             logging.debug(pretty_json(response.content))
-        except Exception,e:
+        except (Exception,) as e:
             logging.error(e)
         self.assertEquals(response.status_code,200)
 
@@ -59,7 +59,7 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.rawQuery('select name, woeid from geo.states where place="Congo"')
         try:
             logging.debug(pretty_json(response.content))
-        except Exception,e:
+        except (Exception,) as e:
             logging.error(e)
         self.assertEquals(response.status_code,200)
 
@@ -67,7 +67,7 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.get('geo.countries', ['name', 'woeid'], 1)
         try:
             logging.debug(pretty_json(response.content))
-        except Exception,e:
+        except (Exception,) as e:
             logging.error(e)
         self.assertEquals(response.status_code,200)
 
@@ -75,7 +75,7 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.select('geo.countries', ['name', 'code', 'woeid']).where(['name', '=', 'Canada'])
         try:
             logging.debug(pretty_json(response.content))
-        except Exception,e:
+        except (Exception,) as e:
             logging.error(e)
         self.assertEquals(response.status_code,200)
 
@@ -83,7 +83,7 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG")])
         try:
             logging.debug(pretty_json(response.content))
-        except Exception,e:
+        except (Exception,) as e:
             logging.error(e)
         self.assertEquals(response.status_code,200)
 
@@ -94,7 +94,7 @@ class TestMYQL(unittest.TestCase):
             data = response.json()['query']['results']['inserted']
             logging.debug(data)
             json_write_data(data,'yql_storage.json')
-        except Exception,e:
+        except (Exception,) as e:
             logging.error(response.content)
             logging.error(e)
  
@@ -105,7 +105,7 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.select('yql.storage').where(['name','=',json_data['select']])
         try:
             logging.debug(pretty_json(response.content))
-        except Exception,e:
+        except (Exception,) as e:
             logging.error(response.content)
             logging.error(e)
  
@@ -116,7 +116,7 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=',json_data['update']])
         try:
             logging.debug(pretty_json(response.content))
-        except Exception,e:
+        except (Exception,) as e:
             logging.error(response.content)
             logging.error(e)
  
@@ -127,7 +127,7 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.delete('yql.storage').where(['name','=',json_data['update']])
         try:
             logging.debug(pretty_json(response.content))
-        except Exception,e:
+        except (Exception,) as e:
             logging.error(response.content)
             logging.error(e)
  
