@@ -86,7 +86,7 @@ class Table(Base):
 
         try:
             self._create_table_xml_file(self.etree, name)
-        except Exception,e:
+        except (Exception,) as e:
             print(e)
             return False
 
