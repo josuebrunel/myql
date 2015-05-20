@@ -167,7 +167,7 @@ class TestOAuth(unittest.TestCase):
             print current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves']
 
 
-class TestStockParser(unittest.TestCase):
+class TestStockScraper(unittest.TestCase):
 
     def setUp(self,):
         self.stock = StockRetriever(format='json')
@@ -175,33 +175,32 @@ class TestStockParser(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def get_current_info(self,):
-       
+    def test_get_current_info(self,):
         data = self.stock.get_current_info(["YHOO","AAPL","GOOG"])
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)
 
-    def get_news_feed(self,):
+    def test_get_news_feed(self,):
         data = self.stock.get_news_feed('YHOO')
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)
 
-    def get_historical_info(self,):
+    def test_get_historical_info(self,):
         data = self.stock.get_historical_info('YHOO')
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)   
 
-    def get_options_info(self,):
+    def test_get_options_info(self,):
         data = self.stock.get_options_info('YHOO')
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)   
 
-    def get_index_summary(self,):
+    def test_get_index_summary(self,):
         data = self.stock.get_index_summary('GOOG',('Volume','Change'))
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)   
 
-    def get_industry_index(self,):
+    def test_get_industry_index(self,):
         data = self.stock.get_industry_index(112)
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)   
