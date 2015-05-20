@@ -87,7 +87,7 @@ class TestMYQL(unittest.TestCase):
             logging.error(e)
         self.assertEquals(response.status_code,200)
 
-    def test_insert(self,):
+    def test_1_insert(self,):
         response = self.yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
         try:
             logging.debug(pretty_json(response.content))
@@ -100,7 +100,7 @@ class TestMYQL(unittest.TestCase):
  
         self.assertEquals(response.status_code,200)
 
-    def test_check_insert(self,):
+    def test_2_check_insert(self,):
         json_data = json_get_data('yql_storage.json')
         response = self.yql.select('yql.storage').where(['name','=',json_data['select']])
         try:
@@ -111,7 +111,7 @@ class TestMYQL(unittest.TestCase):
  
         self.assertEquals(response.status_code,200)
        
-    def test_update(self,):
+    def test_3_update(self,):
         json_data = json_get_data('yql_storage.json')
         response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=',json_data['update']])
         try:
@@ -122,7 +122,7 @@ class TestMYQL(unittest.TestCase):
  
         self.assertEquals(response.status_code,200)
 
-    def test_delete(self,):
+    def test_4_delete(self,):
         json_data = json_get_data('yql_storage.json')
         response = self.yql.delete('yql.storage').where(['name','=',json_data['update']])
         try:
