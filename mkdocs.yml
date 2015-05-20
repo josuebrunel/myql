@@ -7,6 +7,7 @@ google_analytics: ['UA-32441224-4', 'readthedocs.org']
 pages:
 -   [index.md, Home]
 -   [myql.md, MYQL]
+-   [stockscraper.md, StockScraper]
 -   [oauth.md, YOAuth]
 -   [table.md, Open Table]
 -   [contrib.md, Contribute]

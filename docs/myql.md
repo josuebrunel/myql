@@ -3,7 +3,7 @@ MYQL
 
 ### **Definition**
 
-#### *MYQL(community=True, fromat='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None)*
+#### *MYQL(community=True, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None)*
 
 ### **Methods**
 
