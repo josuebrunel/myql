@@ -1,9 +1,11 @@
 ##How to contribute
 
 It's easy to contribute to ***MYQL***. 
+
 1. Fork the repository
 2. Develop your patches/fixes/features
 3. Create a merge request
+
 That's all
 
 ###Tips
