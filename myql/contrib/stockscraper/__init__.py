@@ -1,5 +1,1 @@
-#import stockretriever
-
-__all__ = [
-    'stockretriever'
-]
+from stockretriever import StockRetriever

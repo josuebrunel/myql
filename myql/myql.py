@@ -127,7 +127,7 @@ class MYQL(object):
         'num_result': r['query']['count'] ,
         'result': result
       }
-    except Exception, e:
+    except (Exception,) as e:
       print(e)
       return response.content
     return response
@@ -195,7 +195,7 @@ class MYQL(object):
     self._query = "select {1} from {0} ".format(self.table, ','.join(items))
     try: #Checking wether a limit is set or not
       self._limit = limit
-    except Exception, e:
+    except (Exception,) as e:
       pass
 
     return self
