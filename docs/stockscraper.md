@@ -176,7 +176,7 @@ data = stocks.get_historical_info('YHOO')
 ```
 
 ```json
-
+{
     "query": {
         "count": 5,
         "created": "2015-05-20T13:07:29Z",
