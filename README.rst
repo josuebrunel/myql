@@ -1,18 +1,3 @@
-`MYQL <.>`_
-
--  `MYQL <myql/>`_
--  `YOAuth <oauth/>`_
--  `Open Table <table/>`_
--  `Contribute <contrib/>`_
-
-  ** ` <.>`_
-
--  `Docs <.>`_ »
--  Home
--  `Edit on GitHub <https://github.com/josuebrunel/myql>`_
-
---------------
-
 MYQL
 ====
 
@@ -246,12 +231,3 @@ Using OAuth to fetch protected resources
     >>> yql = MYQL(format='xml', oauth=oauth)
     >>> response = yql.getGUID('josue_brunel') # Deal with the response
 
-` <myql/>`_\ Next
-
---------------
-
-Built with `MkDocs <http://www.mkdocs.org>`_ using a
-`theme <https://github.com/snide/sphinx_rtd_theme>`_ provided by `Read
-the Docs <https://readthedocs.org>`_.
-
-GitHub `« Previous <>`_ `Next » <myql/>`_
