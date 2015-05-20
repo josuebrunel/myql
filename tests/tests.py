@@ -11,7 +11,7 @@ from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
 from myql.contrib.table import Binder, BinderFunction, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
 
-from myql.contrib.stockscraper import stockretriever
+from myql.contrib.stockscraper import StockRetriever
 
 import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
@@ -170,39 +170,39 @@ class TestOAuth(unittest.TestCase):
 class TestStockParser(unittest.TestCase):
 
     def setUp(self,):
-        pass
+        self.stock = StockRetriever(format='json')
 
     def tearDown(self):
         pass
 
     def get_current_info(self,):
        
-        data = stockretriever.get_current_info(["YHOO","AAPL","GOOG"])
+        data = self.stock.get_current_info(["YHOO","AAPL","GOOG"])
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)
 
     def get_news_feed(self,):
-        data = stockretriever.get_news_feed('YHOO')
+        data = self.stock.get_news_feed('YHOO')
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)
 
     def get_historical_info(self,):
-        data = stockretriever.get_historical_info('YHOO')
+        data = self.stock.get_historical_info('YHOO')
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)   
 
     def get_options_info(self,):
-        data = stockretriever.get_options_info('YHOO')
+        data = self.stock.get_options_info('YHOO')
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)   
 
     def get_index_summary(self,):
-        data = stockretriever.get_index_summary('GOOG',('Volume','Change'))
+        data = self.stock.get_index_summary('GOOG',('Volume','Change'))
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)   
 
     def get_industry_index(self,):
-        data = stockretriever.get_industry_index(112)
+        data = self.stock.get_industry_index(112)
         logging.debug(pretty_json(data.content))
         self.assertEquals(data.status_code,200)   
 
