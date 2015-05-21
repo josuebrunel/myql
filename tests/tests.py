@@ -5,6 +5,7 @@ from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 
 from myql import MYQL
+from myql.utils import pretty_xml, pretty_json
 from myql.contrib.auth import YOAuth
 
 from myql.contrib.table import Table
@@ -20,9 +21,9 @@ logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(n
 logging.getLogger(__name__)
 
 
-def pretty_json(data):
-    data = json.loads(data)
-    return json.dumps(data, indent=4, sort_keys=True)
+#def pretty_json(data):
+#    data = json.loads(data)
+#    return json.dumps(data, indent=4, sort_keys=True)
 
 def json_write_data(json_data, filename):
     with open(filename, 'w') as fp:
@@ -64,9 +65,11 @@ class TestMYQL(unittest.TestCase):
         self.assertEquals(response.status_code,200)
 
     def test_get(self,):
+        self.yql.format = 'xml'
         response = self.yql.get('geo.countries', ['name', 'woeid'], 1)
+        self.yql.format = 'json'
         try:
-            logging.debug(pretty_json(response.content))
+            logging.debug(pretty_xml(response.content))
         except (Exception,) as e:
             logging.error(e)
         self.assertEquals(response.status_code,200)
