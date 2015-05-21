@@ -27,15 +27,14 @@ class MYQL(object):
   community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
   
   def __init__(self, table=None, url=public_url, community=False, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None):
-    self.url = url
+    #self.url = url
     self.table = table
     self.format = format
     self._query = None # used to build query when using methods such as <select>, <insert>, ...
-    self._payload = {}
+    self._payload = {} # Last payload
     self.diagnostics = False # Who knows, someone would like to turn it ON lol
     self.limit = ''
     self.community = community # True means access to community data
-    self.format = format
     self.crossProduct = crossProduct
     self.jsonCompact = jsonCompact
     self.debug = debug
@@ -96,12 +95,12 @@ class MYQL(object):
   def executeQuery(self, payload):
     '''Execute the query and returns and response'''
     if vars(self).get('oauth'): 
-        self.url = self.private_url
+        #self.url = self.private_url
         if not self.oauth.token_is_valid(): # Refresh token if token has expired
             self.oauth.refresh_token()
-        response = self.oauth.session.get(self.url, params= payload, header_auth=True)
+        response = self.oauth.session.get(self.private_url, params= payload, header_auth=True)
     else:
-        response = requests.get(self.url, params= payload)
+        response = requests.get(self.public_url, params= payload)
 
     self._response = response # Saving last response object.
     return response
