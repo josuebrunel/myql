@@ -11,6 +11,8 @@ __email__ = 'josuebrunel@gmail.com'
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logger = logging.getLogger(__name__)
 
+logging.getLogger('requests').setLevel(logging.WARNING)
+
 class MYQL(object):
   '''Yet another Python Yahoo! Query Language Wrapper
   Attributes:
@@ -58,12 +60,12 @@ class MYQL(object):
     logger.debug(query)
     
     payload = {
-	'q' : query,
-	'callback' : '', #This is not javascript
-	'diagnostics' : self.diagnostics, 
-	'format' : format if format else self.format,
-    'debug': self.debug,
-    'jsonCompact': self.jsonCompact
+	  'q' : query,
+	  'callback' : '', #This is not javascript
+	  'diagnostics' : self.diagnostics, 
+	  'format' : format if format else self.format,
+      'debug': self.debug,
+      'jsonCompact': self.jsonCompact
     }
     if self.crossProduct:
         payload['crossProduct'] = self.crossProduct
@@ -73,7 +75,7 @@ class MYQL(object):
 
     return payload
 
-  def rawQuery(self, query, format='', pretty=False):
+  def rawQuery(self, query, format=None, pretty=False):
     '''Executes a YQL query and returns a response
        >>>...
        >>> resp = yql.rawQuery('select * from weather.forecast where woeid=2502265')
@@ -170,7 +172,7 @@ class MYQL(object):
     self.table = table
     if not items:
         items = ['*'] 
-    self._query = "select {1} from {0} ".format(self.table, ','.join(items))
+    self._query = "SELECT {1} FROM {0} ".format(self.table, ','.join(items))
     if limit:
         self._query += "limit {0}".format(limit)
 
@@ -192,7 +194,7 @@ class MYQL(object):
     self.table = table
     if not items:
       items = ['*']
-    self._query = "select {1} from {0} ".format(self.table, ','.join(items))
+    self._query = "SELECT {1} FROM {0} ".format(self.table, ','.join(items))
     try: #Checking wether a limit is set or not
       self._limit = limit
     except (Exception,) as e:
@@ -244,16 +246,16 @@ class MYQL(object):
       raise errors.NoTableSelectedError('No Table Selected')
 
     clause = []
-    self._query += ' where '
+    self._query += ' WHERE '
     for x in args:
       if x:
         x = self.clauseFormatter(x)
         clause.append(x)
 
-    self._query += ' and '.join(clause)
+    self._query += ' AND '.join(clause)
 
     if self._limit :
-      self._query +=  " limit {0}".format(self._limit)
+      self._query +=  " LIMIT {0}".format(self._limit)
 
     payload = self.payloadBuilder(self._query)
     response = self.executeQuery(payload)
