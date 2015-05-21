@@ -46,7 +46,7 @@ class MYQL(object):
     '''
     return "<url>: '{0}' - <table>: '{1}' -  <format> : '{2}' ".format(self.url, self.table, self.format)
 
-  def payloadBuilder(self, query, format='json'):
+  def payloadBuilder(self, query, format=None):
     '''Build the payload'''
     if self.community :
       query = self.community_data + query # access to community data tables
@@ -61,7 +61,7 @@ class MYQL(object):
 	'q' : query,
 	'callback' : '', #This is not javascript
 	'diagnostics' : self.diagnostics, 
-	'format' : format,
+	'format' : format if format else self.format,
     'debug': self.debug,
     'jsonCompact': self.jsonCompact
     }
