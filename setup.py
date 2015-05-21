@@ -11,9 +11,9 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-  name = "myql",
+  name = "mYQL",
   version = __version__,
-  description = "Python Wrapper for the Yahoo ! Query Language",
+  description = "Python Wrapper for the Yahoo! Query Language",
   long_description = read("README.rst"),
   author = "Josue Kouka",
   author_email = "josuebrunel@gmail.com",
