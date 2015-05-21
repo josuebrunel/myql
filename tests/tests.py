@@ -167,7 +167,7 @@ class TestOAuth(unittest.TestCase):
 
             data = response.json()
             current_team = data['query']['results']['team']
-            print current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves']
+            print(current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves'])
 
 
 class TestStockScraper(unittest.TestCase):

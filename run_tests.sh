@@ -16,7 +16,7 @@ fi
 
 python -m unittest tests$TestCase$Test
 
-rm -rf credentials.json
-rm -rf yql_storage.json
+#rm -rf credentials.json
+#rm -rf yql_storage.json
 
 

@@ -1,4 +1,4 @@
-from  base import Base, BaseInput, BasePaging, BaseBinder
+from  myql.contrib.table.base import Base, BaseInput, BasePaging, BaseBinder
 from xml.etree import cElementTree as xtree
 
 class Binder(BaseBinder):

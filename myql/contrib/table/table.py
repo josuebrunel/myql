@@ -2,8 +2,8 @@ import os
 from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 
-from base import Base
-from binder import BinderMeta, Binder, BinderFunction
+from myql.contrib.table.base import Base
+from myql.contrib.table.binder import BinderMeta, Binder, BinderFunction
 
 class Table(Base):
     """Class representating a YQL Table
