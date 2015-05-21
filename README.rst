@@ -1,61 +1,53 @@
+`MYQL <.>`_
+
+-  `MYQL <myql/>`_
+-  `StockScraper <stockscraper/>`_
+-  `YOAuth <oauth/>`_
+-  `Open Table <table/>`_
+-  `Contribute <contrib/>`_
+
+  ** ` <.>`_
+
+-  `Docs <.>`_ »
+-  Home
+-  `Edit on GitHub <https://github.com/josuebrunel/myql>`_
+
+--------------
+
 MYQL
 ====
-
-`|Build Status| <https://travis-ci.org/josuebrunel/myql>`_
-`|Documentation Status| <https://myql.readthedocs.org>`_ `|PyPI
-version| <http://badge.fury.io/py/myql>`_ `|Join the chat at
-https://gitter.im/josuebrunel/myql| <https://gitter.im/josuebrunel/myql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge>`_
-`|Code
-Issues| <https://www.quantifiedcode.com/app/project/gh:josuebrunel:myql>`_
 
 MYQL is a Python wrapper of the Yahoo Query Language.
 
 Yahoo! Query Language Documentation and Support
 ===============================================
 
--  Yahoo! Query Language - http://developer.yahoo.com/yql/
--  Yahoo! Developer Network: http://developer.yahoo.com
--  Yahoo! Application Platform - http://developer.yahoo.com/yap/
--  Yahoo! Social APIs - http://developer.yahoo.com/social/
--  Yahoo! QUery Language Console
-   https://developer.yahoo.com/yql/console/
+-  `Yahoo! Query Language <http://developer.yahoo.com/yql/>`_
+-  `Yahoo! Developer Network <http://developer.yahoo.com>`_
+-  `Yahoo! Application Platform <http://developer.yahoo.com/yap/>`_
+-  `Yahoo! Social APIs <http://developer.yahoo.com/social/>`_
+-  `Yahoo! Query Language
+   Console <https://developer.yahoo.com/yql/console/>`_
 
-Release Notes
-=============
-
-v 1.2.1
--------
-
--  Multiple requests while using OAuth fixed
-
-v 1.2.0
--------
-
--  OpenTable classes
--  Access to resources requiring authentication
-
-v 0.5.6
--------
-
--  fetch data
--  access to community data
--  select data format (xml/json)
--  change data source
--  filter data
--  fix handling of default and on the fly response format
--  fix limit on ***select(...).where(...)*** when no limit value is
-   passed
--  fix limit on ***get(...)***
-
-installation
+Installation
 ============
 
 ::
 
     $ pip install myql
 
-how to use
-==========
+::
+
+    $ pip install git+https://github.com/josuebrunel/myql.git
+
+Or download the package and run
+
+::
+
+    $ python setup.py install --record files_path.txt
+
+Quick Start
+===========
 
 ::
 
@@ -63,7 +55,7 @@ how to use
     >>> yql = myql.MYQL()
     >>> yql.diagnostics = True # To turn diagnostics on
 
-access to community tables
+Access to community tables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
@@ -78,7 +70,7 @@ access to community tables
     {u'query': {u'count': 1, u'lang': u'en-US', u'results': {u'table': {u'src': u'http://www.datatables.org/yahoo/finance/yahoo.finance.quotes.xml', u'hash': u'061616a1c033ae89aaf2cbe83790b979', u'name': u'yahoo.finance.quotes', u'request': {u'select': {u'key': {u'required': u'true', u'type': u'xs:string', u'name': u'symbol'}}}, u'meta': {u'sampleQuery': u'\n\t\t\tselect * from yahoo.finance.quotes where symbol in ("YHOO","AAPL","GOOG","MSFT")\n\t\t'}, u'security': u'ANY'}}, u'created': u'2014-08-24T11:26:48Z'}}
     >>>
 
-***OR***
+or
 
 ::
 
@@ -86,7 +78,7 @@ access to community tables
     >>> yql = myql.MYQL(community=True)
     >>> # do your magic 
 
-changing response format (xml or json)
+Changing response format (xml or json)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The response format is by default ***json***.
@@ -106,14 +98,14 @@ The response format is by default ***json***.
 Methods
 -------
 
-use(data\_provider\_url)
-^^^^^^^^^^^^^^^^^^^^^^^^
+use(yql\_table\_url,name=yql\_table\_name)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Changes the data provider
 
 ::
 
-    >>> yql.use('http://myserver.com/mytables.xml') 
+    >>> yql.use('http://www.josuebrunel.org//users.xml', name='myusers') 
 
 desc(tablename)
 ^^^^^^^^^^^^^^^
@@ -178,6 +170,72 @@ instead .
     {u'query': {u'count': 1, u'lang': u'en-US', u'results': {u'place': {u'woeid': u'23424966', u'name': u'Sao Tome and Principe'}}, u'created': u'2014-08-17T10:32:25Z'}}
     >>>
 
+insert(table, (field1, field2, ..., fieldN),(value1, value2, ..., valueN))
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Insert values into a table. Arguments 2 and 3 may be **tuples** or
+**list**.
+
+::
+
+    >>> response = yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
+    >>> response.json() # result prettyfied just for the example
+    {
+        "query": {
+            "count": 1,
+            "created": "2015-05-14T13:25:56Z",
+            "lang": "en-US",
+            "results": {
+                "inserted": {
+                    "execute": "store://KkkC5xDw4v32IcWWSQ4YRe",
+                    "select": "store://Zc5LHXcmYM7XBfSbo9tzFL",
+                    "update": "store://Rqb5fbQyDvrfHJiClWnZ6q"
+                }
+            }
+        }
+    }
+
+update(table,[field1, ..., fieldN],[value1, ..., ...valueN]).where(filters, ...)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Update fields values. This method **is always followed by
+***where()*****. Arguments 2 and 3 may be **tuples** or **list**.
+
+::
+
+    >>> response = yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=','store://Rqb5fbQyDvrfHJiClWnZ6q'])
+    >>> response.json() # result prettyfied just for the example
+    {
+        "query": {
+            "count": 1,
+            "created": "2015-05-14T13:32:52Z",
+            "lang": "en-US",
+            "results": {
+                "success": "Updated store://KkkC5xDw4v32IcWWSQ4YRe"
+            }
+        }
+    }
+
+delete(table).where(filters, ...)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Delete records
+
+::
+
+    >>> response = self.yql.delete('yql.storage').where(['name','=','store://Rqb5fbQyDvrfHJiClWnZ6q'])
+    >>> response.json() # result prettyfied just for the example
+    {
+        "query": {
+            "count": 1,
+            "created": "2015-05-14T13:38:28Z",
+            "lang": "en-US",
+            "results": {
+                "success": "store://Rqb5fbQyDvrfHJiClWnZ6q deleted"
+            }
+        }
+    }
+
 Using OAuth to fetch protected resources
 ========================================
 
@@ -189,12 +247,12 @@ Using OAuth to fetch protected resources
     >>> yql = MYQL(format='xml', oauth=oauth)
     >>> response = yql.getGUID('josue_brunel') # Deal with the response
 
-.. |Build
-Status| image:: https://travis-ci.org/josuebrunel/myql.svg?branch=master
-.. |Documentation
-Status| image:: https://readthedocs.org/projects/myql/badge/?version=latest
-.. |PyPI version| image:: https://badge.fury.io/py/myql.svg
-.. |Join the chat at
-https://gitter.im/josuebrunel/myql| image:: https://badges.gitter.im/Join%20Chat.svg
-.. |Code
-Issues| image:: https://www.quantifiedcode.com/project/gh:josuebrunel:myql/badge.svg
+` <myql/>`_\ Next
+
+--------------
+
+Built with `MkDocs <http://www.mkdocs.org>`_ using a
+`theme <https://github.com/snide/sphinx_rtd_theme>`_ provided by `Read
+the Docs <https://readthedocs.org>`_.
+
+GitHub `« Previous <>`_ `Next » <myql/>`_

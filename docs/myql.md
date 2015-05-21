@@ -3,7 +3,7 @@ MYQL
 
 ### **Definition**
 
-#### *MYQL(community=True, fromat='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None)*
+#### *MYQL(community=True, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None)*
 
 ### **Methods**
 
@@ -40,7 +40,7 @@ cond = ['yid', '=', 'josue_brunel']
 
 #### *MQYL.buildResponse(response)*
 
-#### *MQYL.use(url)*
+#### *MQYL.use(yql_table_url, name=yql_table_name)*
 
  Change the service provider
 
@@ -64,6 +64,7 @@ Get **items** from **table**.
 
 
 #### *MQYL.select(table=None, items=[], limit=None)*
+This method is always followed by a **where**. It doesn't return a response if called alone.
 
 * ***table*** : Table name
 * ***items*** : Element/columns to get from the table
@@ -71,6 +72,35 @@ Get **items** from **table**.
 
 ```python
 >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
+```
+
+#### *MYQL.insert(table,[field1, field2, ..., fieldN],[value1, value2, ..., valueN])*
+* ***table***: Table name
+* ***fields***: List or Tuple of fields
+* ***values***: List or Tuple of values
+
+```python
+>>> response = yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
+```
+
+#### *MYQL.update(table,[field1, field2, ..., fieldN],[value1, value2, ..., valueN])*
+This method is always followed by a **where**. It doesn't return a response if called alone.
+
+* ***table***: Table name
+* ***fields***: List or Tuple of fields to update
+* ***values***: List or Tuple of new values
+
+```python
+>>> response = yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=',"store://Rqb5fbQyDvrfHJiClWnZ6q"])
+```
+
+#### *MYQL.delete(table)*
+This method is always followed by a **where**. It doesn t return a response if called alone.
+
+* ***table***: Table name
+
+```python
+>>> response = self.yql.delete('yql.storage').where(['name','=',"store://Rqb5fbQyDvrfHJiClWnZ6q"])
 ```
 
 #### *MQYL.where(\*args)*
