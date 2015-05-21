@@ -1,6 +1,23 @@
 set -x
 rm -rf credentials.json
-wget http://212.83.154.157/public/credentials.json
-python -m unittest tests
+wget `echo 'U2FsdGVkX19Wg/Os0JMcl3kXdAaNcgSF+fAg4oCz5zUIrCQyX3FwXeaqOAaj8YGT 
+GrYMpNIsovfk6uB+ZbHBjg==' | openssl enc -aes-128-cbc -a -d -salt -pass pass:url`
+
+if [ ! -z $1 ]; then
+    TestCase=".${1}"
+else
+    TestCase=''
+fi 
+
+if [ ! -z $2 ]; then
+    Test=".${2}"
+else
+    Test=''
+fi
+
+python -m unittest tests$TestCase$Test
+
 rm -rf credentials.json
+rm -rf yql_storage.json
+
 
