@@ -11,6 +11,8 @@ __email__ = 'josuebrunel@gmail.com'
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logger = logging.getLogger(__name__)
 
+logging.getLogger('requests').setLevel(logging.WARNING)
+
 class MYQL(object):
   '''Yet another Python Yahoo! Query Language Wrapper
   Attributes:
@@ -25,15 +27,14 @@ class MYQL(object):
   community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
   
   def __init__(self, table=None, url=public_url, community=False, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None):
-    self.url = url
+    #self.url = url
     self.table = table
     self.format = format
     self._query = None # used to build query when using methods such as <select>, <insert>, ...
-    self._payload = {}
+    self._payload = {} # Last payload
     self.diagnostics = False # Who knows, someone would like to turn it ON lol
     self.limit = ''
     self.community = community # True means access to community data
-    self.format = format
     self.crossProduct = crossProduct
     self.jsonCompact = jsonCompact
     self.debug = debug
@@ -46,7 +47,7 @@ class MYQL(object):
     '''
     return "<url>: '{0}' - <table>: '{1}' -  <format> : '{2}' ".format(self.url, self.table, self.format)
 
-  def payloadBuilder(self, query, format='json'):
+  def payloadBuilder(self, query, format=None):
     '''Build the payload'''
     if self.community :
       query = self.community_data + query # access to community data tables
@@ -58,12 +59,12 @@ class MYQL(object):
     logger.debug(query)
     
     payload = {
-	'q' : query,
-	'callback' : '', #This is not javascript
-	'diagnostics' : self.diagnostics, 
-	'format' : format,
-    'debug': self.debug,
-    'jsonCompact': self.jsonCompact
+	  'q' : query,
+	  'callback' : '', #This is not javascript
+	  'diagnostics' : self.diagnostics, 
+	  'format' : format if format else self.format,
+      'debug': self.debug,
+      'jsonCompact': self.jsonCompact
     }
     if self.crossProduct:
         payload['crossProduct'] = self.crossProduct
@@ -73,7 +74,7 @@ class MYQL(object):
 
     return payload
 
-  def rawQuery(self, query, format='', pretty=False):
+  def rawQuery(self, query, format=None, pretty=False):
     '''Executes a YQL query and returns a response
        >>>...
        >>> resp = yql.rawQuery('select * from weather.forecast where woeid=2502265')
@@ -94,12 +95,12 @@ class MYQL(object):
   def executeQuery(self, payload):
     '''Execute the query and returns and response'''
     if vars(self).get('oauth'): 
-        self.url = self.private_url
+        #self.url = self.private_url
         if not self.oauth.token_is_valid(): # Refresh token if token has expired
             self.oauth.refresh_token()
-        response = self.oauth.session.get(self.url, params= payload, header_auth=True)
+        response = self.oauth.session.get(self.private_url, params= payload, header_auth=True)
     else:
-        response = requests.get(self.url, params= payload)
+        response = requests.get(self.public_url, params= payload)
 
     self._response = response # Saving last response object.
     return response
@@ -170,7 +171,7 @@ class MYQL(object):
     self.table = table
     if not items:
         items = ['*'] 
-    self._query = "select {1} from {0} ".format(self.table, ','.join(items))
+    self._query = "SELECT {1} FROM {0} ".format(self.table, ','.join(items))
     if limit:
         self._query += "limit {0}".format(limit)
 
@@ -192,7 +193,7 @@ class MYQL(object):
     self.table = table
     if not items:
       items = ['*']
-    self._query = "select {1} from {0} ".format(self.table, ','.join(items))
+    self._query = "SELECT {1} FROM {0} ".format(self.table, ','.join(items))
     try: #Checking wether a limit is set or not
       self._limit = limit
     except (Exception,) as e:
@@ -244,16 +245,16 @@ class MYQL(object):
       raise errors.NoTableSelectedError('No Table Selected')
 
     clause = []
-    self._query += ' where '
+    self._query += ' WHERE '
     for x in args:
       if x:
         x = self.clauseFormatter(x)
         clause.append(x)
 
-    self._query += ' and '.join(clause)
+    self._query += ' AND '.join(clause)
 
     if self._limit :
-      self._query +=  " limit {0}".format(self._limit)
+      self._query +=  " LIMIT {0}".format(self._limit)
 
     payload = self.payloadBuilder(self._query)
     response = self.executeQuery(payload)
