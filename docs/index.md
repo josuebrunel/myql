@@ -1,7 +1,7 @@
-MYQL
+mYQL
 =========
 
-MYQL is a Python wrapper of the Yahoo Query Language.
+mYQL is a Python wrapper of the Yahoo Query Language.
 
 Yahoo! Query Language Documentation and Support
 ===============================================
