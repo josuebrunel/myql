@@ -17,3 +17,14 @@ def prettyfy(response, format='json'):
     else :
         return pretty_xml(response.content)
 
+def json_write_data(json_data, filename):
+    with open(filename, 'w') as fp:
+        json.dump(json_data, fp, indent=4, sort_keys=True, ensure_ascii=False)
+        return True
+    return False
+
+def json_get_data(filename):
+    with open(filename, 'r') as fp:
+        json_data = json.load(fp)
+    return json_data
+ 
