@@ -1,1 +1,1 @@
-from yoauth import YOAuth
+from myql.contrib.auth.yoauth import YOAuth

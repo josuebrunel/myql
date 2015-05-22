@@ -1,1 +1,1 @@
-from stockretriever import StockRetriever
+from myql.contrib.stockscraper.stockretriever import StockRetriever
