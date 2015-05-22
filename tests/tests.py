@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import os, logging, time, json
 import pdb
 import unittest
