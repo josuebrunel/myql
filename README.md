@@ -1,4 +1,4 @@
-MYQL
+mYQL
 =========
 
 [![Build Status](https://travis-ci.org/josuebrunel/myql.svg?branch=master)](https://travis-ci.org/josuebrunel/myql) [![Documentation Status](https://readthedocs.org/projects/myql/badge/?version=latest)](https://myql.readthedocs.org)
@@ -9,7 +9,7 @@ MYQL
 [![Join the chat at https://gitter.im/josuebrunel/myql](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/josuebrunel/myql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Code Issues](https://www.quantifiedcode.com/project/gh:josuebrunel:myql/badge.svg)](https://www.quantifiedcode.com/app/project/gh:josuebrunel:myql)
 
 
-MYQL is a Python wrapper of the Yahoo Query Language.
+mYQL is a Python wrapper of the Yahoo Query Language.
 
 Yahoo! Query Language Documentation and Support
 ===============================================
@@ -19,7 +19,6 @@ Yahoo! Query Language Documentation and Support
 * Yahoo! Application Platform - http://developer.yahoo.com/yap/
 * Yahoo! Social APIs - http://developer.yahoo.com/social/
 * Yahoo! QUery Language Console https://developer.yahoo.com/yql/console/
-
 
 
 Release Notes
@@ -34,6 +33,7 @@ v 1.2.2 ( development )
 * Dummy *try/except* removed from main module
 * Fixed **Invalid OAuth Signature** when using a refreshed token [#64](https://github.com/josuebrunel/myql/issues/64)
 * Fixed misused of ***MYQL.use(...)*** [#76](https://github.com/josuebrunel/myql/issues/76)
+* Fixed format issue [#82](https://github.com/josuebrunel/myql/issues/82)
 
 v 1.2.1
 ------
