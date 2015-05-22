@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import os, logging, time, json
 import pdb
 import unittest
@@ -21,18 +23,15 @@ logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(n
 logging.getLogger(__name__)
 
 
-#def pretty_json(data):
-#    data = json.loads(data)
-#    return json.dumps(data, indent=4, sort_keys=True)
-
 def json_write_data(json_data, filename):
     with open(filename, 'w') as fp:
-        json.dump(json_data, fp, indent=4, encoding= 'utf-8', sort_keys=True)
+        #json.dump(json_data, fp, indent=4, encoding= 'utf-8', sort_keys=True)
+        json.dump(json_data, fp, indent=4, sort_keys=True, ensure_ascii=False)
         return True
     return False
 
 def json_get_data(filename):
-    with open(filename) as fp:
+    with open(filename, 'r') as fp:
         json_data = json.load(fp)
     return json_data
     
@@ -54,7 +53,7 @@ class TestMYQL(unittest.TestCase):
             logging.debug(pretty_json(response.content))
         except (Exception,) as e:
             logging.error(e)
-        self.assertEquals(response.status_code,200)
+        self.assertEqual(response.status_code,200)
 
     def test_raw_query(self,):
         response = self.yql.rawQuery('select name, woeid from geo.states where place="Congo"')
@@ -62,7 +61,7 @@ class TestMYQL(unittest.TestCase):
             logging.debug(pretty_json(response.content))
         except (Exception,) as e:
             logging.error(e)
-        self.assertEquals(response.status_code,200)
+        self.assertEqual(response.status_code,200)
 
     def test_get(self,):
         self.yql.format = 'xml'
@@ -72,7 +71,7 @@ class TestMYQL(unittest.TestCase):
             logging.debug(pretty_xml(response.content))
         except (Exception,) as e:
             logging.error(e)
-        self.assertEquals(response.status_code,200)
+        self.assertEqual(response.status_code,200)
 
     def test_select(self,):
         response = self.yql.select('geo.countries', ['name', 'code', 'woeid']).where(['name', '=', 'Canada'])
@@ -80,7 +79,7 @@ class TestMYQL(unittest.TestCase):
             logging.debug(pretty_json(response.content))
         except (Exception,) as e:
             logging.error(e)
-        self.assertEquals(response.status_code,200)
+        self.assertEqual(response.status_code,200)
 
     def test_select_in(self,):
         response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG")])
@@ -88,7 +87,7 @@ class TestMYQL(unittest.TestCase):
             logging.debug(pretty_json(response.content))
         except (Exception,) as e:
             logging.error(e)
-        self.assertEquals(response.status_code,200)
+        self.assertEqual(response.status_code,200)
 
     def test_1_insert(self,):
         response = self.yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
@@ -101,7 +100,7 @@ class TestMYQL(unittest.TestCase):
             logging.error(response.content)
             logging.error(e)
  
-        self.assertEquals(response.status_code,200)
+        self.assertEqual(response.status_code,200)
 
     def test_2_check_insert(self,):
         json_data = json_get_data('yql_storage.json')
@@ -112,7 +111,7 @@ class TestMYQL(unittest.TestCase):
             logging.error(response.content)
             logging.error(e)
  
-        self.assertEquals(response.status_code,200)
+        self.assertEqual(response.status_code,200)
        
     def test_3_update(self,):
         json_data = json_get_data('yql_storage.json')
@@ -123,7 +122,7 @@ class TestMYQL(unittest.TestCase):
             logging.error(response.content)
             logging.error(e)
  
-        self.assertEquals(response.status_code,200)
+        self.assertEqual(response.status_code,200)
 
     def test_4_delete(self,):
         json_data = json_get_data('yql_storage.json')
@@ -134,7 +133,7 @@ class TestMYQL(unittest.TestCase):
             logging.error(response.content)
             logging.error(e)
  
-        self.assertEquals(response.status_code,200)
+        self.assertEqual(response.status_code,200)
 
 
        
@@ -151,7 +150,7 @@ class TestOAuth(unittest.TestCase):
         yql = MYQL(format='json', oauth=oauth)
         response = yql.getGUID('josue_brunel')
         logging.debug(response.content)
-        self.assertEquals(response.status_code,200)
+        self.assertEqual(response.status_code,200)
 
     def test_yahoo_fantasy_sport(self,):
         oauth = YOAuth(None, None, from_file='credentials.json')
@@ -161,13 +160,13 @@ class TestOAuth(unittest.TestCase):
         for team in teams:
             #response = yql.rawQuery("SELECT * FROM fantasysports.teams.roster WHERE team_key = '{0}'  AND date = '{1}' ".format(team, year))
             response = yql.select('fantasysports.teams.roster').where(['team_key','=',team],['date','=',year])
-            self.assertEquals(response.status_code,200)
+            self.assertEqual(response.status_code,200)
             if not response.status_code == 200:
                 return False
 
             data = response.json()
             current_team = data['query']['results']['team']
-            print current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves']
+            print(current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves'])
 
 
 class TestStockScraper(unittest.TestCase):
@@ -181,32 +180,32 @@ class TestStockScraper(unittest.TestCase):
     def test_get_current_info(self,):
         data = self.stock.get_current_info(["YHOO","AAPL","GOOG"])
         logging.debug(pretty_json(data.content))
-        self.assertEquals(data.status_code,200)
+        self.assertEqual(data.status_code,200)
 
     def test_get_news_feed(self,):
         data = self.stock.get_news_feed('YHOO')
         logging.debug(pretty_json(data.content))
-        self.assertEquals(data.status_code,200)
+        self.assertEqual(data.status_code,200)
 
     def test_get_historical_info(self,):
         data = self.stock.get_historical_info('YHOO')
         logging.debug(pretty_json(data.content))
-        self.assertEquals(data.status_code,200)   
+        self.assertEqual(data.status_code,200)   
 
     def test_get_options_info(self,):
         data = self.stock.get_options_info('YHOO')
         logging.debug(pretty_json(data.content))
-        self.assertEquals(data.status_code,200)   
+        self.assertEqual(data.status_code,200)   
 
     def test_get_index_summary(self,):
         data = self.stock.get_index_summary('GOOG',('Volume','Change'))
         logging.debug(pretty_json(data.content))
-        self.assertEquals(data.status_code,200)   
+        self.assertEqual(data.status_code,200)   
 
     def test_get_industry_index(self,):
         data = self.stock.get_industry_index(112)
         logging.debug(pretty_json(data.content))
-        self.assertEquals(data.status_code,200)   
+        self.assertEqual(data.status_code,200)   
 
 
 class TestTable(unittest.TestCase):
@@ -280,7 +279,7 @@ class TestTable(unittest.TestCase):
         logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEqual(self.binder.addInput(self.key2),True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEquals(self.binder.removeInput(key_id='artist'),True)
+        self.assertEqual(self.binder.removeInput(key_id='artist'),True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_add_function_from_file(self,):
@@ -297,7 +296,7 @@ class TestTable(unittest.TestCase):
 
     def test_add_paging(self,):
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEquals(self.binder.addPaging(self.paging), True)
+        self.assertEqual(self.binder.addPaging(self.paging), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_create_binder_with_paging(self,):
@@ -338,7 +337,7 @@ class TestTable(unittest.TestCase):
 
     def test_remove_paging(self,):
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEquals(self.binder.addPaging(self.paging), True)
+        self.assertEqual(self.binder.addPaging(self.paging), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEqual(self.binder.removePaging(), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
@@ -349,42 +348,42 @@ class TestTable(unittest.TestCase):
         self.binder_desc['urls'] = [url, url2]
         binder = Binder(**self.binder_desc)
         logging.debug(self.xml_pretty_print(binder.etree))
-        self.assertEquals(self.binder.addUrl(url), True)
+        self.assertEqual(self.binder.addUrl(url), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
 
     def test_add_url(self,):
         url = 'http://josuebrunel.org/service.js'
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEquals(self.binder.addUrl(url), True)
+        self.assertEqual(self.binder.addUrl(url), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_remove_url(self,):
         url = 'http://josuebrunel.org/service.js'
         url2 = 'http://google.com'
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEquals(self.binder.addUrl(url), True)
+        self.assertEqual(self.binder.addUrl(url), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEquals(self.binder.addUrl(url2), True)
+        self.assertEqual(self.binder.addUrl(url2), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEquals(self.binder.removeUrl(url), True)
+        self.assertEqual(self.binder.removeUrl(url), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_save_file(self,):
         self.table.save()
-        self.assertEquals(os.path.isfile('mytest.xml'),True) 
+        self.assertEqual(os.path.isfile('mytest.xml'),True) 
 
     def test_save_with_another_name(self):
         name = "tests_data/toto"
         self.table.save(name)
-        self.assertEquals(os.path.isfile(name+'.xml'),True)
+        self.assertEqual(os.path.isfile(name+'.xml'),True)
 
     def test_save_to_different_location(self,):
         fname = "titi"
         path = 'tests_data'
         name = os.path.join(path,fname)
         self.table.save(name=fname, path=path)
-        self.assertEquals(os.path.isfile(name+'.xml'),True)
+        self.assertEqual(os.path.isfile(name+'.xml'),True)
 
     def test_create_table(self,):
         self.binder.addInput(self.key)
@@ -433,7 +432,7 @@ class TestTable(unittest.TestCase):
         bf = BinderFunction('concat', inputs=[self.key, self.key2])
         bf.addFunction('', from_file='tests_data/jscode.js')
         self.table.addBinder(bf)
-        #self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
+        #self.assertEqual(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
         logging.debug(self.xml_pretty_print(self.table.etree))
 
     def test_create_function_with_func_code(self):
@@ -449,9 +448,9 @@ class TestTable(unittest.TestCase):
 
     def test_remove_function_table(self,):
         logging.debug(self.xml_pretty_print(self.table.etree))
-        self.assertEquals(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
+        self.assertEqual(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
         logging.debug(self.xml_pretty_print(self.table.etree))
-        self.assertEquals(self.table.removeFunction(),True)
+        self.assertEqual(self.table.removeFunction(),True)
         logging.debug(self.xml_pretty_print(self.table.etree))
 
     def test_baseinput_to_xml(self,):

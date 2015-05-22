@@ -1,7 +1,9 @@
+from __future__ import absolute_import
+
 import logging
 import requests
-from contrib.auth import YOAuth
-import errors
+from myql.contrib.auth import YOAuth
+import myql.errors
 
 import importlib
 

@@ -3,6 +3,8 @@ So all rigts reserved to Gurchet Rai.
 Documentation http://www.gurchet-rai.net/dev/yahoo-finance-yql
 """
 
+from __future__ import absolute_import
+
 import pdb
 from myql.myql import MYQL
 

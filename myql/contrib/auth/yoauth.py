@@ -1,6 +1,8 @@
 """
 YOAuth is inspired from Darren Kempiners YahooAPI https://github.com/dkempiners/python-yahooapi/blob/master/yahooapi.py
 """
+from __future__ import absolute_import
+
 import json
 import time
 import logging
@@ -8,6 +10,8 @@ import webbrowser
 
 from rauth import OAuth1Service
 from rauth.utils import parse_utf8_qsl
+
+from myql.utils import json_write_data, json_get_data
 
 BASE_URL = "http://query.yahooapis.com/v1/yql"
 REQUEST_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_request_token"
@@ -33,7 +37,7 @@ class YOAuth(object):
         if kwargs.get('from_file'):
             logging.debug("Checking ")
             self.from_file = kwargs.get('from_file')
-            json_data = self.json_get_data(self.from_file)
+            json_data = json_get_data(self.from_file)
             vars(self).update(json_data)
         else:
             self.consumer_key = consumer_key
@@ -82,25 +86,7 @@ class YOAuth(object):
             'token_time' : self.token_time
         })
 
-        self.json_wirte_data(json_data, self.from_file)
-
-
-    def json_get_data(self, filename):
-        """Returns content of a json file
-        """
-        with open(filename) as fp:
-            json_data = json.load(fp)
-
-        return json_data
-
-    def json_wirte_data(self, json_data, filename):
-        """Write data into a json file
-        """
-        with open(filename, 'w') as fp:
-            json.dump(json_data, fp, indent=4, encoding= 'utf-8', sort_keys=True)
-            return True
-
-        return False
+        json_write_data(json_data, self.from_file)
 
     def refresh_token(self,):
         """Refresh access token
