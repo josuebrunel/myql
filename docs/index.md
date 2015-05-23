@@ -19,14 +19,6 @@ Installation
 $ pip install myql
 ```
 
-```shell
-$ pip install git+https://github.com/josuebrunel/myql.git
-```
-Or download the package and run
-```shell
-$ python setup.py install --record files_path.txt
-```
-
 Quick Start
 ===========
 
