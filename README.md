@@ -26,6 +26,7 @@ Release Notes
 
 v 1.2.2 ( development )
 -------
+* Python3 support OK [#71](https://github.com/josuebrunel/myql/issues/71)
 * Fixed issue with **IN** condition in **where** clause
 * Fixed issue when passing an empty list/tuple (**[]/()**) in a **where** clause
 * Import of StockParser from Gurchet Rai https://github.com/gurch101/StockScraper OK [#68](https://github.com/josuebrunel/myql/issues/68)
@@ -34,6 +35,7 @@ v 1.2.2 ( development )
 * Fixed **Invalid OAuth Signature** when using a refreshed token [#64](https://github.com/josuebrunel/myql/issues/64)
 * Fixed misused of ***MYQL.use(...)*** [#76](https://github.com/josuebrunel/myql/issues/76)
 * Fixed format issue [#82](https://github.com/josuebrunel/myql/issues/82)
+* Added useful functions utils [#81](https://github.com/josuebrunel/myql/issues/81)
 
 v 1.2.1
 ------
