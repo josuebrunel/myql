@@ -165,73 +165,63 @@ data = stocks.get_news_feed('YHOO')
 }
 ```
 
-#### *StockRetriever.get_historical_info(symbol)*
+#### *StockRetriever.get_historical_info(symbol, items=None, startDate=None, endDate=None, limit=None)*
 
 * ***symbol*** : Symbol news to retrieve
+* ***items*** : columns to retrieve
+* ***startDate*** : starting date
+* ***endDate*** : ending date
+* ***limit*** : number of results to return
 
 ```python
 from myql.contrib.stockscraper import StockRetriever
 stocks = StockRetriever(format='json')
-data = stocks.get_historical_info('YHOO')
+data = stocks.get_historical_info('YHOO',items=['Open','Close','High','Low'], limit=5,startDate='2014-09-11',endDate='2015-02-10')
 ```
 
 ```json
 {
     "query": {
-        "count": 5,
-        "created": "2015-05-20T13:07:29Z",
-        "lang": "en-US",
+        "count": 5, 
+        "created": "2015-05-24T05:12:21Z", 
+        "lang": "en-US", 
         "results": {
-            "row": [
+            "quote": [
                 {
-                    "AdjClose": "Adj Close",
-                    "Close": "Close",
-                    "Date": "Date",
-                    "High": "High",
-                    "Low": "Low",
-                    "Open": "Open",
-                    "Volume": "Volume"
-                },
+                    "Close": "43.07", 
+                    "High": "43.18", 
+                    "Low": "42.66", 
+                    "Open": "42.90"
+                }, 
                 {
-                    "AdjClose": "40.98",
-                    "Close": "40.98",
-                    "Date": "2015-05-19",
-                    "High": "44.66",
-                    "Low": "39.12",
-                    "Open": "44.38",
-                    "Volume": "41283000"
-                },
+                    "Close": "42.57", 
+                    "High": "43.15", 
+                    "Low": "42.54", 
+                    "Open": "42.61"
+                }, 
                 {
-                    "AdjClose": "44.36",
-                    "Close": "44.36",
-                    "Date": "2015-05-18",
-                    "High": "44.57",
-                    "Low": "44.04",
-                    "Open": "44.52",
-                    "Volume": "8278800"
-                },
+                    "Close": "42.94", 
+                    "High": "43.66", 
+                    "Low": "42.67", 
+                    "Open": "43.57"
+                }, 
                 {
-                    "AdjClose": "44.75",
-                    "Close": "44.75",
-                    "Date": "2015-05-15",
-                    "High": "45.07",
-                    "Low": "44.69",
-                    "Open": "45.00",
-                    "Volume": "7751900"
-                },
+                    "Close": "43.55", 
+                    "High": "44.26", 
+                    "Low": "43.03", 
+                    "Open": "44.08"
+                }, 
                 {
-                    "AdjClose": "44.95",
-                    "Close": "44.95",
-                    "Date": "2015-05-14",
-                    "High": "44.99",
-                    "Low": "44.45",
-                    "Open": "44.53",
-                    "Volume": "10098100"
+                    "Close": "44.05", 
+                    "High": "44.98", 
+                    "Low": "43.88", 
+                    "Open": "44.80"
                 }
             ]
         }
     }
 }
+
 ```
 
 #### *StockRetriever.get_options_info(symbol, items=[], expiration=None)*
