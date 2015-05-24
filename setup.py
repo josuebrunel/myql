@@ -13,7 +13,7 @@ def read(fname):
 setup(
   name = "mYQL",
   version = __version__,
-  description = "Python Wrapper for the Yahoo! Query Language",
+  description = "Python Wrapper for the Yahoo! Query Language. Allowing to run YQL queries, fetch financial data and create YQL Open Tables",
   long_description = read("README.rst"),
   author = "Josue Kouka",
   author_email = "josuebrunel@gmail.com",
