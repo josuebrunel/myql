@@ -30,11 +30,10 @@ class StockRetriever(MYQL):
         response = self.select('rss',['title','link','description'],limit=2).where(['url','=',rss_url])
         return response
 
-    def get_historical_info(self, symbol,limit=5, format='json'):
+    def get_historical_info(self, symbol,items=None, startDate=None, endDate=None, limit=None, format='json'):
         """get_historical_info() uses the csv datatable to retrieve all available historical data on a typical historical prices page
         """
-        historical_url = 'http://ichart.finance.yahoo.com/table.csv?s={0}'.format(symbol)
-        response = self.select('csv',limit=limit).where(['url','=',historical_url],['columns','=','Date,Open,High,Low,Close,Volume,AdjClose'])
+        response = self.select('yahoo.finance.historicaldata',items,limit).where(['symbol','=',symbol],['startDate','=',startDate],['endDate','=',endDate])
         return response
 
     def get_options_info(self, symbol, items=[], expiration='', format=format):

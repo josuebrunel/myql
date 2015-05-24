@@ -4,8 +4,8 @@ mYQL
 [![Build Status](https://travis-ci.org/josuebrunel/myql.svg?branch=master)](https://travis-ci.org/josuebrunel/myql) [![Documentation Status](https://readthedocs.org/projects/myql/badge/?version=latest)](https://myql.readthedocs.org)
 [![Latest Version](https://pypip.in/version/myql/badge.svg)](https://pypi.python.org/pypi/myql/)
 [![Downloads](https://pypip.in/download/myql/badge.svg)](https://pypi.python.org/pypi/myql) 
-[![Status](https://pypip.in/py_versions/myql/badge.svg)](https://pypi.python.org/pypi/myql)
-[![Status](https://pypip.in/implementation/myql/badge.svg)](https://pypi.python.org/pypi/myql)
+[![Py_Versions](https://pypip.in/py_versions/myql/badge.svg)](https://pypi.python.org/pypi/myql)
+[![Implementations](https://pypip.in/implementation/myql/badge.svg)](https://pypi.python.org/pypi/myql)
 [![Join the chat at https://gitter.im/josuebrunel/myql](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/josuebrunel/myql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Code Issues](https://www.quantifiedcode.com/project/gh:josuebrunel:myql/badge.svg)](https://www.quantifiedcode.com/app/project/gh:josuebrunel:myql)
 
 
@@ -26,6 +26,7 @@ Release Notes
 
 v 1.2.2 ( development )
 -------
+* **Python3** support OK [#71](https://github.com/josuebrunel/myql/issues/71)
 * Fixed issue with **IN** condition in **where** clause
 * Fixed issue when passing an empty list/tuple (**[]/()**) in a **where** clause
 * Import of StockParser from Gurchet Rai https://github.com/gurch101/StockScraper OK [#68](https://github.com/josuebrunel/myql/issues/68)
@@ -34,6 +35,7 @@ v 1.2.2 ( development )
 * Fixed **Invalid OAuth Signature** when using a refreshed token [#64](https://github.com/josuebrunel/myql/issues/64)
 * Fixed misused of ***MYQL.use(...)*** [#76](https://github.com/josuebrunel/myql/issues/76)
 * Fixed format issue [#82](https://github.com/josuebrunel/myql/issues/82)
+* Added useful functions utils [#81](https://github.com/josuebrunel/myql/issues/81)
 
 v 1.2.1
 ------
