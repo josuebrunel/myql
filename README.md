@@ -9,7 +9,7 @@ mYQL
 [![Join the chat at https://gitter.im/josuebrunel/myql](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/josuebrunel/myql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Code Issues](https://www.quantifiedcode.com/project/gh:josuebrunel:myql/badge.svg)](https://www.quantifiedcode.com/app/project/gh:josuebrunel:myql)
 
 
-mYQL is a Python wrapper of the Yahoo Query Language.
+mYQL is a Python wrapper of the Yahoo Query Language. Full documentation [here](http://myql.readthedocs.org/en/latest/)
 
 Yahoo! Query Language Documentation and Support
 ===============================================
