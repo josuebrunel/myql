@@ -35,7 +35,7 @@ v 1.2.2 ( development )
 * Fixed **Invalid OAuth Signature** when using a refreshed token [#64](https://github.com/josuebrunel/myql/issues/64)
 * Fixed misused of ***MYQL.use(...)*** [#76](https://github.com/josuebrunel/myql/issues/76)
 * Fixed format issue [#82](https://github.com/josuebrunel/myql/issues/82)
-* Added useful functions utils [#81](https://github.com/josuebrunel/myql/issues/81)
+* Added useful functions in utils [#81](https://github.com/josuebrunel/myql/issues/81)
 
 v 1.2.1
 ------
