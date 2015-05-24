@@ -24,7 +24,7 @@ Yahoo! Query Language Documentation and Support
 Release Notes
 ==============
 
-v 1.2.2 ( development )
+v 1.2.2
 -------
 * **Python3** support OK [#71](https://github.com/josuebrunel/myql/issues/71)
 * Fixed issue with **IN** condition in **where** clause
@@ -35,11 +35,11 @@ v 1.2.2 ( development )
 * Fixed **Invalid OAuth Signature** when using a refreshed token [#64](https://github.com/josuebrunel/myql/issues/64)
 * Fixed misused of ***MYQL.use(...)*** [#76](https://github.com/josuebrunel/myql/issues/76)
 * Fixed format issue [#82](https://github.com/josuebrunel/myql/issues/82)
-* Added useful functions utils [#81](https://github.com/josuebrunel/myql/issues/81)
+* Added useful functions in utils [#81](https://github.com/josuebrunel/myql/issues/81)
 
 v 1.2.1
 ------
-* Multiple requests while using OAuth fixed
+* Multiple requests while using OAuth fixed 
 
 v 1.2.0
 -------
@@ -53,7 +53,7 @@ v 0.5.6
 * select data format (xml/json)
 * change data source
 * filter data 
-* fix handling of default and on the fly response format
+* fix handling of default response format on the fly 
 * fix limit on ***select(...).where(...)*** when no limit value is passed
 * fix limit on ***get(...)***
 

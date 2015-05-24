@@ -11,7 +11,7 @@ __author__ = 'Josue Kouka'
 __email__ = 'josuebrunel@gmail.com'
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('mYQL')
 
 logging.getLogger('requests').setLevel(logging.WARNING)
 
@@ -29,7 +29,6 @@ class MYQL(object):
   community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
   
   def __init__(self, table=None, url=public_url, community=False, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None):
-    #self.url = url
     self.table = table
     self.format = format
     self._query = None # used to build query when using methods such as <select>, <insert>, ...
@@ -58,7 +57,7 @@ class MYQL(object):
       query = "use '{0}' as {1}; ".format(self.yql_table_url, self.yql_table_name) + query
 
     self._query = query
-    logger.debug(query)
+    logger.info("QUERY = {0}".format(query))
     
     payload = {
 	  'q' : query,
@@ -72,7 +71,7 @@ class MYQL(object):
         payload['crossProduct'] = self.crossProduct
     
     self._payload = payload
-    logger.debug(payload) 
+    logger.info("PAYLOAD = {0}".format(payload)) 
 
     return payload
 
@@ -97,7 +96,6 @@ class MYQL(object):
   def executeQuery(self, payload):
     '''Execute the query and returns and response'''
     if vars(self).get('oauth'): 
-        #self.url = self.private_url
         if not self.oauth.token_is_valid(): # Refresh token if token has expired
             self.oauth.refresh_token()
         response = self.oauth.session.get(self.private_url, params= payload, header_auth=True)

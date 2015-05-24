@@ -11,9 +11,9 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-  name = "mYQL",
+  name = "myql",
   version = __version__,
-  description = "Python Wrapper for the Yahoo! Query Language",
+  description = "Python Wrapper for the Yahoo! Query Language. Allowing to run YQL queries, fetch financial data and create YQL Open Tables",
   long_description = read("README.rst"),
   author = "Josue Kouka",
   author_email = "josuebrunel@gmail.com",
@@ -23,8 +23,9 @@ setup(
   packages = find_packages(),
   classifiers = [
     'Programming Language :: Python :: 2.7',
-    'Programming Language :: Python :: 3.2',
-    'Development Status :: 4 - Beta',
+    'Programming Language :: Python :: 3',
+    'Development Status :: 5 - Stable',
+    'Software Development :: Libraries :: Python Modules',
     'Environment :: Console',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: MIT License'
