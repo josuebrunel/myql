@@ -26,7 +26,7 @@ Release Notes
 
 v 1.2.2 ( development )
 -------
-* Python3 support OK [#71](https://github.com/josuebrunel/myql/issues/71)
+* **Python3** support OK [#71](https://github.com/josuebrunel/myql/issues/71)
 * Fixed issue with **IN** condition in **where** clause
 * Fixed issue when passing an empty list/tuple (**[]/()**) in a **where** clause
 * Import of StockParser from Gurchet Rai https://github.com/gurch101/StockScraper OK [#68](https://github.com/josuebrunel/myql/issues/68)

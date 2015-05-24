@@ -188,7 +188,8 @@ class TestStockScraper(unittest.TestCase):
         self.assertEqual(data.status_code,200)
 
     def test_get_historical_info(self,):
-        data = self.stock.get_historical_info('YHOO')
+        #data = self.stock.get_historical_info('YHOO')
+        data = self.stock.get_historical_info('YHOO',startDate='2014-09-11',endDate='2015-02-10')
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code,200)   
 
