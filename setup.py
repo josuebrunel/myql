@@ -23,8 +23,8 @@ setup(
   packages = find_packages(),
   classifiers = [
     'Programming Language :: Python :: 2.7',
-    'Programming Language :: Python :: 3.2',
-    'Development Status :: 4 - Beta',
+    'Programming Language :: Python :: 3',
+    'Development Status :: 5 - Stable',
     'Environment :: Console',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: MIT License'
