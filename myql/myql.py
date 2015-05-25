@@ -24,7 +24,7 @@ class MYQL(object):
   private_url = 'http://query.yahooapis.com/v1/yql'
   community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
   
-  def __init__(self, table=None, url=public_url, community=False, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None):
+  def __init__(self, table=None, url=public_url, community=True, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None):
     self.table = table
     self.format = format
     self._query = None # used to build query when using methods such as <select>, <insert>, ...
