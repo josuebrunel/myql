@@ -5,10 +5,6 @@ import requests
 from myql.contrib.auth import YOAuth
 import myql.errors
 
-import importlib
-
-__author__ = 'Josue Kouka'
-__email__ = 'josuebrunel@gmail.com'
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logger = logging.getLogger('mYQL')
