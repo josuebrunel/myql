@@ -24,7 +24,7 @@ Yahoo! Query Language Documentation and Support
 Release Notes
 ==============
 
-v 1.2.2 ( development )
+v 1.2.2 ( in development )
 -------
 * **Python3** support OK [#71](https://github.com/josuebrunel/myql/issues/71)
 * Fixed issue with **IN** condition in **where** clause
