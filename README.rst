@@ -1,33 +1,17 @@
-`MYQL <.>`_
-
--  `MYQL <myql/>`_
--  `StockScraper <stockscraper/>`_
--  `YOAuth <oauth/>`_
--  `Open Table <table/>`_
--  `Contribute <contrib/>`_
-
-  ** ` <.>`_
-
--  `Docs <.>`_ »
--  Home
--  `Edit on GitHub <https://github.com/josuebrunel/myql>`_
-
---------------
-
-MYQL
+mYQL
 ====
 
-MYQL is a Python wrapper of the Yahoo Query Language.
+mYQL is a Python wrapper of the Yahoo Query Language. Read the full Documentation `http://myql.readthedocs.org/en/latest/`
 
 Yahoo! Query Language Documentation and Support
 ===============================================
 
--  `Yahoo! Query Language <http://developer.yahoo.com/yql/>`_
--  `Yahoo! Developer Network <http://developer.yahoo.com>`_
--  `Yahoo! Application Platform <http://developer.yahoo.com/yap/>`_
--  `Yahoo! Social APIs <http://developer.yahoo.com/social/>`_
+-  `Yahoo! Query Language <http://developer.yahoo.com/yql/>`__
+-  `Yahoo! Developer Network <http://developer.yahoo.com>`__
+-  `Yahoo! Application Platform <http://developer.yahoo.com/yap/>`__
+-  `Yahoo! Social APIs <http://developer.yahoo.com/social/>`__
 -  `Yahoo! Query Language
-   Console <https://developer.yahoo.com/yql/console/>`_
+   Console <https://developer.yahoo.com/yql/console/>`__
 
 Installation
 ============
@@ -35,16 +19,6 @@ Installation
 ::
 
     $ pip install myql
-
-::
-
-    $ pip install git+https://github.com/josuebrunel/myql.git
-
-Or download the package and run
-
-::
-
-    $ python setup.py install --record files_path.txt
 
 Quick Start
 ===========
@@ -247,12 +221,12 @@ Using OAuth to fetch protected resources
     >>> yql = MYQL(format='xml', oauth=oauth)
     >>> response = yql.getGUID('josue_brunel') # Deal with the response
 
-` <myql/>`_\ Next
+` <myql/>`__\ Next
 
 --------------
 
-Built with `MkDocs <http://www.mkdocs.org>`_ using a
-`theme <https://github.com/snide/sphinx_rtd_theme>`_ provided by `Read
-the Docs <https://readthedocs.org>`_.
+Built with `MkDocs <http://www.mkdocs.org>`__ using a
+`theme <https://github.com/snide/sphinx_rtd_theme>`__ provided by `Read
+the Docs <https://readthedocs.org>`__.
 
-GitHub `« Previous <>`_ `Next » <myql/>`_
+GitHub `« Previous <>`__ `Next » <myql/>`__

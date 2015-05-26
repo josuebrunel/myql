@@ -9,7 +9,7 @@ mYQL
 [![Join the chat at https://gitter.im/josuebrunel/myql](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/josuebrunel/myql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Code Issues](https://www.quantifiedcode.com/project/gh:josuebrunel:myql/badge.svg)](https://www.quantifiedcode.com/app/project/gh:josuebrunel:myql)
 
 
-mYQL is a Python wrapper of the Yahoo Query Language.
+mYQL is a Python wrapper of the Yahoo Query Language. Full documentation [here](http://myql.readthedocs.org/en/latest/)
 
 Yahoo! Query Language Documentation and Support
 ===============================================
@@ -39,7 +39,7 @@ v 1.2.2 ( in development )
 
 v 1.2.1
 ------
-* Multiple requests while using OAuth fixed
+* Multiple requests while using OAuth fixed 
 
 v 1.2.0
 -------
@@ -53,7 +53,7 @@ v 0.5.6
 * select data format (xml/json)
 * change data source
 * filter data 
-* fix handling of default and on the fly response format
+* fix handling of default response format on the fly 
 * fix limit on ***select(...).where(...)*** when no limit value is passed
 * fix limit on ***get(...)***
 

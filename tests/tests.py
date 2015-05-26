@@ -20,12 +20,11 @@ import readline, rlcompleter
 readline.parse_and_bind('tab: complete')
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
-logging.getLogger(__name__)
+logging.getLogger('Test-mYQL')
 
 
 def json_write_data(json_data, filename):
     with open(filename, 'w') as fp:
-        #json.dump(json_data, fp, indent=4, encoding= 'utf-8', sort_keys=True)
         json.dump(json_data, fp, indent=4, sort_keys=True, ensure_ascii=False)
         return True
     return False
@@ -34,14 +33,14 @@ def json_get_data(filename):
     with open(filename, 'r') as fp:
         json_data = json.load(fp)
     return json_data
-    
+
 
 class TestMYQL(unittest.TestCase):
 
     def setUp(self,):
         self.yql = MYQL(format='json',community=True)
         self.insert_result = None
-        
+
     def tearDown(self):
         pass
 
@@ -110,7 +109,7 @@ class TestMYQL(unittest.TestCase):
         except (Exception,) as e:
             logging.error(response.content)
             logging.error(e)
- 
+
         self.assertEqual(response.status_code,200)
        
     def test_3_update(self,):
