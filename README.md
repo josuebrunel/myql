@@ -36,6 +36,7 @@ v 1.2.2 ( in development )
 * Fixed misused of ***MYQL.use(...)*** [#76](https://github.com/josuebrunel/myql/issues/76)
 * Fixed format issue [#82](https://github.com/josuebrunel/myql/issues/82)
 * Added useful functions in utils [#81](https://github.com/josuebrunel/myql/issues/81)
+* Default access to community tables
 
 v 1.2.1
 ------
