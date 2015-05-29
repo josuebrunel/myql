@@ -24,14 +24,14 @@ class MYQL(object):
   private_url = 'http://query.yahooapis.com/v1/yql'
   community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
   
-  def __init__(self, table=None, url=public_url, community=True, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None):
-    self.table = table
+  def __init__(self, community=True, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None):
+    self.community = community # True means access to community data
     self.format = format
+    self._table = None
     self._query = None # used to build query when using methods such as <select>, <insert>, ...
     self._payload = {} # Last payload
     self.diagnostics = False # Who knows, someone would like to turn it ON lol
-    self.limit = ''
-    self.community = community # True means access to community data
+    self.limit = None
     self.crossProduct = crossProduct
     self.jsonCompact = jsonCompact
     self.debug = debug
@@ -42,7 +42,7 @@ class MYQL(object):
   def __repr__(self):
     '''Returns information on the current instance
     '''
-    return "<url>: '{0}' - <table>: '{1}' -  <format> : '{2}' ".format(self.url, self.table, self.format)
+    return "<Community>: {0} - <Foramt>: {1} ".format(self.community, self.format)
 
   def payloadBuilder(self, query, format=None):
     '''Build the payload'''
@@ -152,7 +152,7 @@ class MYQL(object):
     >>>
     '''
     if not table:
-      #query = "desc {0} ".format(self.table)
+      #query = "desc {0} ".format(self._table)
       raise errors.NoTableSelectedError('No table selected')
     query = "desc {0}".format(table)
     response = self.rawQuery(query)
@@ -164,14 +164,14 @@ class MYQL(object):
     '''Just a select which returns a response
     >>> yql.get("geo.countries', ['name', 'woeid'], 5")
     '''
-    self.table = table
+    self._table = table
     if not items:
         items = ['*'] 
-    self._query = "SELECT {1} FROM {0} ".format(self.table, ','.join(items))
+    self._query = "SELECT {1} FROM {0} ".format(self._table, ','.join(items))
     if limit:
         self._query += "limit {0}".format(limit)
 
-    if not self.table :
+    if not self._table :
         raise errors.NoTableSelectedError('Please select a table')
     
     payload = self.payloadBuilder(self._query)
@@ -186,10 +186,10 @@ class MYQL(object):
     >>> yql.select('geo.countries', limit=5) 
     >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
     '''
-    self.table = table
+    self._table = table
     if not items:
       items = ['*']
-    self._query = "SELECT {1} FROM {0} ".format(self.table, ','.join(items))
+    self._query = "SELECT {1} FROM {0} ".format(self._table, ','.join(items))
     try: #Checking wether a limit is set or not
       self._limit = limit
     except (Exception,) as e:
@@ -214,10 +214,10 @@ class MYQL(object):
       """Updates a YQL Table
       >>> yql.update('yql.storage',['value'],['https://josuebrunel.orkg']).where(['name','=','store://YEl70PraLLMSMuYAauqNc7']) 
       """
-      self.table = table
+      self._table = table
       self._limit = None
       items_values = ','.join(["{0} = '{1}'".format(k,v) for k,v in zip(items,values)])
-      self._query = "UPDATE {0} SET {1}".format(self.table, items_values)
+      self._query = "UPDATE {0} SET {1}".format(self._table, items_values)
 
       return self
 
@@ -226,9 +226,9 @@ class MYQL(object):
       """Deletes record in table
       >>> yql.delete('yql.storage').where(['name','=','store://YEl70PraLLMSMuYAauqNc7'])
       """
-      self.table = table
+      self._table = table
       self._limit = None
-      self._query = "DELETE FROM {0}".format(self.table)
+      self._query = "DELETE FROM {0}".format(self._table)
 
       return self
 
@@ -237,7 +237,7 @@ class MYQL(object):
     ''' This method simulates a where condition. Use as follow:
     >>> yql.select('mytable').where(['name', '=', 'alain'], ['location', '!=', 'paris'])
     '''
-    if not self.table:
+    if not self._table:
       raise errors.NoTableSelectedError('No Table Selected')
 
     clause = []
