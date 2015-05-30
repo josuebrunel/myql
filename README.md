@@ -26,6 +26,7 @@ Yahoo! Query Language Documentation and Support
 * Authenticated YQL Query ( OAuth )
 * StockScraper
 * YQL Open Table (Classes and Metaclasses) Generator 
+* Response prettyfier
 
 ### Installation
 
@@ -60,6 +61,7 @@ Full Documentation is [here](http://myql.readthedocs.org/en/latest/)
 * Fixed format issue [#82](https://github.com/josuebrunel/myql/issues/82)
 * Added useful functions in utils [#81](https://github.com/josuebrunel/myql/issues/81)
 * Default access to community tables
+* Response prettyfier : *pretty_json, pretty_xml*
 
 ##### v 1.2.1
 ------
