@@ -26,8 +26,10 @@ setup(
   classifiers = [
     'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3',
-    'Development Status :: 5 - Stable',
-    'Software Development :: Libraries :: Python Modules',
+    'Programming Language :: Python :: Implementation :: CPython',
+    'Programming Language :: Python :: Implementation :: PyPy',
+    'Development Status :: 5 - Production/Stable',
+    'Topic :: Software Development :: Libraries :: Python Modules',
     'Environment :: Console',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: MIT License'
