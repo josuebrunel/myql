@@ -1,4 +1,4 @@
-mYQL
+[mYQL](http://myql.readthedocs.org/en/latest/)
 =========
 
 [![Build Status](https://travis-ci.org/josuebrunel/myql.svg?branch=master)](https://travis-ci.org/josuebrunel/myql) [![Documentation Status](https://readthedocs.org/projects/myql/badge/?version=latest)](https://myql.readthedocs.org)
