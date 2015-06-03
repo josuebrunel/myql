@@ -34,6 +34,103 @@ Yahoo! Query Language Documentation and Support
 $ pip install myql
 ```
 
+#### Examples
+--------------
+
+* ___rawQuery___
+
+```python
+>>> import myql
+>>> from myql.utils import pretty_json, pretty_xml
+>>> yql = myql.MYQL(format='json')
+>>> response = yql.rawQuery("select name, woeid from geo.states where place='Congo' limit 2")
+>>> print(pretty_json(response.content))
+{
+    "query": {
+        "count": 2, 
+        "created": "2015-06-03T04:51:23Z", 
+        "lang": "en-US", 
+        "results": {
+            "place": [
+                {
+                    "name": "Cuvette-Ouest Department", 
+                    "woeid": "55998384"
+                }, 
+                {
+                    "name": "Cuvette Department", 
+                    "woeid": "2344968"
+                }
+            ]
+        }
+    }
+}
+>>> 
+
+```
+
+* ___get(tabke, item=[], limit=None)___
+
+```python
+>>> response = yql.get('geo.countries',['name,woeid'],3)
+>>> print(pretty_json(response.content))
+{
+    "query": {
+        "count": 3, 
+        "created": "2015-06-03T05:07:47Z", 
+        "lang": "en-US", 
+        "results": {
+            "place": [
+                {
+                    "name": "Sao Tome and Principe", 
+                    "woeid": "23424966"
+                }, 
+                {
+                    "name": "Ghana", 
+                    "woeid": "23424824"
+                }, 
+                {
+                    "name": "Togo", 
+                    "woeid": "23424965"
+                }
+            ]
+        }
+    }
+}
+>>> 
+
+```
+
+*  ___select(table,item=[],limit=None).were(condition)___
+
+```python
+>>> yql.format = 'xml'
+>>> response = yql.select('weather.forecast',['units','atmosphere']).where(['woeid','in','select woeid from geo.places(1) where text="Paris,Fr"'])
+>>> print(pretty_xml(response.content))
+<?xml version="1.0" encoding="utf-8"?>
+<query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" yahoo:count="4" yahoo:created="2015-06-03T05:21:43Z" yahoo:lang="en-US">
+    <results>
+        <channel>
+            <yweather:units distance="mi" pressure="in" speed="mph" temperature="F" xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"/>
+            <yweather:atmosphere humidity="82" pressure="30.22" rising="0" visibility="9" xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"/>
+        </channel>
+        <channel>
+            <yweather:units distance="mi" pressure="in" speed="mph" temperature="F" xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"/>
+            <yweather:atmosphere humidity="94" pressure="29.85" rising="0" visibility="6.21" xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"/>
+        </channel>
+        <channel>
+            <yweather:units distance="mi" pressure="in" speed="mph" temperature="F" xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"/>
+            <yweather:atmosphere humidity="93" pressure="30.26" rising="0" visibility="" xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"/>
+        </channel>
+        <channel>
+            <yweather:units distance="mi" pressure="in" speed="mph" temperature="F" xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"/>
+            <yweather:atmosphere humidity="100" pressure="30.23" rising="0" visibility="" xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"/>
+        </channel>
+    </results>
+</query>
+<!-- total: 55 -->
+<!-- pprd1-node1008-lh1.manhattan.bf1.yahoo.com -->
+```
+
 ### Documentation
 
 Full Documentation is [here](http://myql.readthedocs.org/en/latest/)
@@ -47,7 +144,7 @@ Full Documentation is [here](http://myql.readthedocs.org/en/latest/)
 
 #### Release Notes
 
-##### 1.2.2 ( in development )
+##### 1.2.2
 -------
 * **Python3** support OK [#71](https://github.com/josuebrunel/myql/issues/71)
 * **PyPy/PyPy3** support OK
