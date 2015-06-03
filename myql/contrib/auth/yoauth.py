@@ -1,6 +1,7 @@
 """
 YOAuth is inspired from Darren Kempiners YahooAPI https://github.com/dkempiners/python-yahooapi/blob/master/yahooapi.py
 """
+
 from __future__ import absolute_import
 
 import json
@@ -12,6 +13,12 @@ from rauth import OAuth1Service
 from rauth.utils import parse_utf8_qsl
 
 from myql.utils import json_write_data, json_get_data
+
+try:
+    input = raw_input
+except (NameError,):
+    pass
+
 
 BASE_URL = "http://query.yahooapis.com/v1/yql"
 REQUEST_TOKEN_URL = "https://api.login.yahoo.com/oauth/v2/get_request_token"
@@ -66,7 +73,7 @@ class YOAuth(object):
             authorize_url = AUTHORIZE_TOKEN_URL+request_token
             logging.debug(authorize_url)
             webbrowser.open(authorize_url)
-            verifier = raw_input("Enter verifier : ")
+            verifier = input("Enter verifier : ")
             logging.debug("VERIFIER = {0}".format(verifier))
 
             self.token_time = time.time()

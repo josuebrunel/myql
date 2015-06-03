@@ -104,7 +104,7 @@ $ pip install myql
 
 ```python
 >>> yql.format = 'xml'
->>> response = yql.select('weather.forecast',['units','atmosphere']).where(['woeid','in','select woeid from geo.places(1) where text="Paris,Fr"'])
+>>> response = yql.select('weather.forecast',['units','atmosphere']).where(['woeid','in',('select woeid from geo.places(1) where text="Paris,Fr"',)]) # IN requires tuple
 >>> print(pretty_xml(response.content))
 <?xml version="1.0" encoding="utf-8"?>
 <query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" yahoo:count="4" yahoo:created="2015-06-03T05:21:43Z" yahoo:lang="en-US">

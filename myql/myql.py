@@ -106,9 +106,12 @@ class MYQL(object):
        args is a list of ['column', 'operator', 'value']
     '''
     if cond[1].lower() == 'in':
-      cond[2] = "({0})".format(','.join(map(str,[ "'{0}'".format(e) for e in cond[2] ])))
-      cond = ' '.join(cond)
-    else:
+      if len(cond[2]) > 1:
+        cond[2] = "('{0}')".format(','.join(map(str,[ "{0}".format(e) for e in cond[2] ])))
+      else:
+        cond[2] = "({0})".format(','.join(map(str,[ "{0}".format(e) for e in cond[2] ])))
+      cond = " ".join(cond)
+    else: 
       cond[2] = "'{0}'".format(cond[2])
       cond = ''.join(cond)
 
