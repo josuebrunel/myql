@@ -5,6 +5,7 @@ Documentation http://www.gurchet-rai.net/dev/yahoo-finance-yql
 
 from __future__ import absolute_import
 
+import calendar
 import datetime
 from datetime import date, timedelta
 
@@ -36,8 +37,8 @@ class StockRetriever(MYQL):
         """get_historical_info() uses the csv datatable to retrieve all available historical data on a typical historical prices page
         """
         today = date.today()
-        start_date = datetime.date(day=today.day - 7,month=today.month - 1, year=today.year)
-        end_date = datetime.date(day=today.day - 1,month=today.month - 1, year=today.year)
+        start_date = today - timedelta(days=30)
+        end_date = start_date + timedelta(days=7)
 
         startDate = startDate if startDate else str(start_date)
         endDate = endDate if endDate else str(end_date)
