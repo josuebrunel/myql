@@ -37,8 +37,8 @@ class StockRetriever(MYQL):
         """get_historical_info() uses the csv datatable to retrieve all available historical data on a typical historical prices page
         """
         today = date.today()
-        start_date = today - timedelta(days=30)
-        end_date = start_date + timedelta(days=7)
+        start_date = today - timedelta(days=today.weekday(), weeks=1)
+        end_date = start_date + timedelta(days=4)
 
         startDate = startDate if startDate else str(start_date)
         endDate = endDate if endDate else str(end_date)
