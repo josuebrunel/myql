@@ -131,6 +131,12 @@ $ pip install myql
 <!-- pprd1-node1008-lh1.manhattan.bf1.yahoo.com -->
 ```
 
+*  ___Using OAUTH___
+
+```python
+
+```
+
 ### Documentation
 
 Full Documentation is [here](http://myql.readthedocs.org/en/latest/)
@@ -143,6 +149,13 @@ Full Documentation is [here](http://myql.readthedocs.org/en/latest/)
 * Above all, have fun playing with data :wink:
 
 #### Release Notes
+
+##### 1.2.3
+-------
+
+* Fixed issue related to date in StockRetriver.get_historical_info [#107](https://github.com/josuebrunel/myql/issues/107)
+* Fixed issue with **IN** condition in **where** clause [#106](https://github.com/josuebrunel/myql/issues/107)
+* Fix definition of raw_input for python3 [#105](https://github.com/josuebrunel/myql/issues/105)
 
 ##### 1.2.2
 -------
