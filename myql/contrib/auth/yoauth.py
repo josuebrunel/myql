@@ -1,6 +1,12 @@
 """
 YOAuth is inspired from Darren Kempiners YahooAPI https://github.com/dkempiners/python-yahooapi/blob/master/yahooapi.py
 """
+try:
+    input = raw_input
+except (NameError,):
+    pass
+
+
 from __future__ import absolute_import
 
 import json
@@ -66,7 +72,7 @@ class YOAuth(object):
             authorize_url = AUTHORIZE_TOKEN_URL+request_token
             logging.debug(authorize_url)
             webbrowser.open(authorize_url)
-            verifier = raw_input("Enter verifier : ")
+            verifier = input("Enter verifier : ")
             logging.debug("VERIFIER = {0}".format(verifier))
 
             self.token_time = time.time()
