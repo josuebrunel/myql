@@ -89,7 +89,7 @@ class TestMYQL(unittest.TestCase):
         self.assertEqual(response.status_code,200)
 
     def test_select_in_2(self,):
-        response = self.yql.select('weather.forecast',['units','atmosphere']).where(['woeid','in',("select woeid from geo.places(1) where text='Paris,Fr'")])
+        response = self.yql.select('weather.forecast',['units','atmosphere']).where(['woeid','in',("select woeid from geo.places(1) where text='Paris,Fr'"),])
         try:
             logging.debug(pretty_json(response.content))
         except (Exception,) as e:
