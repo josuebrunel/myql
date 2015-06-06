@@ -1,5 +1,3 @@
-wget $credentials
-
 if [ ! -z $1 ]; then
     TestCase=".${1}"
 else
