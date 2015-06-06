@@ -68,7 +68,7 @@ $ pip install myql
 
 ```
 
-* ___get(tabke, item=[], limit=None)___
+* ___get(table, item=[], limit=None)___
 
 ```python
 >>> response = yql.get('geo.countries',['name,woeid'],3)
