@@ -1,7 +1,36 @@
+`mYQL <http://myql.readthedocs.org/en/latest/>`__
+=================================================
+
+|Build Status| |Documentation Status| |Latest Version| |Downloads|
+|Py\_Versions| |Implementations| |Join the chat at
+https://gitter.im/josuebrunel/myql| |Code Issues|
+
+mYQL is a Python wrapper of the Yahoo Query Language. **`Full
+Documentation <http://myql.readthedocs.org/en/latest/>`__**
+
+Yahoo! Query Language Documentation and Support
+===============================================
+
+-  Yahoo! Query Language - http://developer.yahoo.com/yql/
+-  Yahoo! Developer Network: http://developer.yahoo.com
+-  Yahoo! Application Platform - http://developer.yahoo.com/yap/
+-  Yahoo! Social APIs - http://developer.yahoo.com/social/
+-  Yahoo! QUery Language Console
+   https://developer.yahoo.com/yql/console/
+
+Features
+~~~~~~~~
+
+-  Simple YQL Query
+-  Authenticated YQL Query ( OAuth )
+-  StockScraper
+-  YQL Open Table (Classes and Metaclasses) Generator
+-  Response prettyfier
+
 mYQL
 ====
 
-mYQL is a Python wrapper of the Yahoo Query Language. Read the full Documentation `http://myql.readthedocs.org/en/latest/`
+mYQL is a Python wrapper of the Yahoo Query Language.
 
 Yahoo! Query Language Documentation and Support
 ===============================================
@@ -13,51 +42,43 @@ Yahoo! Query Language Documentation and Support
 -  `Yahoo! Query Language
    Console <https://developer.yahoo.com/yql/console/>`__
 
-Features
-========
-
-* Simple YQL Query 
-* Authenticated YQL Query ( OAuth )
-* StockScraper
-* YQL Open Table (Classes and Metaclasses) Generator 
-
 Installation
 ============
 
-::
+.. code:: shell
 
     $ pip install myql
 
 Quick Start
 ===========
 
-::
+.. code:: python
 
     >>> import myql
     >>> yql = myql.MYQL()
     >>> yql.diagnostics = True # To turn diagnostics on
 
-Access to community tables
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Disable access to community tables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-::
+.. code:: python
 
+    >>> rep = yql.rawQuery('desc yahoo.finance.quotes ')
+    >>> rep.json()
+    {u'query': {u'count': 1, u'lang': u'en-US', u'results': {u'table': {u'src': u'http://www.datatables.org/yahoo/finance/yahoo.finance.quotes.xml', u'hash': u'061616a1c033ae89aaf2cbe83790b979', u'name': u'yahoo.finance.quotes', u'request': {u'select': {u'key': {u'required': u'true', u'type': u'xs:string', u'name': u'symbol'}}}, u'meta': {u'sampleQuery': u'\n\t\t\tselect * from yahoo.finance.quotes where symbol in ("YHOO","AAPL","GOOG","MSFT")\n\t\t'}, u'security': u'ANY'}}, u'created': u'2014-08-24T11:26:48Z'}}
+    >>> 
+    >>> yql.community= True # Setting up access to community
     >>> yql = myql.MYQL()
     >>> rep = yql.rawQuery('desc yahoo.finance.quotes ')
     >>> rep.json()
     {u'error': {u'lang': u'en-US', u'description': u'No definition found for Table yahoo.finance.quotes'}}
-    >>> yql.community= True # Setting up access to community
-    >>> rep = yql.rawQuery('desc yahoo.finance.quotes ')
-    >>> rep.json()
-    {u'query': {u'count': 1, u'lang': u'en-US', u'results': {u'table': {u'src': u'http://www.datatables.org/yahoo/finance/yahoo.finance.quotes.xml', u'hash': u'061616a1c033ae89aaf2cbe83790b979', u'name': u'yahoo.finance.quotes', u'request': {u'select': {u'key': {u'required': u'true', u'type': u'xs:string', u'name': u'symbol'}}}, u'meta': {u'sampleQuery': u'\n\t\t\tselect * from yahoo.finance.quotes where symbol in ("YHOO","AAPL","GOOG","MSFT")\n\t\t'}, u'security': u'ANY'}}, u'created': u'2014-08-24T11:26:48Z'}}
-    >>>
 
 or
 
-::
+.. code:: python
 
     >>> import myql
-    >>> yql = myql.MYQL(community=True)
+    >>> yql = myql.MYQL(community=False)
     >>> # do your magic 
 
 Changing response format (xml or json)
@@ -65,7 +86,7 @@ Changing response format (xml or json)
 
 The response format is by default ***json***.
 
-::
+.. code:: python
 
     >>> import myql
     >>> yql = myql.MYQL(format='xml', community=True)
@@ -85,7 +106,7 @@ use(yql\_table\_url,name=yql\_table\_name)
 
 Changes the data provider
 
-::
+.. code:: python
 
     >>> yql.use('http://www.josuebrunel.org//users.xml', name='myusers') 
 
@@ -94,7 +115,7 @@ desc(tablename)
 
 Returns table description
 
-::
+.. code:: python
 
     >>> response = yql.desc('weather.forecast')
     >>> response.json()
@@ -106,7 +127,7 @@ rawQuery(query)
 
 Allows you to directly type your query
 
-::
+.. code:: python
 
     >>> response = yql.rawQuery("select * from geo.countries where place='North America'")
     >>> # deal with the response
@@ -121,7 +142,7 @@ will raise a *NoTableSelectedError*
 ***NB*** : A simple select doesn't return any data. Use ***GET***
 instead.
 
-::
+.. code:: python
 
     >>> response = yql.select('geo.countries', [name, code, woeid]).where(['name', '=', 'Canada'])
     >>> response.json()
@@ -145,7 +166,7 @@ Same as ***SELECT***, but instead returns data.
 ***GET*** won't work on those tables, use *select(...).where(...)*
 instead .
 
-::
+.. code:: python
 
     >>> yql.get('geo.countries', ['name', 'woeid'], 1)
     >>> rep.json()
@@ -158,10 +179,11 @@ insert(table, (field1, field2, ..., fieldN),(value1, value2, ..., valueN))
 Insert values into a table. Arguments 2 and 3 may be **tuples** or
 **list**.
 
-::
+.. code:: python
 
+    >>> from myql.utils import pretty_json
     >>> response = yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
-    >>> response.json() # result prettyfied just for the example
+    >>> print(pretty_json(response.content))
     {
         "query": {
             "count": 1,
@@ -183,10 +205,11 @@ update(table,[field1, ..., fieldN],[value1, ..., ...valueN]).where(filters, ...)
 Update fields values. This method **is always followed by
 ***where()*****. Arguments 2 and 3 may be **tuples** or **list**.
 
-::
+.. code:: python
 
+    >>> from myql.utils import pretty_json
     >>> response = yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=','store://Rqb5fbQyDvrfHJiClWnZ6q'])
-    >>> response.json() # result prettyfied just for the example
+    >>> print(pretty_json(response.content))
     {
         "query": {
             "count": 1,
@@ -203,10 +226,11 @@ delete(table).where(filters, ...)
 
 Delete records
 
-::
+.. code:: python
 
+    >>> from myql.utils import pretty_json
     >>> response = self.yql.delete('yql.storage').where(['name','=','store://Rqb5fbQyDvrfHJiClWnZ6q'])
-    >>> response.json() # result prettyfied just for the example
+    >>> print(pretty_json(response.content))
     {
         "query": {
             "count": 1,
@@ -221,7 +245,7 @@ Delete records
 Using OAuth to fetch protected resources
 ========================================
 
-::
+.. code:: python
 
     >>> from myql.contrib.auth import YOAuth
     >>> oauth = YOAuth(None, None, from_file='credentials.json') # only consumer_key and consumer_secret are required.
@@ -229,12 +253,84 @@ Using OAuth to fetch protected resources
     >>> yql = MYQL(format='xml', oauth=oauth)
     >>> response = yql.getGUID('josue_brunel') # Deal with the response
 
-` <myql/>`__\ Next
+Release Notes
+^^^^^^^^^^^^^
 
---------------
+##### 1.2.3
+-----------
 
-Built with `MkDocs <http://www.mkdocs.org>`__ using a
-`theme <https://github.com/snide/sphinx_rtd_theme>`__ provided by `Read
-the Docs <https://readthedocs.org>`__.
+-  Fixed issue related to date in StockRetriver.get\_historical\_info
+   `#107 <https://github.com/josuebrunel/myql/issues/107>`__
+-  Fixed issue with **IN** condition in **where** clause
+   `#106 <https://github.com/josuebrunel/myql/issues/107>`__
+-  Fix definition of raw\_input for python3
+   `#105 <https://github.com/josuebrunel/myql/issues/105>`__
 
-GitHub `« Previous <>`__ `Next » <myql/>`__
+##### 1.2.2
+-----------
+
+-  **Python3** support OK
+   `#71 <https://github.com/josuebrunel/myql/issues/71>`__
+-  **PyPy/PyPy3** support OK
+-  Fixed issue with **IN** condition in **where** clause
+-  Fixed issue when passing an empty list/tuple (**[]/()**) in a
+   **where** clause besides first argument
+-  Import of
+   ***`StockParser <https://github.com/gurch101/StockScraper>`__*** from
+   Gurchet Rai OK
+   `#68 <https://github.com/josuebrunel/myql/issues/68>`__
+-  Insert, Update, Delete methods added
+   `#67 <https://github.com/josuebrunel/myql/issues/67>`__
+-  Dummy *try/except* removed from main module
+-  Fixed **Invalid OAuth Signature** when using a refreshed token
+   `#64 <https://github.com/josuebrunel/myql/issues/64>`__
+-  Fixed misused of ***MYQL.use(...)***
+   `#76 <https://github.com/josuebrunel/myql/issues/76>`__
+-  Fixed format issue
+   `#82 <https://github.com/josuebrunel/myql/issues/82>`__
+-  Added useful functions in utils
+   `#81 <https://github.com/josuebrunel/myql/issues/81>`__
+-  Default access to community tables
+-  Response prettyfier : *pretty\_json, pretty\_xml*
+
+##### v 1.2.1
+-------------
+
+-  Multiple requests while using OAuth fixed
+
+##### 1.2.0
+-----------
+
+-  OpenTable classes
+-  Access to resources requiring authentication
+
+##### 0.5.6
+-----------
+
+-  fetch data
+-  access to community data
+-  select data format (xml/json)
+-  change data source
+-  filter data
+-  fix handling of default response format on the fly
+-  fix limit on ***select(...).where(...)*** when no limit value is
+   passed
+-  fix limit on ***get(...)***
+
+.. |Build Status| image:: https://travis-ci.org/josuebrunel/myql.svg?branch=master
+   :target: https://travis-ci.org/josuebrunel/myql
+.. |Documentation Status| image:: https://readthedocs.org/projects/myql/badge/?version=latest
+   :target: https://myql.readthedocs.org
+.. |Latest Version| image:: https://pypip.in/version/myql/badge.svg
+   :target: https://pypi.python.org/pypi/myql/
+.. |Downloads| image:: https://pypip.in/download/myql/badge.svg
+   :target: https://pypi.python.org/pypi/myql
+.. |Py\_Versions| image:: https://pypip.in/py_versions/myql/badge.svg
+   :target: https://pypi.python.org/pypi/myql
+.. |Implementations| image:: https://pypip.in/implementation/myql/badge.svg
+   :target: https://pypi.python.org/pypi/myql
+.. |Join the chat at https://gitter.im/josuebrunel/myql| image:: https://badges.gitter.im/Join%20Chat.svg
+   :target: https://gitter.im/josuebrunel/myql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+.. |Code Issues| image:: https://www.quantifiedcode.com/project/gh:josuebrunel:myql/badge.svg
+   :target: https://www.quantifiedcode.com/app/project/gh:josuebrunel:myql
+
