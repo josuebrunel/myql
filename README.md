@@ -221,12 +221,13 @@ Delete records
 
 ```
 
-Using OAuth to fetch protected resources
-=========================================
+####Using OAuth to fetch protected resources
+
+***mYQL*** comes with ***[yahoo_oauth](https://pypi.python.org/pypi/yahoo_oauth)***, which is an OAuth library for Yahoo! APIs
 
 ```python
->>> from myql.contrib.auth import YOAuth
->>> oauth = YOAuth(None, None, from_file='credentials.json') # only consumer_key and consumer_secret are required.
+>>> from yahoo_oauth import OAuth1
+>>> oauth = OAuth1(None, None, from_file='credentials.json') # only consumer_key and consumer_secret are required.
 >>> from myql import MYQL
 >>> yql = MYQL(format='xml', oauth=oauth)
 >>> response = yql.getGUID('josue_brunel') # Deal with the response
