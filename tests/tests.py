@@ -6,9 +6,10 @@ import unittest
 from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 
+from yahoo_oauth import OAuth1
+
 from myql import MYQL
 from myql.utils import pretty_xml, pretty_json
-from myql.contrib.auth import YOAuth
 
 from myql.contrib.table import Table
 from myql.contrib.table import Base, BaseInput
@@ -153,14 +154,14 @@ class TestOAuth(unittest.TestCase):
         pass
 
     def test_get_guid(self,):
-        oauth = YOAuth(None, None, from_file='credentials.json')
+        oauth = OAuth1(None, None, from_file='credentials.json')
         yql = MYQL(format='json', oauth=oauth)
         response = yql.getGUID('josue_brunel')
         logging.debug(response.content)
         self.assertEqual(response.status_code,200)
 
     def test_yahoo_fantasy_sport(self,):
-        oauth = YOAuth(None, None, from_file='credentials.json')
+        oauth = OAuth1(None, None, from_file='credentials.json')
         yql = MYQL(format='json', oauth=oauth)
         teams = ('mlb.l.1328.t.1','mlb.l.1328.t.2')
         year = '2015-05-05'
