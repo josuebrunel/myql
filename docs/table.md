@@ -162,7 +162,7 @@ This class represents a stored function. Read the full documentation [here](http
 
 As ***Binder***, ***BinderFunction*** is a subclass of ***BaseBinder***. They both share the same methods
 
-## Using MetaClasses to define a Table
+## The MetaClass API
  
 ***BinderModel*** and ***TableModel*** are the only classes to keep in mind here. They're respectively subclasses of ***BinderMeta*** and ***TableMeta***. Those last two help providing a powerful API to define YQL Table.
 
