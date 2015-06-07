@@ -2,11 +2,12 @@
 =========
 
 [![Build Status](https://travis-ci.org/josuebrunel/myql.svg?branch=master)](https://travis-ci.org/josuebrunel/myql) [![Documentation Status](https://readthedocs.org/projects/myql/badge/?version=latest)](https://myql.readthedocs.org)
-[![Latest Version](https://pypip.in/version/myql/badge.svg)](https://pypi.python.org/pypi/myql/)
-[![Downloads](https://pypip.in/download/myql/badge.svg)](https://pypi.python.org/pypi/myql) 
-[![Py_Versions](https://pypip.in/py_versions/myql/badge.svg)](https://pypi.python.org/pypi/myql)
-[![Implementations](https://pypip.in/implementation/myql/badge.svg)](https://pypi.python.org/pypi/myql)
+
 [![Join the chat at https://gitter.im/josuebrunel/myql](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/josuebrunel/myql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Code Issues](https://www.quantifiedcode.com/project/gh:josuebrunel:myql/badge.svg)](https://www.quantifiedcode.com/app/project/gh:josuebrunel:myql)
+
+[![PyPI](https://img.shields.io/pypi/v/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)
+[![PyPI](https://img.shields.io/pypi/dm/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)
+[![PyPI](https://img.shields.io/pypi/l/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)
 
 
 mYQL is a Python wrapper of the Yahoo Query Language. **[Full Documentation](http://myql.readthedocs.org/en/latest/)**
@@ -223,7 +224,7 @@ Delete records
 
 ####Using OAuth to fetch protected resources
 
-***mYQL*** comes with ***[yahoo_oauth](https://pypi.python.org/pypi/yahoo_oauth)***, which is an OAuth library for Yahoo! APIs
+***mYQL*** comes with ***[yahoo_oauth](https://pypi.python.org/pypi/myql)***, which is an OAuth library for Yahoo! APIs
 
 ```python
 >>> from yahoo_oauth import OAuth1
