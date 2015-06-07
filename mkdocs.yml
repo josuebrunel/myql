@@ -3,12 +3,12 @@ repo_url: https://github.com/josuebrunel/myql
 site_url: http://myql.readthedocs.org/en/latest/myql/
 site_description: MYQL documentation
 site_author: Josue Kouka
-google_analytics: ['UA-32441224-4', 'readthedocs.org']
+google_analytics: ['UA-32441224-4', 'myql.readthedocs.org']
 pages:
--   [index.md, Home]
--   [myql.md, MYQL]
--   [stockscraper.md, StockScraper]
--   [oauth.md, YOAuth]
--   [table.md, Open Table]
--   [contrib.md, Contribute]
+-   Home : index.md
+-   mYQL : myql.md
+-   StockScraper : stockscraper.md
+-   Yahoo-OAuth : oauth.md
+-   Open Tables : table.md
+-   Contribute : contrib.md
 theme: readthedocs
