@@ -402,7 +402,7 @@ Delete records
 
 ####Using OAuth 
 
-***mYQL*** comes with ***[yahoo_oauth](https://pypi.python.org/pypi/myql)***, which is an OAuth library for Yahoo! APIs.
+***mYQL*** comes with ***[yahoo_oauth](http://yahoo-oauth.readthedocs.org/en/master/)***, which is an OAuth library for Yahoo! APIs.
 
 ```python
 >>> from yahoo_oauth import OAuth1
