@@ -159,7 +159,7 @@ Methods
 -------
 
 ####use(yql_table_url,name=yql_table_name)
-Changes the data provider
+Maps a table name to the URL of an Open Data Table.
 
 ```python
 >>> yql.use('http://www.josuebrunel.org//users.xml', name='myusers') 
