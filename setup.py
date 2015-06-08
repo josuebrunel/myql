@@ -23,6 +23,7 @@ setup(
   download_url = "https://github.com/josuebrunel/myql/archive/{0}.tar.gz".format(__version__),
   keywords = ['myql', 'yql', 'yahoo', 'query', 'language'],
   packages = find_packages(),
+  tests_suite="tests",
   classifiers = [
     'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3',
