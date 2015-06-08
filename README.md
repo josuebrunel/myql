@@ -6,7 +6,8 @@
 [![PyPI](https://img.shields.io/pypi/v/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)
 [![PyPI](https://img.shields.io/pypi/dm/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)
 [![PyPI](https://img.shields.io/pypi/l/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)
-[![Coverage Status](https://coveralls.io/repos/josuebrunel/myql/badge.svg)](https://coveralls.io/r/josuebrunel/myql)
+[![Coverage Status](https://coveralls.io/repos/josuebrunel/myql/badge.svg?branch=testing)](https://coveralls.io/r/josuebrunel/myql?branch=testing)
+
 
 mYQL is a Python wrapper of the Yahoo Query Language. **[Full Documentation](http://myql.readthedocs.org/en/latest/)**
 
