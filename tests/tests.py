@@ -46,7 +46,13 @@ class TestMYQL(unittest.TestCase):
 
     def test_desc(self,):
         response = self.yql.desc('weather.forecast')
-        logging.debug(prettyfy(response,'json'))
+        logging.debug(prettyfy(response, 'json'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_show_tables(self,):
+        yql = MYQL(format='xml', community=False)
+        response = yql.showTables(format='xml')
+        logging.debug(prettyfy(response, 'xml'))
         self.assertEqual(response.status_code, 200)
 
     def test_use(self):
