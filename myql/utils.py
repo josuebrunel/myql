@@ -1,6 +1,6 @@
 import json
 from xml.dom import minidom
-from xml.etree import cElementTree as tree
+
 
 def pretty_json(data):
     """Return a pretty formatted json
@@ -8,34 +8,22 @@ def pretty_json(data):
     data = json.loads(data.decode('utf-8'))
     return json.dumps(data, indent=4, sort_keys=True)
 
+
 def pretty_xml(data):
     """Return a pretty formated xml
     """
     parsed_string = minidom.parseString(data.decode('utf-8'))
     return parsed_string.toprettyxml(indent='\t', encoding='utf-8')
 
+
 def prettyfy(response, format='json'):
     """A wrapper for pretty_json and pretty_xml
     """
-    if format=='json':
+    if format == 'json':
         return pretty_json(response.content)
-    else :
+    else:
         return pretty_xml(response.content)
 
-def json_write_data(json_data, filename):
-    """Write data in json file
-    """
-    with open(filename, 'w') as fp:
-        json.dump(json_data, fp, indent=4, sort_keys=True, ensure_ascii=False)
-        return True
-    return False
-
-def json_get_data(filename):
-    """Get data from json file
-    """
-    with open(filename, 'r') as fp:
-        json_data = json.load(fp)
-    return json_data
 
 def dump(response):
     """Print a pretty formatted response content
@@ -43,4 +31,4 @@ def dump(response):
     try:
         print(pretty_json(response.content))
     except:
-        prrint(pretty_xml(response.content))
+        print(pretty_xml(response.content))
