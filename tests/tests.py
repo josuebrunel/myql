@@ -1,7 +1,8 @@
 from __future__ import absolute_import
 
-import os, logging, time, json
-import pdb
+import os
+import logging
+import json
 import unittest
 from xml.dom import minidom
 from xml.etree import cElementTree as xtree
@@ -9,16 +10,13 @@ from xml.etree import cElementTree as xtree
 from yahoo_oauth import OAuth1
 
 from myql import MYQL
-from myql.utils import pretty_xml, pretty_json
+from myql.utils import pretty_xml, pretty_json, prettyfy
 
 from myql.contrib.table import Table
-from myql.contrib.table import Base, BaseInput
+from myql.contrib.table import BaseInput
 from myql.contrib.table import Binder, BinderFunction, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
 
 from myql.contrib.stockscraper import StockRetriever
-
-import readline, rlcompleter
-readline.parse_and_bind('tab: complete')
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logging.getLogger('Test-mYQL')
@@ -30,6 +28,7 @@ def json_write_data(json_data, filename):
         return True
     return False
 
+
 def json_get_data(filename):
     with open(filename, 'r') as fp:
         json_data = json.load(fp)
@@ -37,13 +36,18 @@ def json_get_data(filename):
 
 
 class TestMYQL(unittest.TestCase):
-    
+
     def setUp(self,):
         self.yql = MYQL(format='json',community=True)
         self.insert_result = None
 
     def tearDown(self):
         pass
+
+    def test_desc(self,):
+        response = self.yql.desc('weather.forecast')
+        logging.debug(prettyfy(response,'json'))
+        self.assertEqual(response.status_code, 200)
 
     def test_use(self):
         self.yql.use('http://www.josuebrunel.org/users.xml',name='users')
@@ -53,7 +57,7 @@ class TestMYQL(unittest.TestCase):
             logging.debug(pretty_json(response.content))
         except (Exception,) as e:
             logging.error(e)
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
 
     def test_raw_query(self,):
         response = self.yql.rawQuery('select name, woeid from geo.states where place="Congo"')
@@ -61,7 +65,7 @@ class TestMYQL(unittest.TestCase):
             logging.debug(pretty_json(response.content))
         except (Exception,) as e:
             logging.error(e)
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
 
     def test_get(self,):
         self.yql.format = 'xml'
@@ -71,7 +75,7 @@ class TestMYQL(unittest.TestCase):
             logging.debug(pretty_xml(response.content))
         except (Exception,) as e:
             logging.error(e)
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
 
     def test_select(self,):
         response = self.yql.select('geo.countries', ['name', 'code', 'woeid']).where(['name', '=', 'Canada'])
@@ -79,7 +83,7 @@ class TestMYQL(unittest.TestCase):
             logging.debug(pretty_json(response.content))
         except (Exception,) as e:
             logging.error(e)
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
 
     def test_select_in(self,):
         response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG")])
@@ -87,7 +91,7 @@ class TestMYQL(unittest.TestCase):
             logging.debug(pretty_json(response.content))
         except (Exception,) as e:
             logging.error(e)
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
 
     def test_select_in_2(self,):
         response = self.yql.select('weather.forecast',['units','atmosphere']).where(['woeid','IN',('select woeid from geo.places(1) where text="Paris"',)])
@@ -95,7 +99,7 @@ class TestMYQL(unittest.TestCase):
             logging.debug(pretty_json(response.content))
         except (Exception,) as e:
             logging.error(e)
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
 
     def test_1_insert(self,):
         response = self.yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
@@ -108,7 +112,7 @@ class TestMYQL(unittest.TestCase):
             logging.error(response.content)
             logging.error(e)
  
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
 
     def test_2_check_insert(self,):
         json_data = json_get_data('yql_storage.json')
@@ -119,7 +123,7 @@ class TestMYQL(unittest.TestCase):
             logging.error(response.content)
             logging.error(e)
 
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
        
     def test_3_update(self,):
         json_data = json_get_data('yql_storage.json')
@@ -130,7 +134,7 @@ class TestMYQL(unittest.TestCase):
             logging.error(response.content)
             logging.error(e)
  
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
 
     def test_4_delete(self,):
         json_data = json_get_data('yql_storage.json')
@@ -141,7 +145,7 @@ class TestMYQL(unittest.TestCase):
             logging.error(response.content)
             logging.error(e)
  
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
 
 
        
@@ -157,8 +161,8 @@ class TestOAuth(unittest.TestCase):
         oauth = OAuth1(None, None, from_file='credentials.json')
         yql = MYQL(format='json', oauth=oauth)
         response = yql.getGUID('josue_brunel')
-        logging.debug(response.content)
-        self.assertEqual(response.status_code,200)
+        logging.debug(pretty_json(response.content))
+        self.assertEqual(response.status_code, 200)
 
     def test_yahoo_fantasy_sport(self,):
         oauth = OAuth1(None, None, from_file='credentials.json')
@@ -167,7 +171,7 @@ class TestOAuth(unittest.TestCase):
         year = '2015-05-05'
         for team in teams:
             response = yql.select('fantasysports.teams.roster').where(['team_key','=',team],['date','=',year])
-            self.assertEqual(response.status_code,200)
+            self.assertEqual(response.status_code, 200)
             if not response.status_code == 200:
                 return False
 
@@ -187,37 +191,37 @@ class TestStockScraper(unittest.TestCase):
     def test_get_current_info(self,):
         data = self.stock.get_current_info(["YHOO","AAPL","GOOG"])
         logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code,200)
+        self.assertEqual(data.status_code, 200)
 
     def test_get_news_feed(self,):
         data = self.stock.get_news_feed('YHOO')
         logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code,200)
+        self.assertEqual(data.status_code, 200)
 
     def test_get_historical_info_with_args(self,):
         data = self.stock.get_historical_info('YHOO',items=['Open','Close','High','Low'], limit=5,startDate='2014-09-11',endDate='2015-02-10')
         logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code,200) 
+        self.assertEqual(data.status_code, 200) 
 
     def test_get_historical_info_without_args(self,):
         data = self.stock.get_historical_info('YHOO')
         logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code,200)
+        self.assertEqual(data.status_code, 200)
 
     def test_get_options_info(self,):
         data = self.stock.get_options_info('YHOO')
         logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code,200)   
+        self.assertEqual(data.status_code, 200)   
 
     def test_get_index_summary(self,):
         data = self.stock.get_index_summary('GOOG',('Volume','Change'))
         logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code,200)   
+        self.assertEqual(data.status_code, 200)   
 
     def test_get_industry_index(self,):
         data = self.stock.get_industry_index(112)
         logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code,200)   
+        self.assertEqual(data.status_code, 200)   
 
 
 class TestTable(unittest.TestCase):
