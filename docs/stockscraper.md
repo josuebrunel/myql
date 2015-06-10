@@ -11,7 +11,7 @@ Full [Documentation](http://www.gurchet-rai.net/dev/yahoo-finance-yql)
 
 * ***format*** : xml or json
 * ***debug*** : True or False
-* ***oauth*** : YOAuth object
+* ***oauth*** : yahoo_oauth (OAuth1 or OAuth2)
 
 ```python
 from myql.contrib.stockscraper import StockRetriever
