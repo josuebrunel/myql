@@ -401,6 +401,9 @@ Delete records
 >>> response = yql.getGUID('josue_brunel') # Deal with the response
 ```
 
+#### Stocks Scraper
+
+The full documentation on ***StockScraper*** is [here](https://myql.readthedocs.org/en/latest/stockscraper/)
 
 #### Release Notes
 
