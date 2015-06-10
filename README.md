@@ -7,7 +7,7 @@
 [![PyPI](https://img.shields.io/pypi/dm/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)
 [![PyPI](https://img.shields.io/pypi/pyversions/myql.svg)](https://pypi.python.org/pypi/myql)
 [![PyPI](https://img.shields.io/pypi/implementation/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)
-[![Coverage Status](https://coveralls.io/repos/josuebrunel/myql/badge.svg?branch=testing)](https://coveralls.io/r/josuebrunel/myql?branch=testing)
+[![Coverage Status](https://coveralls.io/repos/josuebrunel/myql/badge.svg?branch=testing)](https://coveralls.io/r/josuebrunel/myql?branch=master)
 [![PyPI](https://img.shields.io/pypi/l/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)
 
 
