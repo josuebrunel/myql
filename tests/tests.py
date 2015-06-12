@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import os
+import pdb
 import logging
 import json
 import unittest
@@ -16,7 +17,7 @@ from myql.contrib.table import Table
 from myql.contrib.table import BaseInput
 from myql.contrib.table import Binder, BinderFunction, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
 
-from myql.contrib.stockscraper import StockRetriever
+from myql.contrib.finance.stockscraper import StockRetriever
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logging.getLogger('Test-mYQL')
@@ -228,6 +229,11 @@ class TestStockScraper(unittest.TestCase):
         data = self.stock.get_industry_index(112)
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)   
+
+    def test_stock_lookup(self,):
+        data = self.stock.stock_lookup('Google')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
 
 class TestTable(unittest.TestCase):

@@ -5,9 +5,12 @@ Documentation http://www.gurchet-rai.net/dev/yahoo-finance-yql
 
 from __future__ import absolute_import
 
-import calendar
+import re
+import json
 import datetime
 from datetime import date, timedelta
+
+import requests
 
 from myql.myql import MYQL
 
@@ -63,3 +66,29 @@ class StockRetriever(MYQL):
         """
         response = self.select('yahoo.finance.industry',items).where(['id','=',index_id])
         return response
+
+    def stock_lookup(self, name):
+        """Retrieves all symbols belonging to a company
+        """
+        url = "http://autoc.finance.yahoo.com/autoc?query={0}&callback=YAHOO.Finance.SymbolSuggest.ssCallback".format(name)
+
+        response = requests.get(url)
+
+        json_data = re.match("YAHOO\.Finance\.SymbolSuggest.ssCallback\((.*)\)", response.text)
+        try:
+            json_data = json_data.groups()[0]
+        except:
+            json_data = ''
+
+        return type('Response', (requests.Response,),{
+            'text' : json_data,
+            'content': json_data.encode(),
+            'status_code': response.status_code,
+            'reason': response.reason,
+            'encoding': response.encoding,
+            'apparent_encoding': response.apparent_encoding,
+            'cookies': response.cookies,
+            'headers': response.headers,
+            'json': lambda : json.loads(json_data),
+            'url': response.url
+        })
