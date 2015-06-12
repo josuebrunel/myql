@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import os
+import pdb
 import logging
 import json
 import unittest
@@ -231,9 +232,8 @@ class TestStockScraper(unittest.TestCase):
 
     def test_stock_lookup(self,):
         data = self.stock.stock_lookup('Google')
-        logging.debug(pretty_json(data))
-        #self.assertEqual(data.status_code, 200)
-        #self.assertIn(('GOOG','GOOGL','GOOG.MX'),)
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
 
 class TestTable(unittest.TestCase):

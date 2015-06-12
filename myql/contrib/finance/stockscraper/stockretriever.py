@@ -6,6 +6,7 @@ Documentation http://www.gurchet-rai.net/dev/yahoo-finance-yql
 from __future__ import absolute_import
 
 import re
+import json
 import datetime
 from datetime import date, timedelta
 
@@ -74,5 +75,20 @@ class StockRetriever(MYQL):
         response = requests.get(url)
 
         json_data = re.match("YAHOO\.Finance\.SymbolSuggest.ssCallback\((.*)\)", response.text)
-        # return a bytes 
-        return json_data.groups()[0].encode()
+        try:
+            json_data = json_data.groups()[0]
+        except:
+            json_data = ''
+
+        return type('Response', (requests.Response,),{
+            'text' : json_data,
+            'content': json_data.encode(),
+            'status_code': response.status_code,
+            'reason': response.reason,
+            'encoding': response.encoding,
+            'apparent_encoding': response.apparent_encoding,
+            'cookies': response.cookies,
+            'headers': response.headers,
+            'json': lambda : json.loads(json_data),
+            'url': response.url
+        })
