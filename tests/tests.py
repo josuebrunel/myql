@@ -229,6 +229,12 @@ class TestStockScraper(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)   
 
+    def test_stock_lookup(self,):
+        data = self.stock.stock_lookup('Google')
+        logging.debug(pretty_json(data))
+        #self.assertEqual(data.status_code, 200)
+        #self.assertIn(('GOOG','GOOGL','GOOG.MX'),)
+
 
 class TestTable(unittest.TestCase):
 
