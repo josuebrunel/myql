@@ -12,9 +12,9 @@ from datetime import date, timedelta
 
 import requests
 
-from myql.myql import MYQL
+from myql.myql import YQL
 
-class StockRetriever(MYQL):
+class StockRetriever(YQL):
 
     def __init__(self, format='json', debug=False, oauth=None):
         """Initialize the object
