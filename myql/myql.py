@@ -10,7 +10,8 @@ logger = logging.getLogger('mYQL')
 
 logging.getLogger('requests').setLevel(logging.WARNING)
 
-class MYQL(object):
+
+class YQL(object):
   '''Yet another Python Yahoo! Query Language Wrapper
   Attributes:
   - url : data provider url
@@ -260,6 +261,14 @@ class MYQL(object):
     response = self.executeQuery(payload)
 
     return response
+
+
+class MYQL(YQL):
+
+  def __init__(self, *args, **kwargs):
+
+    super(MYQL, self).__init__(**kwargs) 
+
 
   ######################################################
   #
