@@ -7,7 +7,6 @@ from __future__ import absolute_import
 
 import re
 import json
-import datetime
 from datetime import date, timedelta
 
 import requests
@@ -49,19 +48,19 @@ class StockRetriever(YQL):
         response = self.select('yahoo.finance.historicaldata',items,limit).where(['symbol','=',symbol],['startDate','=',startDate],['endDate','=',endDate])
         return response
 
-    def get_options_info(self, symbol, items=[], expiration='', format=format):
+    def get_options_info(self, symbol, items=None, expiration='', format=format):
         """get_options_data() uses the yahoo.finance.options table to retrieve call and put options from the options page.
         """
         response = self.select('yahoo.finance.options',items).where(['symbol','=',symbol],[] if not expiration else ['expiration','=',expiration])
         return response
 
-    def get_index_summary(self, symbol, items=[],format='json'):
+    def get_index_summary(self, symbol, items=None,format='json'):
         """
         """
         response = self.select('yahoo.finance.quoteslist',items).where(['symbol','=',symbol])
         return response
 
-    def get_industry_index(self, index_id,items=[],format='json'):
+    def get_industry_index(self, index_id,items=None,format='json'):
         """retrieves all symbols that belong to an industry.
         """
         response = self.select('yahoo.finance.industry',items).where(['id','=',index_id])
