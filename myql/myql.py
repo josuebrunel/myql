@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 import logging
 import requests
-import myql.errors
+from myql.myql import errors 
 
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
