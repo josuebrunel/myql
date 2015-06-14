@@ -165,7 +165,7 @@ class BaseBinder(Base):
     def addPaging(self,paging):
         """Add paging to Binder
         """
-        if not self.paging:
+        if not vars(self).get('paging', None):
             self.paging = paging
         root = self.etree
 
