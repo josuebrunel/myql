@@ -53,7 +53,7 @@ class YQL(object):
             query = "use '{0}' as {1}; ".format(self.yql_table_url, self.yql_table_name) + query
 
         self._query = query
-        logger.info("QUERY = {0}".format(query))
+        logger.info("QUERY = %s" %(query,))
     
         payload = {
 	        'q' : query,
@@ -67,7 +67,7 @@ class YQL(object):
             payload['crossProduct'] = self.crossProduct
     
         self._payload = payload
-        logger.info("PAYLOAD = {0}".format(payload)) 
+        logger.info("PAYLOAD = %s " %(payload,)) 
 
         return payload
 
@@ -166,7 +166,7 @@ class YQL(object):
         return response
 
     ##GET
-    def get(self, table=None, items=[], limit=''):
+    def get(self, table=None, items=None, limit=''):
         '''Just a select which returns a response
         >>> yql.get("geo.countries', ['name', 'woeid'], 5")
         '''
@@ -187,7 +187,7 @@ class YQL(object):
       
     
     ## SELECT
-    def select(self, table=None, items=[], limit=''):
+    def select(self, table=None, items=None, limit=None):
         '''This method simulate a select on a table
         >>> yql.select('geo.countries', limit=5) 
         >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
@@ -196,10 +196,13 @@ class YQL(object):
         if not items:
             items = ['*']
         self._query = "SELECT {1} FROM {0} ".format(self._table, ','.join(items))
-        try: #Checking wether a limit is set or not
-            self._limit = limit
-        except (Exception,) as e:
-            pass
+
+        self._limit = limit
+            
+       # try: #Checking wether a limit is set or not
+       #     self._limit = limit
+       # except (Exception,) as e:
+       #     pass
 
         return self
 
