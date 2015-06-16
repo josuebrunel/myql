@@ -7,13 +7,17 @@ class Weather(YQL):
     """Weather Class
     """
 
-    def __init__(self, *args, **kwargs):
-
+    def __init__(self, unit=None, **kwargs):
+        """Initialize a weather object
+        """
         super(Weather, self).__init__(**kwargs)
 
+        self.unit = unit 
 
-    def get_weather_in(self, place):
+
+    def get_weather_in(self, place, unit=None, items=None):
         """Return weather info according to place
         """
-        response = self.select('weather.forecast').where(['woeid','IN',('SELECT woeid FROM geo.places WHERE text="{0}"'.format(place),)])
+        unit = unit if unit else self.unit
+        response = self.select('weather.forecast', items=items).where(['woeid','IN',('SELECT woeid FROM geo.places WHERE text="{0}"'.format(place),)], ['u','=',unit] if unit else [])
         return response
