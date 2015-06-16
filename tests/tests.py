@@ -199,6 +199,12 @@ class TestWeather(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
+    def test_get_weather_in_with_unit(self):
+        data = self.weather.get_weather_in('choisy-le-roi', 'c',['location', 'units', 'item.condition'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+
 class TestStockScraper(unittest.TestCase):
 
     def setUp(self,):
