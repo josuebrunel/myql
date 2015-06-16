@@ -3,7 +3,7 @@ from xml.dom import minidom
 from xml.etree import cElementTree as xtree
 
 from myql.contrib.table.base import Base
-from myql.contrib.table.binder import BinderMeta, Binder, BinderFunction
+from myql.contrib.table.binder import Binder, BinderFunction
 
 class Table(Base):
     """Class representating a YQL Table
@@ -129,7 +129,7 @@ class TableMeta(type):
             dct = { key : value for (key, value) in dct.items() if key in ('__module__', '__metaclass__')}
             dct['table'] = table
 
-        return super(TableMeta, cls).__new__(cls, name, (Table,), dct)
+        return super(TableMeta, cls).__new__(cls, name, bases, dct)
 
 
 class TableModel(Table):

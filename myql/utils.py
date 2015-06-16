@@ -30,5 +30,5 @@ def dump(response):
     """
     try:
         print(pretty_json(response.content))
-    except:
+    except (Exception, ) :
         print(pretty_xml(response.content))

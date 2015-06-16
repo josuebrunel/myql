@@ -1,12 +1,11 @@
-from  myql.contrib.table.base import Base, BaseInput, BasePaging, BaseBinder
-from xml.etree import cElementTree as xtree
+from  myql.contrib.table.base import BaseInput, BasePaging, BaseBinder
 
 class Binder(BaseBinder):
     """Represent a binder : <select>, <insert>, <update>, <delete> 
     """
     def __init__(self, name, itemPath, produces, pollingFrequencySeconds=0, urls=[], inputs=[], paging=None): 
 
-        super(Binder, self).__init__(name, itemPath=itemPath, produces=produces, pollingFrequencySeconds=0, urls=urls, inputs=inputs, paging=paging)
+        super(Binder, self).__init__(name, itemPath=itemPath, produces=produces, pollingFrequencySeconds=pollingFrequencySeconds, urls=urls, inputs=inputs, paging=paging)
 
         
 class BinderFunction(BaseBinder):
@@ -92,7 +91,7 @@ class BinderMeta(type):
             dct = { key : value for (key, value) in dct.items() if key in ('__module__', '__metaclass__')}
             dct['binder'] = binder
             # Add KeyException Management
-        return super(BinderMeta,cls).__new__(cls, name, (Binder,), dct)
+        return super(BinderMeta,cls).__new__(cls, name, bases, dct)
 
 
 class BinderModel(Binder):

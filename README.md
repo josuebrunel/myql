@@ -2,6 +2,7 @@
 =========
 
 [![Build Status](https://travis-ci.org/josuebrunel/myql.svg?branch=master)](https://travis-ci.org/josuebrunel/myql) [![Documentation Status](https://readthedocs.org/projects/myql/badge/?version=latest)](https://myql.readthedocs.org)
+[![Code Health](https://landscape.io/github/josuebrunel/myql/master/landscape.svg?style=flat)](https://landscape.io/github/josuebrunel/myql/master)
 [![PyPI](https://img.shields.io/pypi/status/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)
 [![PyPI](https://img.shields.io/pypi/v/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)
 [![PyPI](https://img.shields.io/pypi/dm/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)

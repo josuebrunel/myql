@@ -7,7 +7,6 @@ from __future__ import absolute_import
 
 import re
 import json
-import datetime
 from datetime import date, timedelta
 
 import requests
@@ -22,21 +21,21 @@ class StockRetriever(YQL):
         super(StockRetriever, self).__init__(community=True, format=format, debug=debug, oauth=oauth)
 
 
-    def get_current_info(self, symbolList, columns=None, format='json'):
+    def get_current_info(self, symbolList, columns=None):
         """get_current_info() uses the yahoo.finance.quotes datatable to get all of the stock information presented in the main table on a typical stock page 
         and a bunch of data from the key statistics page.
         """
         response = self.select('yahoo.finance.quotes',columns).where(['symbol','in',symbolList])
         return response
 
-    def get_news_feed(self, symbol,format='json'):
+    def get_news_feed(self, symbol):
         """get_news_feed() uses the rss data table to get rss feeds under the Headlines and Financial Blogs headings on a typical stock page.
         """
         rss_url='http://finance.yahoo.com/rss/headline?s={0}'.format(symbol)
         response = self.select('rss',['title','link','description'],limit=2).where(['url','=',rss_url])
         return response
 
-    def get_historical_info(self, symbol,items=None, startDate=None, endDate=None, limit=None, format='json'):
+    def get_historical_info(self, symbol,items=None, startDate=None, endDate=None, limit=None):
         """get_historical_info() uses the csv datatable to retrieve all available historical data on a typical historical prices page
         """
         today = date.today()
@@ -49,19 +48,19 @@ class StockRetriever(YQL):
         response = self.select('yahoo.finance.historicaldata',items,limit).where(['symbol','=',symbol],['startDate','=',startDate],['endDate','=',endDate])
         return response
 
-    def get_options_info(self, symbol, items=[], expiration='', format=format):
+    def get_options_info(self, symbol, items=None, expiration=''):
         """get_options_data() uses the yahoo.finance.options table to retrieve call and put options from the options page.
         """
         response = self.select('yahoo.finance.options',items).where(['symbol','=',symbol],[] if not expiration else ['expiration','=',expiration])
         return response
 
-    def get_index_summary(self, symbol, items=[],format='json'):
+    def get_index_summary(self, symbol, items=None):
         """
         """
         response = self.select('yahoo.finance.quoteslist',items).where(['symbol','=',symbol])
         return response
 
-    def get_industry_index(self, index_id,items=[],format='json'):
+    def get_industry_index(self, index_id,items=None):
         """retrieves all symbols that belong to an industry.
         """
         response = self.select('yahoo.finance.industry',items).where(['id','=',index_id])
@@ -77,7 +76,8 @@ class StockRetriever(YQL):
         json_data = re.match("YAHOO\.Finance\.SymbolSuggest.ssCallback\((.*)\)", response.text)
         try:
             json_data = json_data.groups()[0]
-        except:
+        except (Exception,) as e:
+            print(e)
             json_data = ''
 
         return type('Response', (requests.Response,),{

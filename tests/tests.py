@@ -17,6 +17,7 @@ from myql.contrib.table import Table
 from myql.contrib.table import BaseInput
 from myql.contrib.table import Binder, BinderFunction, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
 
+from myql.contrib.weather import Weather
 from myql.contrib.finance.stockscraper import StockRetriever
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
@@ -186,6 +187,53 @@ class TestOAuth(unittest.TestCase):
             current_team = data['query']['results']['team']
             print(current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves'])
 
+
+class TestWeather(unittest.TestCase):
+    """Weather module unit test
+    """
+    def setUp(self,):
+        self.weather = Weather(unit='c', format='json')
+
+    def test_get_weather_in(self):
+        data = self.weather.get_weather_in('choisy-le-roi')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_get_weather_in_with_unit(self):
+        data = self.weather.get_weather_in('choisy-le-roi', 'c',['location', 'units', 'item.condition'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+    
+    def test_get_weather_forecast(self,):
+        data = self.weather.get_weather_forecast('choisy-le-roi')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+    
+    def test_get_weather_description(self,):
+        data = self.weather.get_weather_description('dolisie')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_get_current_condition(self,):
+        data = self.weather.get_current_condition('Nantes')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_get_current_atmosphere(self,):
+        data = self.weather.get_current_atmosphere('Scotland')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_get_current_wind(self,):
+        data = self.weather.get_current_wind('Barcelona')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+ 
+    def test_get_astronomy(self,):
+        data = self.weather.get_astronomy('Congo')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+ 
 
 class TestStockScraper(unittest.TestCase):
 
