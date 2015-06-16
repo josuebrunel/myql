@@ -16,7 +16,6 @@ class Weather(YQL):
 
         self.unit = unit 
 
-
     def get_weather_in(self, place, unit=None, items=None):
         """Return weather info according to place
         """
@@ -30,3 +29,15 @@ class Weather(YQL):
         unit = unit if unit else self.unit
         response = self.select('weather.forecast', items=['item.forecast']).where(['woeid','IN',('SELECT woeid FROM geo.places WHERE text="{0}"'.format(place),)], ['u','=',unit] if unit else [])
         return response        
+
+    def get_weather_description(self, place):
+        """Return weather description 
+        """
+        response = self.select('weather.forecast', items=['item.condition.text']).where(['woeid','IN',('SELECT woeid FROM geo.places WHERE text="{0}"'.format(place),)])
+        return response
+
+    def get_current_condition(self, place):
+        """Return weather condition
+        """
+        response = self.select('weather.forecast', items=['item.condition']).where(['woeid','IN',('SELECT woeid FROM geo.places WHERE text="{0}"'.format(place),)])
+        return response

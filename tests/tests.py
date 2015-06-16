@@ -209,6 +209,16 @@ class TestWeather(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
     
+    def test_get_weather_description(self,):
+        data = self.weather.get_weather_description('dolisie')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_get_current_condition(self,):
+        data = self.weather.get_current_condition('caracas')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+ 
 
 class TestStockScraper(unittest.TestCase):
 
