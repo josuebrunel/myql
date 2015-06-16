@@ -192,7 +192,7 @@ class TestWeather(unittest.TestCase):
     """Weather module unit test
     """
     def setUp(self,):
-        self.weather = Weather(format='json')
+        self.weather = Weather(unit='c', format='json')
 
     def test_get_weather_in(self):
         data = self.weather.get_weather_in('choisy-le-roi')
@@ -203,7 +203,12 @@ class TestWeather(unittest.TestCase):
         data = self.weather.get_weather_in('choisy-le-roi', 'c',['location', 'units', 'item.condition'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
-
+    
+    def test_get_weather_forecast(self,):
+        data = self.weather.get_weather_forecast('choisy-le-roi')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+    
 
 class TestStockScraper(unittest.TestCase):
 
