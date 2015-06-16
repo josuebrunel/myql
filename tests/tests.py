@@ -17,6 +17,7 @@ from myql.contrib.table import Table
 from myql.contrib.table import BaseInput
 from myql.contrib.table import Binder, BinderFunction, InputKey, InputValue, PagingPage, PagingUrl, PagingOffset
 
+from myql.contrib.weather import Weather
 from myql.contrib.finance.stockscraper import StockRetriever
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
@@ -186,6 +187,17 @@ class TestOAuth(unittest.TestCase):
             current_team = data['query']['results']['team']
             print(current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves'])
 
+
+class TestWeather(unittest.TestCase):
+    """Weather module unit test
+    """
+    def setUp(self,):
+        self.weather = Weather(format='json')
+
+    def test_get_weather_in(self):
+        data = self.weather.get_weather_in('choisy-le-roi')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
 class TestStockScraper(unittest.TestCase):
 
