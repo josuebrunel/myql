@@ -27,17 +27,35 @@ class Weather(YQL):
         """Return weather forecast accoriding to place
         """
         unit = unit if unit else self.unit
-        response = self.select('weather.forecast', items=['item.forecast']).where(['woeid','IN',('SELECT woeid FROM geo.places WHERE text="{0}"'.format(place),)], ['u','=',unit] if unit else [])
+        response = self.get_weather_in(place, items=['item.forecast'], unit=unit)
         return response        
 
     def get_weather_description(self, place):
         """Return weather description 
         """
-        response = self.select('weather.forecast', items=['item.condition.text']).where(['woeid','IN',('SELECT woeid FROM geo.places WHERE text="{0}"'.format(place),)])
+        response = self.get_weather_in(place, items=['item.condition.text'])
         return response
 
     def get_current_condition(self, place):
         """Return weather condition
         """
-        response = self.select('weather.forecast', items=['item.condition']).where(['woeid','IN',('SELECT woeid FROM geo.places WHERE text="{0}"'.format(place),)])
+        response = self.get_weather_in(place, items=['item.condition'])
+        return response
+
+    def get_current_atmosphere(self, place):
+        """Return weather atmosphere
+        """
+        response = self.get_weather_in(place, items=['atmosphere'])
+        return response
+
+    def get_current_wind(self, place):
+        """Return weather wind  
+        """
+        response = self.get_weather_in(place, items=['wind'])
+        return response
+
+    def get_astronomy(self, place):
+        """Return sunrise and sunset time
+        """
+        response = self.get_weather_in(place, items=['astronomy'])
         return response

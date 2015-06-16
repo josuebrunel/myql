@@ -215,7 +215,22 @@ class TestWeather(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_get_current_condition(self,):
-        data = self.weather.get_current_condition('caracas')
+        data = self.weather.get_current_condition('Nantes')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_get_current_atmosphere(self,):
+        data = self.weather.get_current_atmosphere('Scotland')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_get_current_wind(self,):
+        data = self.weather.get_current_wind('Barcelona')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+ 
+    def test_get_astronomy(self,):
+        data = self.weather.get_astronomy('Congo')
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
  
