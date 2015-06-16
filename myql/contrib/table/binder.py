@@ -1,4 +1,4 @@
-from  myql.contrib.table.base import Base, BaseInput, BasePaging, BaseBinder
+from  myql.contrib.table.base import BaseInput, BasePaging, BaseBinder
 
 class Binder(BaseBinder):
     """Represent a binder : <select>, <insert>, <update>, <delete> 

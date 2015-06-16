@@ -76,7 +76,7 @@ class StockRetriever(YQL):
         json_data = re.match("YAHOO\.Finance\.SymbolSuggest.ssCallback\((.*)\)", response.text)
         try:
             json_data = json_data.groups()[0]
-        except (Execption,) as e:
+        except (Exception,) as e:
             print(e)
             json_data = ''
 
