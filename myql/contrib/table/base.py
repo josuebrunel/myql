@@ -90,7 +90,7 @@ class BaseBinder(Base):
         """Add url to binder
         """
 
-        if not url in self.urls:
+        if url not in self.urls:
             self.urls.append(url)
 
         root = self.etree
@@ -126,7 +126,7 @@ class BaseBinder(Base):
     def addInput(self, key):
         """Add key to input : key, value or map
         """
-        if not key in self.inputs:
+        if key not in self.inputs:
             self.inputs.append(key)
 
         root = self.etree
@@ -216,6 +216,7 @@ class BaseInput(object):
         self.id = id
         self.like = like # as is a python <keyword>, that's why in argument we use <like>
         self.type = type
+        self.paramType = paramType
         self.required = required
         self.default = default
         self.private = private

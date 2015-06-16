@@ -129,7 +129,7 @@ class TableMeta(type):
             dct = { key : value for (key, value) in dct.items() if key in ('__module__', '__metaclass__')}
             dct['table'] = table
 
-        return super(TableMeta, cls).__new__(cls, name, (Table,), dct)
+        return super(TableMeta, cls).__new__(cls, name, bases, dct)
 
 
 class TableModel(Table):

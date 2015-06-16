@@ -199,11 +199,6 @@ class YQL(object):
 
         self._limit = limit
             
-       # try: #Checking wether a limit is set or not
-       #     self._limit = limit
-       # except (Exception,) as e:
-       #     pass
-
         return self
 
     ## INSERT
