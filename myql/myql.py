@@ -54,20 +54,20 @@ class YQL(object):
 
         self._query = query
         logger.info("QUERY = %s" %(query,))
-    
+
         payload = {
-	        'q' : query,
-	        'callback' : '', #This is not javascript
-	        'diagnostics' : self.diagnostics, 
-	        'format' : format if format else self.format,
+            'q': query,
+            'callback': '',#This is not javascript
+            'diagnostics': self.diagnostics,
+            'format': format if format else self.format,
             'debug': self.debug,
             'jsonCompact': self.jsonCompact
         }
         if self.crossProduct:
             payload['crossProduct'] = self.crossProduct
-    
+
         self._payload = payload
-        logger.info("PAYLOAD = %s " %(payload,)) 
+        logger.info("PAYLOAD = %s " %(payload, ))
 
         return payload
 
@@ -75,23 +75,23 @@ class YQL(object):
         '''Executes a YQL query and returns a response
         >>>...
         >>> resp = yql.rawQuery('select * from weather.forecast where woeid=2502265')
-        >>> 
+        >>>
         '''
         if format:
             format = format
         else:
             format = self.format
-    
+
         payload = self.payloadBuilder(query, format=format)
         response = self.executeQuery(payload)
-        if pretty :
+        if pretty:
             response = self.buildResponse(response)
 
         return response
 
     def executeQuery(self, payload):
         '''Execute the query and returns and response'''
-        if vars(self).get('oauth'): 
+        if vars(self).get('oauth'):
             if not self.oauth.token_is_valid(): # Refresh token if token has expired
                 self.oauth.refresh_token()
             response = self.oauth.session.get(self.private_url, params= payload, header_auth=True)
@@ -108,10 +108,10 @@ class YQL(object):
 
         if cond[1].lower() == 'in':
             if len(cond[2]) > 1:
-                cond[2] = "({0})".format(','.join(map(str,[ "'{0}'".format(e) for e in cond[2] ])))
+                cond[2] = "({0})".format(','.join(map(str,["'{0}'".format(e) for e in cond[2]])))
             else:
-                cond[2] = "({0})".format(','.join(map(str,[ "{0}".format(e) for e in cond[2] ])))
-      
+                cond[2] = "({0})".format(','.join(map(str,["{0}".format(e) for e in cond[2]])))
+
             cond = " ".join(cond)
         else: 
             cond[2] = "'{0}'".format(cond[2])
