@@ -3,6 +3,7 @@ repo_url: https://github.com/josuebrunel/myql
 site_url: http://myql.readthedocs.org/en/latest/myql/
 site_description: MYQL documentation
 site_author: Josue Kouka
+use_directory_urls: True
 google_analytics: ['UA-32441224-4', 'myql.readthedocs.org']
 pages:
 -   Home : index.md

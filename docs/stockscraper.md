@@ -11,10 +11,10 @@ Full [Documentation](http://www.gurchet-rai.net/dev/yahoo-finance-yql)
 
 * ***format*** : xml or json
 * ***debug*** : True or False
-* ***oauth*** : yahoo_oauth (OAuth1 or OAuth2)
+* ***oauth*** : yahoo_oauth (OAuth1)
 
 ```python
-from myql.contrib.stockscraper import StockRetriever
+from myql.contrib.finance.stockscraper import StockRetriever
 stocks = StockRetriever(format='json')
 ```
 
@@ -26,7 +26,7 @@ stocks = StockRetriever(format='json')
 * ***columns*** : List of column to fetch
 
 ```python
-from myql.contrib.stockscraper import StockRetriever
+from myql.contrib.finance.stockscraper import StockRetriever
 stocks = StockRetriever(format='json')
 data = stocks.get_current_info(["YHOO","AAPL","GOOG"])
 ```
@@ -136,7 +136,7 @@ data = stocks.get_current_info(["YHOO","AAPL","GOOG"])
 * ***symbol*** : Symbol news to retrieve
 
 ```python
-from myql.contrib.stockscraper import StockRetriever
+from myql.contrib.finance.stockscraper import StockRetriever
 stocks = StockRetriever(format='json')
 data = stocks.get_news_feed('YHOO')
 ```
@@ -174,7 +174,7 @@ data = stocks.get_news_feed('YHOO')
 * ***limit*** : number of results to return
 
 ```python
-from myql.contrib.stockscraper import StockRetriever
+from myql.contrib.finance.stockscraper import StockRetriever
 stocks = StockRetriever(format='json')
 data = stocks.get_historical_info('YHOO',items=['Open','Close','High','Low'], limit=5,startDate='2014-09-11',endDate='2015-02-10')
 ```
@@ -231,7 +231,7 @@ data = stocks.get_historical_info('YHOO',items=['Open','Close','High','Low'], li
 * ***expiration*** : Date of expiration (type : str)
 
 ```python
-from myql.contrib.stockscraper import StockRetriever
+from myql.contrib.finance.stockscraper import StockRetriever
 stocks = StockRetriever(format='json')
 data = stocks.get_options_info('YHOO')
 ```
@@ -257,7 +257,7 @@ data = stocks.get_options_info('YHOO')
 * ***items*** : list of attributes to retrieve
 
 ```python
-from myql.contrib.stockscraper import StockRetriever
+from myql.contrib.finance.stockscraper import StockRetriever
 stocks = StockRetriever(format='json')
 data = stocks.get_index_summary('GOOG',('Volume','Change'))
 ```
@@ -284,7 +284,7 @@ data = stocks.get_index_summary('GOOG',('Volume','Change'))
 * ***items*** : list of attributes to retrieve
 
 ```python
-from myql.contrib.stockscraper import StockRetriever
+from myql.contrib.finance.stockscraper import StockRetriever
 stocks = StockRetriever(format='json')
 data = stocks.get_industry_index(112)
 ```
@@ -336,3 +336,103 @@ data = stocks.get_industry_index(112)
 }
 ```
 
+#### *StockRetriever.get_symbols(company_name)*
+
+&nbsp;&nbsp;&nbsp;&nbsp; **Always returns data as JSON**
+
+```python
+from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = stocks.get_symbols('Google')
+```
+
+```json
+{
+    "ResultSet": {
+        "Query": "google",
+        "Result": [
+            {
+                "exch": "NMS",
+                "exchDisp": "NASDAQ",
+                "name": "Google Inc.",
+                "symbol": "GOOG",
+                "type": "S",
+                "typeDisp": "Equity"
+            },
+            {
+                "exch": "NMS",
+                "exchDisp": "NASDAQ",
+                "name": "Google Inc.",
+                "symbol": "GOOGL",
+                "type": "S",
+                "typeDisp": "Equity"
+            },
+            {
+                "exch": "GER",
+                "exchDisp": "XETRA",
+                "name": "Google Inc.",
+                "symbol": "GGQ7.DE",
+                "type": "S",
+                "typeDisp": "Equity"
+            },
+            {
+                "exch": "MEX",
+                "exchDisp": "Mexico",
+                "name": "Google Inc.",
+                "symbol": "GOOG.MX",
+                "type": "S",
+                "typeDisp": "Equity"
+            },
+            {
+                "exch": "MEX",
+                "exchDisp": "Mexico",
+                "name": "GOOGLE-A",
+                "symbol": "GOOGL.MX",
+                "type": "S",
+                "typeDisp": "Equity"
+            },
+            {
+                "exch": "BUE",
+                "exchDisp": "Buenos Aires",
+                "name": "Google Inc.",
+                "symbol": "GOOGL.BA",
+                "type": "S",
+                "typeDisp": "Equity"
+            },
+            {
+                "exch": "FRA",
+                "exchDisp": "Frankfurt",
+                "name": "GOOGLE-A",
+                "symbol": "GGQ1.F",
+                "type": "S",
+                "typeDisp": "Equity"
+            },
+            {
+                "exch": "MUN",
+                "exchDisp": "Munich",
+                "name": "GOOGLE-A",
+                "symbol": "GGQ1.MU",
+                "type": "S",
+                "typeDisp": "Equity"
+            },
+            {
+                "exch": "EBS",
+                "exchDisp": "Swiss",
+                "name": "GOOGLE-A",
+                "symbol": "GOOGL.SW",
+                "type": "S",
+                "typeDisp": "Equity"
+            },
+            {
+                "exch": "MUN",
+                "exchDisp": "Munich",
+                "name": "GOOGLE-C",
+                "symbol": "GGQ7.MU",
+                "type": "S",
+                "typeDisp": "Equity"
+            }
+        ]
+    }
+}
+
+```
