@@ -66,7 +66,7 @@ class StockRetriever(YQL):
         response = self.select('yahoo.finance.industry',items).where(['id','=',index_id])
         return response
 
-    def stock_lookup(self, name):
+    def get_symbols(self, name):
         """Retrieves all symbols belonging to a company
         """
         url = "http://autoc.finance.yahoo.com/autoc?query={0}&callback=YAHOO.Finance.SymbolSuggest.ssCallback".format(name)
@@ -80,7 +80,7 @@ class StockRetriever(YQL):
             print(e)
             json_data = ''
 
-        return type('Response', (requests.Response,),{
+        return type('response', (requests.Response,),{
             'text' : json_data,
             'content': json_data.encode(),
             'status_code': response.status_code,
