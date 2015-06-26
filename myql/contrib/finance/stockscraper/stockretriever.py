@@ -19,7 +19,18 @@ class StockRetriever(YQL):
         """Initialize the object
         """
         super(StockRetriever, self).__init__(community=True, format=format, debug=debug, oauth=oauth)
+    
+    def __get_time_range(self, startDate, endDate):
+        """Return time range
+        """
+        today = date.today()
+        start_date = today - timedelta(days=today.weekday(), weeks=1)
+        end_date = start_date + timedelta(days=4)
 
+        startDate = startDate if startDate else str(start_date)
+        endDate = endDate if endDate else str(end_date)
+        
+        return startDate, endDate
 
     def get_current_info(self, symbolList, columns=None):
         """get_current_info() uses the yahoo.finance.quotes datatable to get all of the stock information presented in the main table on a typical stock page 
@@ -38,13 +49,7 @@ class StockRetriever(YQL):
     def get_historical_info(self, symbol,items=None, startDate=None, endDate=None, limit=None):
         """get_historical_info() uses the csv datatable to retrieve all available historical data on a typical historical prices page
         """
-        today = date.today()
-        start_date = today - timedelta(days=today.weekday(), weeks=1)
-        end_date = start_date + timedelta(days=4)
-
-        startDate = startDate if startDate else str(start_date)
-        endDate = endDate if endDate else str(end_date)
-
+        startDate, endDate = self.__get_time_range(startDate, endDate)
         response = self.select('yahoo.finance.historicaldata',items,limit).where(['symbol','=',symbol],['startDate','=',startDate],['endDate','=',endDate])
         return response
 
@@ -71,6 +76,13 @@ class StockRetriever(YQL):
         Accepts both where pair='eurusd, gbpusd' and where pair in ('eurusd', 'gpbusd, usdaud')
         """
         response = self.select('yahoo.finance.xchange', items).where(['pair', 'in', pairs])
+        return response
+
+    def get_dividendhistory(self, symbol, startDate, endDate, items=None):
+        """Retrieves divident history
+        """
+        startDate, endDate = self.__get_time_range(startDate, endDate)
+        response = self.select('yahoo.finance.dividendhistory', items).where(['symbol', '=', symbol], ['startDate', '=', startDate], ['endDate', '=', endDate])
         return response
 
     def get_symbols(self, name):
