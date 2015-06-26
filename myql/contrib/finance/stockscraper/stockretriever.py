@@ -66,6 +66,13 @@ class StockRetriever(YQL):
         response = self.select('yahoo.finance.industry',items).where(['id','=',index_id])
         return response
 
+    def get_xchange(self, pairs, items=None):
+        """Retrieves currency exchange rate data for given pair(s). 
+        Accepts both where pair='eurusd, gbpusd' and where pair in ('eurusd', 'gpbusd, usdaud')
+        """
+        response = self.select('yahoo.finance.xchange', items).where(['pair', 'in', pairs])
+        return response
+
     def get_symbols(self, name):
         """Retrieves all symbols belonging to a company
         """

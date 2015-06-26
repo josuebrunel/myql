@@ -1,3 +1,6 @@
+"""Simple Python Wrapper of the Yahoo! Query Language
+"""
+
 from __future__ import absolute_import
 
 import logging
