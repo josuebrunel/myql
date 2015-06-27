@@ -10,7 +10,7 @@ class Weather(YQL):
     def __init__(self, unit=None, **kwargs):
         """Initialize a weather object
         """
-        kwargs.update({'community':False})
+        kwargs.update({'community': False})
 
         super(Weather, self).__init__(**kwargs)
 
