@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mYQL</title>
+  
+
+  <link rel="shortcut icon" href="./img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="./css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "index"
+  </script>
+  
+  <script src="./js/jquery-2.1.1.min.js"></script>
+  <script src="./js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="./js/highlight.pack.js"></script>
+  <script src="./js/theme.js"></script> 
+
+  
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-32441224-4', 'myql.readthedocs.org');
+      ga('send', 'pageview');
+  </script>
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> mYQL</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href=".">Home</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#myql">mYQL</a></li>
+                
+                    <li><a class="toctree-l4" href="#yahoo-query-language-documentation-and-support">Yahoo! Query Language Documentation and Support</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#installation">Installation</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#quick-start">Quick Start</a></li>
+                
+                    <li><a class="toctree-l4" href="#response-format-xml-or-json">Response format (xml or json)</a></li>
+                
+                    <li><a class="toctree-l4" href="#methods">Methods</a></li>
+                
+                    <li><a class="toctree-l4" href="#using-oauth">Using OAuth</a></li>
+                
+                    <li><a class="toctree-l4" href="#utils">Utils</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="myql/">mYQL</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="stockscraper/">StockScraper</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="oauth/">Yahoo-OAuth</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="table/">Open Tables</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="contrib/">Contribute</a>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">mYQL</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Home</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/josuebrunel/myql" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="myql">mYQL</h1>
+<p>mYQL is a Python wrapper of the Yahoo Query Language.</p>
+<h2 id="yahoo-query-language-documentation-and-support">Yahoo! Query Language Documentation and Support</h2>
+<ul>
+<li><a href="http://developer.yahoo.com/yql/">Yahoo! Query Language</a></li>
+<li><a href="http://developer.yahoo.com">Yahoo! Developer Network</a></li>
+<li><a href="http://developer.yahoo.com/yap/">Yahoo! Application Platform</a></li>
+<li><a href="http://developer.yahoo.com/social/">Yahoo! Social APIs</a></li>
+<li><a href="https://developer.yahoo.com/yql/console/">Yahoo! Query Language Console</a></li>
+</ul>
+<h1 id="installation">Installation</h1>
+<pre><code class="shell">$ pip install myql
+</code></pre>
+
+<h1 id="quick-start">Quick Start</h1>
+<p>It's important to know that <strong>response</strong> is a just <strong>requests.models.Response</strong> object. 
+Yes indeed, <strong><em>mYQL</em></strong> uses <strong><em>requests</em></strong> :smile:</p>
+<p>By default, you have access to the <strong>community tables</strong>. If for whatsoever reason you would like to not have access to those tables</p>
+<pre><code class="python">&gt;&gt;&gt; import myql
+&gt;&gt;&gt; yql = myql.MYQL(community=False)
+</code></pre>
+
+<h4 id="response-format-xml-or-json">Response format (xml or json)</h4>
+<p>The response format is by default <strong><em>json</em></strong>.</p>
+<pre><code class="python">&gt;&gt;&gt; import myql
+&gt;&gt;&gt; from myql.utils import pretty_json, pretty_xml
+&gt;&gt;&gt; yql = myql.MYQL(format='xml', community=True)
+&gt;&gt;&gt; resp = yql.rawQuery('select name, woeid from geo.states where place=&quot;Congo&quot;')
+&gt;&gt;&gt; print(pretty_xml(resp.content))
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;query xmlns:yahoo=&quot;http://www.yahooapis.com/v1/base.rng&quot; yahoo:count=&quot;11&quot; yahoo:created=&quot;2015-06-07T11:56:11Z&quot; yahoo:lang=&quot;en-US&quot;&gt;
+    &lt;results&gt;
+        &lt;place xmlns=&quot;http://where.yahooapis.com/v1/schema.rng&quot;&gt;
+            &lt;name&gt;Cuvette-Ouest Department&lt;/name&gt;
+            &lt;woeid&gt;55998384&lt;/woeid&gt;
+        &lt;/place&gt;
+        &lt;place xmlns=&quot;http://where.yahooapis.com/v1/schema.rng&quot;&gt;
+            &lt;name&gt;Cuvette Department&lt;/name&gt;
+            &lt;woeid&gt;2344968&lt;/woeid&gt;
+        &lt;/place&gt;
+        &lt;place xmlns=&quot;http://where.yahooapis.com/v1/schema.rng&quot;&gt;
+            &lt;name&gt;Plateaux District&lt;/name&gt;
+            &lt;woeid&gt;2344973&lt;/woeid&gt;
+        &lt;/place&gt;
+        &lt;place xmlns=&quot;http://where.yahooapis.com/v1/schema.rng&quot;&gt;
+            &lt;name&gt;Sangha&lt;/name&gt;
+            &lt;woeid&gt;2344974&lt;/woeid&gt;
+        &lt;/place&gt;
+        &lt;place xmlns=&quot;http://where.yahooapis.com/v1/schema.rng&quot;&gt;
+            &lt;name&gt;Lekoumou&lt;/name&gt;
+            &lt;woeid&gt;2344970&lt;/woeid&gt;
+        &lt;/place&gt;
+        &lt;place xmlns=&quot;http://where.yahooapis.com/v1/schema.rng&quot;&gt;
+            &lt;name&gt;Pool Department&lt;/name&gt;
+            &lt;woeid&gt;2344975&lt;/woeid&gt;
+        &lt;/place&gt;
+        &lt;place xmlns=&quot;http://where.yahooapis.com/v1/schema.rng&quot;&gt;
+            &lt;name&gt;Likouala Department&lt;/name&gt;
+            &lt;woeid&gt;2344971&lt;/woeid&gt;
+        &lt;/place&gt;
+        &lt;place xmlns=&quot;http://where.yahooapis.com/v1/schema.rng&quot;&gt;
+            &lt;name&gt;Niari Department&lt;/name&gt;
+            &lt;woeid&gt;2344972&lt;/woeid&gt;
+        &lt;/place&gt;
+        &lt;place xmlns=&quot;http://where.yahooapis.com/v1/schema.rng&quot;&gt;
+            &lt;name&gt;Brazzaville&lt;/name&gt;
+            &lt;woeid&gt;2344976&lt;/woeid&gt;
+        &lt;/place&gt;
+        &lt;place xmlns=&quot;http://where.yahooapis.com/v1/schema.rng&quot;&gt;
+            &lt;name&gt;Bouenza Department&lt;/name&gt;
+            &lt;woeid&gt;2344967&lt;/woeid&gt;
+        &lt;/place&gt;
+        &lt;place xmlns=&quot;http://where.yahooapis.com/v1/schema.rng&quot;&gt;
+            &lt;name&gt;Kouilou&lt;/name&gt;
+            &lt;woeid&gt;2344969&lt;/woeid&gt;
+        &lt;/place&gt;
+    &lt;/results&gt;
+&lt;/query&gt;
+&lt;!-- total: 33 --&gt;
+&lt;!-- pprd1-node1003-lh3.manhattan.bf1.yahoo.com --&gt;
+
+&gt;&gt;&gt; resp = yql.rawQuery('select name, woeid from geo.states where place=&quot;Congo&quot;', format='json')
+&gt;&gt;&gt; print(pretty_json(resp.content))
+{
+    &quot;query&quot;: {
+        &quot;count&quot;: 11, 
+        &quot;created&quot;: &quot;2015-06-07T11:58:20Z&quot;, 
+        &quot;lang&quot;: &quot;en-US&quot;, 
+        &quot;results&quot;: {
+            &quot;place&quot;: [
+                {
+                    &quot;name&quot;: &quot;Cuvette-Ouest Department&quot;, 
+                    &quot;woeid&quot;: &quot;55998384&quot;
+                }, 
+                {
+                    &quot;name&quot;: &quot;Cuvette Department&quot;, 
+                    &quot;woeid&quot;: &quot;2344968&quot;
+                }, 
+                {
+                    &quot;name&quot;: &quot;Plateaux District&quot;, 
+                    &quot;woeid&quot;: &quot;2344973&quot;
+                }, 
+                {
+                    &quot;name&quot;: &quot;Sangha&quot;, 
+                    &quot;woeid&quot;: &quot;2344974&quot;
+                }, 
+                {
+                    &quot;name&quot;: &quot;Lekoumou&quot;, 
+                    &quot;woeid&quot;: &quot;2344970&quot;
+                }, 
+                {
+                    &quot;name&quot;: &quot;Pool Department&quot;, 
+                    &quot;woeid&quot;: &quot;2344975&quot;
+                }, 
+                {
+                    &quot;name&quot;: &quot;Likouala Department&quot;, 
+                    &quot;woeid&quot;: &quot;2344971&quot;
+                }, 
+                {
+                    &quot;name&quot;: &quot;Niari Department&quot;, 
+                    &quot;woeid&quot;: &quot;2344972&quot;
+                }, 
+                {
+                    &quot;name&quot;: &quot;Brazzaville&quot;, 
+                    &quot;woeid&quot;: &quot;2344976&quot;
+                }, 
+                {
+                    &quot;name&quot;: &quot;Bouenza Department&quot;, 
+                    &quot;woeid&quot;: &quot;2344967&quot;
+                }, 
+                {
+                    &quot;name&quot;: &quot;Kouilou&quot;, 
+                    &quot;woeid&quot;: &quot;2344969&quot;
+                }
+            ]
+        }
+    }
+}
+
+&gt;&gt;&gt;
+</code></pre>
+
+<h2 id="methods">Methods</h2>
+<h4 id="useyql_table_urlnameyql_table_name">use(yql_table_url,name=yql_table_name)</h4>
+<p>Maps a table name to the URL of an Open Data Table.</p>
+<pre><code class="python">&gt;&gt;&gt; yql.use('http://www.josuebrunel.org//users.xml', name='myusers') 
+</code></pre>
+
+<h4 id="desctablename">desc(tablename)</h4>
+<p>Returns table description</p>
+<pre><code class="python">&gt;&gt;&gt; response = yql.desc('weather.forecast')
+&gt;&gt;&gt; print(pretty_json(response.content))
+{
+    &quot;query&quot;: {
+        &quot;count&quot;: 1, 
+        &quot;created&quot;: &quot;2015-06-07T12:00:27Z&quot;, 
+        &quot;lang&quot;: &quot;en-US&quot;, 
+        &quot;results&quot;: {
+            &quot;table&quot;: {
+                &quot;hash&quot;: &quot;aae78b1462a6a8fbc748aec4cf292767&quot;, 
+                &quot;meta&quot;: {
+                    &quot;author&quot;: &quot;Yahoo! Inc&quot;, 
+                    &quot;description&quot;: &quot;Weather forecast table&quot;, 
+                    &quot;documentationURL&quot;: &quot;http://developer.yahoo.com/weather/&quot;, 
+                    &quot;sampleQuery&quot;: &quot;select * from weather.forecast where woeid=2502265&quot;
+                }, 
+                &quot;name&quot;: &quot;weather.forecast&quot;, 
+                &quot;request&quot;: {
+                    &quot;select&quot;: [
+                        {
+                            &quot;key&quot;: [
+                                {
+                                    &quot;name&quot;: &quot;location&quot;, 
+                                    &quot;required&quot;: &quot;true&quot;, 
+                                    &quot;type&quot;: &quot;xs:string&quot;
+                                }, 
+                                {
+                                    &quot;name&quot;: &quot;u&quot;, 
+                                    &quot;type&quot;: &quot;xs:string&quot;
+                                }
+                            ]
+                        }, 
+                        {
+                            &quot;key&quot;: [
+                                {
+                                    &quot;name&quot;: &quot;woeid&quot;, 
+                                    &quot;required&quot;: &quot;true&quot;, 
+                                    &quot;type&quot;: &quot;xs:string&quot;
+                                }, 
+                                {
+                                    &quot;name&quot;: &quot;u&quot;, 
+                                    &quot;type&quot;: &quot;xs:string&quot;
+                                }
+                            ]
+                        }
+                    ]
+                }, 
+                &quot;security&quot;: &quot;ANY&quot;
+            }
+        }
+    }
+}
+
+&gt;&gt;&gt;
+</code></pre>
+
+<h4 id="rawqueryquery">rawQuery(query)</h4>
+<p>Allows you to directly type your query</p>
+<pre><code class="python">&gt;&gt;&gt; response = yql.rawQuery(&quot;select * from geo.countries where place='North America'&quot;)
+&gt;&gt;&gt; # deal with the response
+</code></pre>
+
+<h4 id="selecttable-fields-limitwherefilters">select(table, fields, limit).where(filters, ...)</h4>
+<p><strong><em>NB</em></strong> : A simple select doesn't return any data. Use <strong><em>GET</em></strong> instead.</p>
+<pre><code class="python">&gt;&gt;&gt; response = yql.select('geo.countries', ['name', 'code', 'woeid']).where(['name', '=', 'Canada'])
+&gt;&gt;&gt; print(pretty_json(response.content))
+{
+    &quot;query&quot;: {
+        &quot;count&quot;: 1, 
+        &quot;created&quot;: &quot;2015-06-07T12:10:39Z&quot;, 
+        &quot;lang&quot;: &quot;en-US&quot;, 
+        &quot;results&quot;: {
+            &quot;place&quot;: {
+                &quot;name&quot;: &quot;Canada&quot;, 
+                &quot;woeid&quot;: &quot;23424775&quot;
+            }
+        }
+    }
+}
+
+&gt;&gt;&gt; ...
+&gt;&gt;&gt; response = yql.select('geo.countries', ['name', 'woeid'], 2).where(['place', 'in', ('Africa', 'Europe')])
+&gt;&gt;&gt; from myql.utils import dump
+&gt;&gt;&gt; dump(response)
+{
+    &quot;query&quot;: {
+        &quot;count&quot;: 2, 
+        &quot;created&quot;: &quot;2015-06-07T12:27:04Z&quot;, 
+        &quot;lang&quot;: &quot;en-US&quot;, 
+        &quot;results&quot;: {
+            &quot;place&quot;: [
+                {
+                    &quot;name&quot;: &quot;Algeria&quot;, 
+                    &quot;woeid&quot;: &quot;23424740&quot;
+                }, 
+                {
+                    &quot;name&quot;: &quot;Angola&quot;, 
+                    &quot;woeid&quot;: &quot;23424745&quot;
+                }
+            ]
+        }
+    }
+}
+
+&gt;&gt;&gt;
+</code></pre>
+
+<h4 id="gettable-fields-limit">get(table, fields, limit)</h4>
+<p>Same as <strong><em>SELECT</em></strong>, but instead returns data.</p>
+<p><strong>REMINDER</strong> : Some tables require a <strong>where clause</strong>, therefore <strong><em>GET</em></strong> won't work on those tables, use <em>select(...).where(...)</em> instead .</p>
+<pre><code class="python">&gt;&gt;&gt; from myql.utils import dump
+&gt;&gt;&gt; response = yql.get('geo.countries', ['name', 'woeid'], 1)
+&gt;&gt;&gt; dump(response)
+{
+    &quot;query&quot;: {
+        &quot;count&quot;: 1, 
+        &quot;created&quot;: &quot;2015-06-07T12:29:01Z&quot;, 
+        &quot;lang&quot;: &quot;en-US&quot;, 
+        &quot;results&quot;: {
+            &quot;place&quot;: {
+                &quot;name&quot;: &quot;Sao Tome and Principe&quot;, 
+                &quot;woeid&quot;: &quot;23424966&quot;
+            }
+        }
+    }
+}
+
+&gt;&gt;&gt;
+</code></pre>
+
+<h4 id="inserttable-field1-field2-fieldnvalue1-value2-valuen">insert(table, (field1, field2, ..., fieldN),(value1, value2, ..., valueN))</h4>
+<p>Insert values into a table. Arguments 2 and 3 may be <strong>tuples</strong> or <strong>list</strong>.</p>
+<pre><code class="python">&gt;&gt;&gt; from myql.utils import pretty_json
+&gt;&gt;&gt; response = yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
+&gt;&gt;&gt; print(pretty_json(response.content))
+{
+    &quot;query&quot;: {
+        &quot;count&quot;: 1,
+        &quot;created&quot;: &quot;2015-05-14T13:25:56Z&quot;,
+        &quot;lang&quot;: &quot;en-US&quot;,
+        &quot;results&quot;: {
+            &quot;inserted&quot;: {
+                &quot;execute&quot;: &quot;store://KkkC5xDw4v32IcWWSQ4YRe&quot;,
+                &quot;select&quot;: &quot;store://Zc5LHXcmYM7XBfSbo9tzFL&quot;,
+                &quot;update&quot;: &quot;store://Rqb5fbQyDvrfHJiClWnZ6q&quot;
+            }
+        }
+    }
+}
+</code></pre>
+
+<h4 id="updatetablefield1-fieldnvalue1-valuenwherefilters">update(table,[field1, ..., fieldN],[value1, ..., ...valueN]).where(filters, ...)</h4>
+<p>Update fields values. This method <strong>is always followed by <strong><em>where()</em></strong></strong>. Arguments 2 and 3 may be <strong>tuples</strong> or <strong>list</strong>.</p>
+<pre><code class="python">&gt;&gt;&gt; from myql.utils import pretty_json
+&gt;&gt;&gt; response = yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=','store://Rqb5fbQyDvrfHJiClWnZ6q'])
+&gt;&gt;&gt; print(pretty_json(response.content))
+{
+    &quot;query&quot;: {
+        &quot;count&quot;: 1,
+        &quot;created&quot;: &quot;2015-05-14T13:32:52Z&quot;,
+        &quot;lang&quot;: &quot;en-US&quot;,
+        &quot;results&quot;: {
+            &quot;success&quot;: &quot;Updated store://KkkC5xDw4v32IcWWSQ4YRe&quot;
+        }
+    }
+}
+</code></pre>
+
+<h4 id="deletetablewherefilters">delete(table).where(filters, ...)</h4>
+<p>Delete records</p>
+<pre><code class="python">&gt;&gt;&gt; from myql.utils import pretty_json
+&gt;&gt;&gt; response = self.yql.delete('yql.storage').where(['name','=','store://Rqb5fbQyDvrfHJiClWnZ6q'])
+&gt;&gt;&gt; print(pretty_json(response.content))
+{
+    &quot;query&quot;: {
+        &quot;count&quot;: 1,
+        &quot;created&quot;: &quot;2015-05-14T13:38:28Z&quot;,
+        &quot;lang&quot;: &quot;en-US&quot;,
+        &quot;results&quot;: {
+            &quot;success&quot;: &quot;store://Rqb5fbQyDvrfHJiClWnZ6q deleted&quot;
+        }
+    }
+}
+
+</code></pre>
+
+<h2 id="using-oauth">Using OAuth</h2>
+<p><strong><em>mYQL</em></strong> comes with <strong><em><a href="https://pypi.python.org/pypi/myql">yahoo_oauth</a></em></strong>, which is an OAuth library for Yahoo! APIs.</p>
+<pre><code class="python">&gt;&gt;&gt; from yahoo_oauth import OAuth1
+&gt;&gt;&gt; oauth = OAuth1(None, None, from_file='credentials.json') # only consumer_key and consumer_secret are required.
+&gt;&gt;&gt; from myql import MYQL
+&gt;&gt;&gt; yql = MYQL(format='xml', oauth=oauth)
+&gt;&gt;&gt; response = yql.getGUID('josue_brunel') # Deal with the response
+</code></pre>
+
+<h2 id="utils">Utils</h2>
+<p><strong><em>mYQL</em></strong> comes with some useful functions, such as:</p>
+<h4 id="prettytyresponse-format"><em>prettyty(response, format)</em></h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;According to the format, call <em>pretty_json</em> or <em>pretty_xml</em></p>
+<h4 id="pretty_jsonresponsecontent"><em>pretty_json(response.content)</em></h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;prettyfy a JSON response content</p>
+<h4 id="pretty_xmlresponsecontent"><em>pretty_xml(response.content)</em></h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;Prettyfy a XML response content</p>
+<h4 id="dumpresponse"><em>dump(response)</em></h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;Print a prettyfied response</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="myql/" class="btn btn-neutral float-right" title="mYQL"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    <!-- Copyright etc -->
+    </p>
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+      
+        <span style="margin-left: 15px"><a href="myql/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 0.13.3
+Build Date UTC : 2015-06-27 14:02:15.045608
+-->

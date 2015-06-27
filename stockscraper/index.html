@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>StockScraper - mYQL</title>
+  
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "stockscraper"
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script>
+  <script src="../js/theme.js"></script> 
+
+  
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-32441224-4', 'myql.readthedocs.org');
+      ga('send', 'pageview');
+  </script>
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> mYQL</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../myql/">mYQL</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">StockScraper</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#stockscraper">StockScraper</a></li>
+                
+                    <li><a class="toctree-l4" href="#definition">Definition</a></li>
+                
+                    <li><a class="toctree-l4" href="#methods">Methods</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../oauth/">Yahoo-OAuth</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../table/">Open Tables</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../contrib/">Contribute</a>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">mYQL</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>StockScraper</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/josuebrunel/myql" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="stockscraper">StockScraper</h1>
+<p><strong><em><a href="https://github.com/gurch101/StockScraper">StockScraper</a></em></strong> is a module written by <strong><a href="https://github.com/gurch101/">Gurchet Rai</a></strong> and has just been imported into <em>mYQL</em>.</p>
+<p>Full <a href="http://www.gurchet-rai.net/dev/yahoo-finance-yql">Documentation</a></p>
+<h3 id="definition"><strong>Definition</strong></h3>
+<h4 id="stockretrieverformatjson-debugfalse-oauthnone"><em>StockRetriever(format='json', debug=False, oauth=None)</em></h4>
+<ul>
+<li><strong><em>format</em></strong> : xml or json</li>
+<li><strong><em>debug</em></strong> : True or False</li>
+<li><strong><em>oauth</em></strong> : yahoo_oauth (OAuth1)</li>
+</ul>
+<pre><code class="python">from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+</code></pre>
+
+<h3 id="methods"><strong>Methods</strong></h3>
+<h4 id="stockretrieverget_current_infosymbollist-columnsnone"><em>StockRetriever.get_current_info(symbolList, columns=None)</em></h4>
+<ul>
+<li><strong><em>symbolList</em></strong> : List of symbol to retrieve</li>
+<li><strong><em>columns</em></strong> : List of column to fetch</li>
+</ul>
+<pre><code class="python">from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = stocks.get_current_info([&quot;YHOO&quot;,&quot;AAPL&quot;,&quot;GOOG&quot;])
+</code></pre>
+
+<pre><code class="json">{
+    &quot;query&quot;: {
+        &quot;count&quot;: 3,
+        &quot;created&quot;: &quot;2015-05-20T12:56:27Z&quot;,
+        &quot;lang&quot;: &quot;en-US&quot;,
+        &quot;results&quot;: {
+            &quot;quote&quot;: [
+                {
+                    &quot;AfterHoursChangeRealtime&quot;: null,
+                    &quot;AnnualizedGain&quot;: null,
+                    &quot;Ask&quot;: &quot;42.22&quot;,
+                    &quot;AskRealtime&quot;: null,
+                    &quot;AverageDailyVolume&quot;: &quot;13763800&quot;,
+                    &quot;Bid&quot;: &quot;42.20&quot;,
+                    &quot;BidRealtime&quot;: null,
+                    &quot;BookValue&quot;: &quot;35.91&quot;,
+                    &quot;Change&quot;: &quot;-3.38&quot;,
+                    &quot;ChangeFromFiftydayMovingAverage&quot;: &quot;-3.03&quot;,
+                    &quot;ChangeFromTwoHundreddayMovingAverage&quot;: &quot;-5.46&quot;,
+                    &quot;ChangeFromYearHigh&quot;: &quot;-11.64&quot;,
+                    &quot;ChangeFromYearLow&quot;: &quot;8.05&quot;,
+                    &quot;ChangePercentRealtime&quot;: null,
+                    &quot;ChangeRealtime&quot;: null,
+                    &quot;Change_PercentChange&quot;: &quot;-3.38 - -7.62%&quot;,
+                    &quot;ChangeinPercent&quot;: &quot;-7.62%&quot;,
+                    &quot;Commission&quot;: null,
+                    &quot;Currency&quot;: &quot;USD&quot;,
+                    &quot;DaysHigh&quot;: &quot;44.66&quot;,
+                    &quot;DaysLow&quot;: &quot;39.12&quot;,
+                    &quot;DaysRange&quot;: &quot;39.12 - 44.66&quot;,
+                    &quot;DaysRangeRealtime&quot;: null,
+                    &quot;DaysValueChange&quot;: null,
+                    &quot;DaysValueChangeRealtime&quot;: null,
+                    &quot;DividendPayDate&quot;: null,
+                    &quot;DividendShare&quot;: null,
+                    &quot;DividendYield&quot;: null,
+                    &quot;EBITDA&quot;: &quot;598.70M&quot;,
+                    &quot;EPSEstimateCurrentYear&quot;: &quot;0.78&quot;,
+                    &quot;EPSEstimateNextQuarter&quot;: &quot;0.21&quot;,
+                    &quot;EPSEstimateNextYear&quot;: &quot;0.79&quot;,
+                    &quot;EarningsShare&quot;: &quot;7.32&quot;,
+                    &quot;ErrorIndicationreturnedforsymbolchangedinvalid&quot;: null,
+                    &quot;ExDividendDate&quot;: null,
+                    &quot;FiftydayMovingAverage&quot;: &quot;44.01&quot;,
+                    &quot;HighLimit&quot;: null,
+                    &quot;HoldingsGain&quot;: null,
+                    &quot;HoldingsGainPercent&quot;: null,
+                    &quot;HoldingsGainPercentRealtime&quot;: null,
+                    &quot;HoldingsGainRealtime&quot;: null,
+                    &quot;HoldingsValue&quot;: null,
+                    &quot;HoldingsValueRealtime&quot;: null,
+                    &quot;LastTradeDate&quot;: &quot;5/19/2015&quot;,
+                    &quot;LastTradePriceOnly&quot;: &quot;40.98&quot;,
+                    &quot;LastTradeRealtimeWithTime&quot;: null,
+                    &quot;LastTradeTime&quot;: &quot;4:00pm&quot;,
+                    &quot;LastTradeWithTime&quot;: &quot;4:00pm - &lt;b&gt;40.98&lt;/b&gt;&quot;,
+                    &quot;LowLimit&quot;: null,
+                    &quot;MarketCapRealtime&quot;: null,
+                    &quot;MarketCapitalization&quot;: &quot;38.46B&quot;,
+                    &quot;MoreInfo&quot;: null,
+                    &quot;Name&quot;: &quot;Yahoo! Inc.&quot;,
+                    &quot;Notes&quot;: null,
+                    &quot;OneyrTargetPrice&quot;: &quot;54.45&quot;,
+                    &quot;Open&quot;: &quot;44.48&quot;,
+                    &quot;OrderBookRealtime&quot;: null,
+                    &quot;PEGRatio&quot;: &quot;-4.24&quot;,
+                    &quot;PERatio&quot;: &quot;5.60&quot;,
+                    &quot;PERatioRealtime&quot;: null,
+                    &quot;PercebtChangeFromYearHigh&quot;: &quot;-22.12%&quot;,
+                    &quot;PercentChange&quot;: &quot;-7.62%&quot;,
+                    &quot;PercentChangeFromFiftydayMovingAverage&quot;: &quot;-6.89%&quot;,
+                    &quot;PercentChangeFromTwoHundreddayMovingAverage&quot;: &quot;-11.75%&quot;,
+                    &quot;PercentChangeFromYearLow&quot;: &quot;+24.45%&quot;,
+                    &quot;PreviousClose&quot;: &quot;44.36&quot;,
+                    &quot;PriceBook&quot;: &quot;1.24&quot;,
+                    &quot;PriceEPSEstimateCurrentYear&quot;: &quot;52.54&quot;,
+                    &quot;PriceEPSEstimateNextYear&quot;: &quot;51.22&quot;,
+                    &quot;PricePaid&quot;: null,
+                    &quot;PriceSales&quot;: &quot;8.84&quot;,
+                    &quot;SharesOwned&quot;: null,
+                    &quot;ShortRatio&quot;: &quot;2.10&quot;,
+                    &quot;StockExchange&quot;: &quot;NMS&quot;,
+                    &quot;Symbol&quot;: &quot;YHOO&quot;,
+                    &quot;TickerTrend&quot;: null,
+                    &quot;TradeDate&quot;: null,
+                    &quot;TwoHundreddayMovingAverage&quot;: &quot;46.44&quot;,
+                    &quot;Volume&quot;: &quot;48892169&quot;,
+                    &quot;YearHigh&quot;: &quot;52.62&quot;,
+                    &quot;YearLow&quot;: &quot;32.93&quot;,
+                    &quot;YearRange&quot;: &quot;32.93 - 52.62&quot;,
+                    &quot;symbol&quot;: &quot;YHOO&quot;
+                },
+                ...
+            ]
+        }
+    }
+}
+</code></pre>
+
+<h4 id="stockretrieverget_news_feedsymbol"><em>StockRetriever.get_news_feed(symbol)</em></h4>
+<ul>
+<li><strong><em>symbol</em></strong> : Symbol news to retrieve</li>
+</ul>
+<pre><code class="python">from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = stocks.get_news_feed('YHOO')
+</code></pre>
+
+<pre><code class="json">{
+    &quot;query&quot;: {
+        &quot;count&quot;: 2,
+        &quot;created&quot;: &quot;2015-05-20T13:05:27Z&quot;,
+        &quot;lang&quot;: &quot;en-US&quot;,
+        &quot;results&quot;: {
+            &quot;item&quot;: [
+                {
+                    &quot;description&quot;: null,
+                    &quot;link&quot;: &quot;http://us.rd.yahoo.com/finance/news/rss/story/*http://finance.yahoo.com/news/video-may-20-premarket-briefing-110800770.html&quot;,
+                    &quot;title&quot;: &quot;May 20 Premarket Briefing: 10 Things You Should Know&quot;
+                },
+                {
+                    &quot;description&quot;: &quot;[at MarketWatch] - How alarmed should be about a former Fed\u2019s warning on a taper tantrum and volatility, from China to Yahoo.&quot;,
+                    &quot;link&quot;: &quot;http://us.rd.yahoo.com/finance/external/cbsm/rss/SIG=11iiumket/*http://www.marketwatch.com/News/Story/Story.aspx?guid=F8AC52CC-FEAB-11E4-8608-290076337AAF&amp;siteid=yhoof2&quot;,
+                    &quot;title&quot;: &quot;Why it might pay to listen to a Fed old timer\u2019s tantrum warning&quot;
+                }
+            ]
+        }
+    }
+}
+</code></pre>
+
+<h4 id="stockretrieverget_historical_infosymbol-itemsnone-startdatenone-enddatenone-limitnone"><em>StockRetriever.get_historical_info(symbol, items=None, startDate=None, endDate=None, limit=None)</em></h4>
+<ul>
+<li><strong><em>symbol</em></strong> : Symbol news to retrieve</li>
+<li><strong><em>items</em></strong> : columns to retrieve</li>
+<li><strong><em>startDate</em></strong> : starting date</li>
+<li><strong><em>endDate</em></strong> : ending date</li>
+<li><strong><em>limit</em></strong> : number of results to return</li>
+</ul>
+<pre><code class="python">from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = stocks.get_historical_info('YHOO',items=['Open','Close','High','Low'], limit=5,startDate='2014-09-11',endDate='2015-02-10')
+</code></pre>
+
+<pre><code class="json">{
+    &quot;query&quot;: {
+        &quot;count&quot;: 5, 
+        &quot;created&quot;: &quot;2015-05-24T05:12:21Z&quot;, 
+        &quot;lang&quot;: &quot;en-US&quot;, 
+        &quot;results&quot;: {
+            &quot;quote&quot;: [
+                {
+                    &quot;Close&quot;: &quot;43.07&quot;, 
+                    &quot;High&quot;: &quot;43.18&quot;, 
+                    &quot;Low&quot;: &quot;42.66&quot;, 
+                    &quot;Open&quot;: &quot;42.90&quot;
+                }, 
+                {
+                    &quot;Close&quot;: &quot;42.57&quot;, 
+                    &quot;High&quot;: &quot;43.15&quot;, 
+                    &quot;Low&quot;: &quot;42.54&quot;, 
+                    &quot;Open&quot;: &quot;42.61&quot;
+                }, 
+                {
+                    &quot;Close&quot;: &quot;42.94&quot;, 
+                    &quot;High&quot;: &quot;43.66&quot;, 
+                    &quot;Low&quot;: &quot;42.67&quot;, 
+                    &quot;Open&quot;: &quot;43.57&quot;
+                }, 
+                {
+                    &quot;Close&quot;: &quot;43.55&quot;, 
+                    &quot;High&quot;: &quot;44.26&quot;, 
+                    &quot;Low&quot;: &quot;43.03&quot;, 
+                    &quot;Open&quot;: &quot;44.08&quot;
+                }, 
+                {
+                    &quot;Close&quot;: &quot;44.05&quot;, 
+                    &quot;High&quot;: &quot;44.98&quot;, 
+                    &quot;Low&quot;: &quot;43.88&quot;, 
+                    &quot;Open&quot;: &quot;44.80&quot;
+                }
+            ]
+        }
+    }
+}
+
+</code></pre>
+
+<h4 id="stockretrieverget_options_infosymbol-items-expirationnone"><em>StockRetriever.get_options_info(symbol, items=[], expiration=None)</em></h4>
+<ul>
+<li><strong><em>symbol</em></strong> : Symbol news to retrieve</li>
+<li><strong><em>items</em></strong> : list of attributes to retrieve</li>
+<li><strong><em>expiration</em></strong> : Date of expiration (type : str)</li>
+</ul>
+<pre><code class="python">from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = stocks.get_options_info('YHOO')
+</code></pre>
+
+<pre><code class="json">{
+    &quot;query&quot;: {
+        &quot;count&quot;: 1,
+        &quot;created&quot;: &quot;2015-05-20T13:09:02Z&quot;,
+        &quot;lang&quot;: &quot;en-US&quot;,
+        &quot;results&quot;: {
+            &quot;optionsChain&quot;: {
+                &quot;symbol&quot;: &quot;YHOO&quot;
+            }
+        }
+    }
+}
+</code></pre>
+
+<h4 id="stockretrieverget_index_summarysymbol-items"><em>StockRetriever.get_index_summary(symbol, items=[])</em></h4>
+<ul>
+<li><strong><em>symbol</em></strong> : Symbol news to retrieve</li>
+<li><strong><em>items</em></strong> : list of attributes to retrieve</li>
+</ul>
+<pre><code class="python">from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = stocks.get_index_summary('GOOG',('Volume','Change'))
+</code></pre>
+
+<pre><code class="json">{
+    &quot;query&quot;: {
+        &quot;count&quot;: 1,
+        &quot;created&quot;: &quot;2015-05-20T13:09:48Z&quot;,
+        &quot;lang&quot;: &quot;en-US&quot;,
+        &quot;results&quot;: {
+            &quot;quote&quot;: {
+                &quot;Change&quot;: null,
+                &quot;Volume&quot;: &quot;16&quot;
+            }
+        }
+    }
+}
+</code></pre>
+
+<h4 id="stockretrieverget_industry_indexindex_iditems"><em>StockRetriever.get_industry_index(index_id,items=[])</em></h4>
+<ul>
+<li><strong><em>index_id</em></strong> : index id</li>
+<li><strong><em>items</em></strong> : list of attributes to retrieve</li>
+</ul>
+<pre><code class="python">from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = stocks.get_industry_index(112)
+</code></pre>
+
+<pre><code class="json">{
+    &quot;query&quot;: {
+        &quot;count&quot;: 1,
+        &quot;created&quot;: &quot;2015-05-20T13:10:55Z&quot;,
+        &quot;lang&quot;: &quot;en-US&quot;,
+        &quot;results&quot;: {
+            &quot;industry&quot;: {
+                &quot;company&quot;: [
+                    {
+                        &quot;name&quot;: &quot;Adarsh\nPlant Protect Ltd&quot;,
+                        &quot;symbol&quot;: &quot;ADARSHPL.BO&quot;
+                    },
+                    {
+                        &quot;name&quot;: &quot;African\nPotash Ltd&quot;,
+                        &quot;symbol&quot;: &quot;AFPO.L&quot;
+                    },
+                    {
+                        &quot;name&quot;: &quot;Agrium\nInc&quot;,
+                        &quot;symbol&quot;: &quot;AGU.DE&quot;
+                    },
+                    {
+                        &quot;name&quot;: &quot;Agrium\nInc&quot;,
+                        &quot;symbol&quot;: &quot;AGU.TO&quot;
+                    },
+                    ...
+                    {
+                        &quot;name&quot;: &quot;Zuari\nAgro Chemicals Ltd&quot;,
+                        &quot;symbol&quot;: &quot;ZUARI.NS&quot;
+                    },
+                    {
+                        &quot;name&quot;: &quot;Zuari\nGlobal Ltd&quot;,
+                        &quot;symbol&quot;: &quot;ZUARIAGRO.NS&quot;
+                    },
+                    {
+                        &quot;name&quot;: &quot;Zuari\nGlobal Ltd&quot;,
+                        &quot;symbol&quot;: &quot;ZUARIIND.BO&quot;
+                    }
+                ],
+                &quot;id&quot;: &quot;112&quot;,
+                &quot;name&quot;: &quot;&quot;
+            }
+        }
+    }
+}
+</code></pre>
+
+<h4 id="stockretrieverget_xchange_ratepairs-itemsnone"><em>StockRetriever.get_xchange_rate(pairs, items=None)</em></h4>
+<pre><code class="python">from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = stocks.get_xchange_rate(['EURUSD','GBPUSD'])
+</code></pre>
+
+<pre><code class="json">{
+    &quot;query&quot;: {
+        &quot;count&quot;: 2, 
+        &quot;created&quot;: &quot;2015-06-27T13:48:51Z&quot;, 
+        &quot;lang&quot;: &quot;en-US&quot;, 
+        &quot;results&quot;: {
+            &quot;rate&quot;: [
+                {
+                    &quot;Ask&quot;: &quot;1.1174&quot;, 
+                    &quot;Bid&quot;: &quot;1.1162&quot;, 
+                    &quot;Date&quot;: &quot;6/27/2015&quot;, 
+                    &quot;Name&quot;: &quot;EUR/USD&quot;, 
+                    &quot;Rate&quot;: &quot;1.1168&quot;, 
+                    &quot;Time&quot;: &quot;12:53pm&quot;, 
+                    &quot;id&quot;: &quot;EURUSD&quot;
+                }, 
+                {
+                    &quot;Ask&quot;: &quot;1.5756&quot;, 
+                    &quot;Bid&quot;: &quot;1.5738&quot;, 
+                    &quot;Date&quot;: &quot;6/27/2015&quot;, 
+                    &quot;Name&quot;: &quot;GBP/USD&quot;, 
+                    &quot;Rate&quot;: &quot;1.5747&quot;, 
+                    &quot;Time&quot;: &quot;12:53pm&quot;, 
+                    &quot;id&quot;: &quot;GBPUSD&quot;
+                }
+            ]
+        }
+    }
+}
+
+</code></pre>
+
+<h4 id="stockretrieverget_dividendhistorysymbol-startdate-enddate"><em>StockRetriever.get_dividendhistory(symbol, startDate, endDate)</em></h4>
+<pre><code class="python">from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = stocks.get_dividendhistory('AAPL',&quot;2008-01-01&quot;, &quot;2015-06-15&quot;)
+</code></pre>
+
+<pre><code class="json">{
+    &quot;query&quot;: {
+        &quot;count&quot;: 12, 
+        &quot;created&quot;: &quot;2015-06-27T13:42:27Z&quot;, 
+        &quot;lang&quot;: &quot;en-US&quot;, 
+        &quot;results&quot;: {
+            &quot;quote&quot;: [
+                {
+                    &quot;Date&quot;: &quot;2015-05-07&quot;, 
+                    &quot;Dividends&quot;: &quot;0.520000&quot;, 
+                    &quot;Symbol&quot;: &quot;AAPL&quot;
+                }, 
+                {
+                    &quot;Date&quot;: &quot;2015-02-05&quot;, 
+                    &quot;Dividends&quot;: &quot;0.470000&quot;, 
+                    &quot;Symbol&quot;: &quot;AAPL&quot;
+                }, 
+                {
+                    &quot;Date&quot;: &quot;2014-11-06&quot;, 
+                    &quot;Dividends&quot;: &quot;0.470000&quot;, 
+                    &quot;Symbol&quot;: &quot;AAPL&quot;
+                }, 
+                {
+                    &quot;Date&quot;: &quot;2014-08-07&quot;, 
+                    &quot;Dividends&quot;: &quot;0.470000&quot;, 
+                    &quot;Symbol&quot;: &quot;AAPL&quot;
+                }, 
+                {
+                    &quot;Date&quot;: &quot;2014-05-08&quot;, 
+                    &quot;Dividends&quot;: &quot;0.470000&quot;, 
+                    &quot;Symbol&quot;: &quot;AAPL&quot;
+                }, 
+                {
+                    &quot;Date&quot;: &quot;2014-02-06&quot;, 
+                    &quot;Dividends&quot;: &quot;0.435710&quot;, 
+                    &quot;Symbol&quot;: &quot;AAPL&quot;
+                }, 
+                {
+                    &quot;Date&quot;: &quot;2013-11-06&quot;, 
+                    &quot;Dividends&quot;: &quot;0.435710&quot;, 
+                    &quot;Symbol&quot;: &quot;AAPL&quot;
+                }, 
+                {
+                    &quot;Date&quot;: &quot;2013-08-08&quot;, 
+                    &quot;Dividends&quot;: &quot;0.435710&quot;, 
+                    &quot;Symbol&quot;: &quot;AAPL&quot;
+                }, 
+                {
+                    &quot;Date&quot;: &quot;2013-05-09&quot;, 
+                    &quot;Dividends&quot;: &quot;0.435710&quot;, 
+                    &quot;Symbol&quot;: &quot;AAPL&quot;
+                }, 
+                {
+                    &quot;Date&quot;: &quot;2013-02-07&quot;, 
+                    &quot;Dividends&quot;: &quot;0.378570&quot;, 
+                    &quot;Symbol&quot;: &quot;AAPL&quot;
+                }, 
+                {
+                    &quot;Date&quot;: &quot;2012-11-07&quot;, 
+                    &quot;Dividends&quot;: &quot;0.378570&quot;, 
+                    &quot;Symbol&quot;: &quot;AAPL&quot;
+                }, 
+                {
+                    &quot;Date&quot;: &quot;2012-08-09&quot;, 
+                    &quot;Dividends&quot;: &quot;0.378570&quot;, 
+                    &quot;Symbol&quot;: &quot;AAPL&quot;
+                }
+            ]
+        }
+    }
+}
+
+</code></pre>
+
+<h4 id="stockretrieverget_symbolscompany_name"><em>StockRetriever.get_symbols(company_name)</em></h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; <strong>Always returns data as JSON</strong></p>
+<pre><code class="python">from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = stocks.get_symbols('Google')
+</code></pre>
+
+<pre><code class="json">{
+    &quot;ResultSet&quot;: {
+        &quot;Query&quot;: &quot;google&quot;,
+        &quot;Result&quot;: [
+            {
+                &quot;exch&quot;: &quot;NMS&quot;,
+                &quot;exchDisp&quot;: &quot;NASDAQ&quot;,
+                &quot;name&quot;: &quot;Google Inc.&quot;,
+                &quot;symbol&quot;: &quot;GOOG&quot;,
+                &quot;type&quot;: &quot;S&quot;,
+                &quot;typeDisp&quot;: &quot;Equity&quot;
+            },
+            {
+                &quot;exch&quot;: &quot;NMS&quot;,
+                &quot;exchDisp&quot;: &quot;NASDAQ&quot;,
+                &quot;name&quot;: &quot;Google Inc.&quot;,
+                &quot;symbol&quot;: &quot;GOOGL&quot;,
+                &quot;type&quot;: &quot;S&quot;,
+                &quot;typeDisp&quot;: &quot;Equity&quot;
+            },
+            {
+                &quot;exch&quot;: &quot;GER&quot;,
+                &quot;exchDisp&quot;: &quot;XETRA&quot;,
+                &quot;name&quot;: &quot;Google Inc.&quot;,
+                &quot;symbol&quot;: &quot;GGQ7.DE&quot;,
+                &quot;type&quot;: &quot;S&quot;,
+                &quot;typeDisp&quot;: &quot;Equity&quot;
+            },
+            {
+                &quot;exch&quot;: &quot;MEX&quot;,
+                &quot;exchDisp&quot;: &quot;Mexico&quot;,
+                &quot;name&quot;: &quot;Google Inc.&quot;,
+                &quot;symbol&quot;: &quot;GOOG.MX&quot;,
+                &quot;type&quot;: &quot;S&quot;,
+                &quot;typeDisp&quot;: &quot;Equity&quot;
+            },
+            {
+                &quot;exch&quot;: &quot;MEX&quot;,
+                &quot;exchDisp&quot;: &quot;Mexico&quot;,
+                &quot;name&quot;: &quot;GOOGLE-A&quot;,
+                &quot;symbol&quot;: &quot;GOOGL.MX&quot;,
+                &quot;type&quot;: &quot;S&quot;,
+                &quot;typeDisp&quot;: &quot;Equity&quot;
+            },
+            {
+                &quot;exch&quot;: &quot;BUE&quot;,
+                &quot;exchDisp&quot;: &quot;Buenos Aires&quot;,
+                &quot;name&quot;: &quot;Google Inc.&quot;,
+                &quot;symbol&quot;: &quot;GOOGL.BA&quot;,
+                &quot;type&quot;: &quot;S&quot;,
+                &quot;typeDisp&quot;: &quot;Equity&quot;
+            },
+            {
+                &quot;exch&quot;: &quot;FRA&quot;,
+                &quot;exchDisp&quot;: &quot;Frankfurt&quot;,
+                &quot;name&quot;: &quot;GOOGLE-A&quot;,
+                &quot;symbol&quot;: &quot;GGQ1.F&quot;,
+                &quot;type&quot;: &quot;S&quot;,
+                &quot;typeDisp&quot;: &quot;Equity&quot;
+            },
+            {
+                &quot;exch&quot;: &quot;MUN&quot;,
+                &quot;exchDisp&quot;: &quot;Munich&quot;,
+                &quot;name&quot;: &quot;GOOGLE-A&quot;,
+                &quot;symbol&quot;: &quot;GGQ1.MU&quot;,
+                &quot;type&quot;: &quot;S&quot;,
+                &quot;typeDisp&quot;: &quot;Equity&quot;
+            },
+            {
+                &quot;exch&quot;: &quot;EBS&quot;,
+                &quot;exchDisp&quot;: &quot;Swiss&quot;,
+                &quot;name&quot;: &quot;GOOGLE-A&quot;,
+                &quot;symbol&quot;: &quot;GOOGL.SW&quot;,
+                &quot;type&quot;: &quot;S&quot;,
+                &quot;typeDisp&quot;: &quot;Equity&quot;
+            },
+            {
+                &quot;exch&quot;: &quot;MUN&quot;,
+                &quot;exchDisp&quot;: &quot;Munich&quot;,
+                &quot;name&quot;: &quot;GOOGLE-C&quot;,
+                &quot;symbol&quot;: &quot;GGQ7.MU&quot;,
+                &quot;type&quot;: &quot;S&quot;,
+                &quot;typeDisp&quot;: &quot;Equity&quot;
+            }
+        ]
+    }
+}
+
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../oauth/" class="btn btn-neutral float-right" title="Yahoo-OAuth"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../myql/" class="btn btn-neutral" title="mYQL"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    <!-- Copyright etc -->
+    </p>
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../myql/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../oauth/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>
