@@ -71,7 +71,7 @@ class StockRetriever(YQL):
         response = self.select('yahoo.finance.industry',items).where(['id','=',index_id])
         return response
 
-    def get_xchange(self, pairs, items=None):
+    def get_xchange_rate(self, pairs, items=None):
         """Retrieves currency exchange rate data for given pair(s). 
         Accepts both where pair='eurusd, gbpusd' and where pair in ('eurusd', 'gpbusd, usdaud')
         """

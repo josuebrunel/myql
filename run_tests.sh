@@ -10,6 +10,5 @@ else
     Test=''
 fi
 
-python -m unittest tests$TestCase$Test
-
-
+coverage run --source=myql -m unittest tests$TestCase$Test
+coverage report

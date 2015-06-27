@@ -336,6 +336,130 @@ data = stocks.get_industry_index(112)
 }
 ```
 
+#### *StockRetriever.get_xchange_rate(pairs, items=None)*
+
+```python
+from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = stocks.get_xchange_rate(['EURUSD','GBPUSD'])
+```
+
+```json
+{
+    "query": {
+        "count": 2, 
+        "created": "2015-06-27T13:48:51Z", 
+        "lang": "en-US", 
+        "results": {
+            "rate": [
+                {
+                    "Ask": "1.1174", 
+                    "Bid": "1.1162", 
+                    "Date": "6/27/2015", 
+                    "Name": "EUR/USD", 
+                    "Rate": "1.1168", 
+                    "Time": "12:53pm", 
+                    "id": "EURUSD"
+                }, 
+                {
+                    "Ask": "1.5756", 
+                    "Bid": "1.5738", 
+                    "Date": "6/27/2015", 
+                    "Name": "GBP/USD", 
+                    "Rate": "1.5747", 
+                    "Time": "12:53pm", 
+                    "id": "GBPUSD"
+                }
+            ]
+        }
+    }
+}
+
+```
+
+#### *StockRetriever.get_dividendhistory(symbol, startDate, endDate)*
+
+```python
+from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = stocks.get_dividendhistory('AAPL',"2008-01-01", "2015-06-15")
+```
+
+```json
+{
+    "query": {
+        "count": 12, 
+        "created": "2015-06-27T13:42:27Z", 
+        "lang": "en-US", 
+        "results": {
+            "quote": [
+                {
+                    "Date": "2015-05-07", 
+                    "Dividends": "0.520000", 
+                    "Symbol": "AAPL"
+                }, 
+                {
+                    "Date": "2015-02-05", 
+                    "Dividends": "0.470000", 
+                    "Symbol": "AAPL"
+                }, 
+                {
+                    "Date": "2014-11-06", 
+                    "Dividends": "0.470000", 
+                    "Symbol": "AAPL"
+                }, 
+                {
+                    "Date": "2014-08-07", 
+                    "Dividends": "0.470000", 
+                    "Symbol": "AAPL"
+                }, 
+                {
+                    "Date": "2014-05-08", 
+                    "Dividends": "0.470000", 
+                    "Symbol": "AAPL"
+                }, 
+                {
+                    "Date": "2014-02-06", 
+                    "Dividends": "0.435710", 
+                    "Symbol": "AAPL"
+                }, 
+                {
+                    "Date": "2013-11-06", 
+                    "Dividends": "0.435710", 
+                    "Symbol": "AAPL"
+                }, 
+                {
+                    "Date": "2013-08-08", 
+                    "Dividends": "0.435710", 
+                    "Symbol": "AAPL"
+                }, 
+                {
+                    "Date": "2013-05-09", 
+                    "Dividends": "0.435710", 
+                    "Symbol": "AAPL"
+                }, 
+                {
+                    "Date": "2013-02-07", 
+                    "Dividends": "0.378570", 
+                    "Symbol": "AAPL"
+                }, 
+                {
+                    "Date": "2012-11-07", 
+                    "Dividends": "0.378570", 
+                    "Symbol": "AAPL"
+                }, 
+                {
+                    "Date": "2012-08-09", 
+                    "Dividends": "0.378570", 
+                    "Symbol": "AAPL"
+                }
+            ]
+        }
+    }
+}
+
+```
+
 #### *StockRetriever.get_symbols(company_name)*
 
 &nbsp;&nbsp;&nbsp;&nbsp; **Always returns data as JSON**
