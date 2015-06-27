@@ -283,8 +283,8 @@ class TestStockScraper(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
-    def test_get_xchange(self,):
-        data = self.stock.get_xchange(['EURUSD','GBPUSD'])
+    def test_get_xchange_rate(self,):
+        data = self.stock.get_xchange_rate(['EURUSD','GBPUSD'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
