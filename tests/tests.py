@@ -244,7 +244,12 @@ class TestStockScraper(unittest.TestCase):
         pass
 
     def test_get_current_info(self,):
-        data = self.stock.get_current_info(["YHOO","AAPL","GOOG"])
+        data = self.stock.get_current_info(["YHOO","AAPL","GOOG","J&KBANK.BO"])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+        
+    def test_get_current_info_with_one_symbol(self,):
+        data = self.stock.get_current_info(["J&KBANK.BO"])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
