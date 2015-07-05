@@ -12,3 +12,4 @@ fi
 
 coverage run --source=myql -m unittest tests$TestCase$Test
 coverage report
+coverage html
