@@ -2,27 +2,6 @@ from xml.etree import cElementTree as ctree
 
 class Base(object):
 
-    def addElement(self, elt, tagName=None):
-        root = self.etree
-        t_elt = root.find(tagName)
-        if not t_elt:
-            t_elt = ctree.SubElement(root, tagName)
-
-        root.append(t_elt)
-        return True
-
-    def removeElement(self, elt, tagName=None):
-        root = self.etree
-        t_elt = root.find(tagName)
-
-        try:
-            root.remove(t_elt)
-            return True
-        except (Exception,) as e:
-            print(e)
-
-        return False
-
     def addFunction(self, func_code, from_file=''):
         """Add function 
         """
