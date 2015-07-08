@@ -9,8 +9,8 @@ Weater
 * ***kwargs*** : Any possible argument of **YQL**
 
 ```python
->>> from myql.contrib.weather import Weather
->>> weather = Weather(unit='c', format='json')
+from myql.contrib.weather import Weather
+weather = Weather(unit='c', format='json')
 ```
 
 
@@ -20,7 +20,7 @@ Weater
 >Return weather information according to the place passed in
 
 ```python
->>> data = weather.get_weather_in('choisy-le-roi', 'c',['location', 'units', 'item.condition'])
+data = weather.get_weather_in('choisy-le-roi', 'c',['location', 'units', 'item.condition'])
 ```
 
 ```json
@@ -141,7 +141,7 @@ Weater
 >Return weather forecast
 
 ```python
->>> data = weather.get_weather_description('dolisie')
+data = weather.get_weather_description('dolisie')
 ```
 
 ```json
@@ -164,20 +164,11 @@ Weater
 
 ```
 
-#### *Weather.get_current_condition(place)*
->get_current_condition
-
-```python
-```
-
-```json
-```
-
 #### *Weather.get_current_atmosphere(place)*
 >Return weather atmosphere
 
 ```python
->>> data = weather.get_current_condition('Nantes')
+data = weather.get_current_condition('Nantes')
 ```
 
 ```json
@@ -238,7 +229,7 @@ Weater
 >Return sunrise and sunset time
 
 ```python
->>> data = weather.get_current_atmosphere('Scotland')
+data = weather.get_current_atmosphere('Scotland')
 ```
 
 ```json
@@ -340,7 +331,7 @@ Weater
 >Return weather wind
 
 ```python
->>> data = weather.get_current_wind('Barcelona')
+data = weather.get_current_wind('Barcelona')
 ```
 
 ```json
@@ -411,7 +402,7 @@ Weater
 >Return sunrise and sunset time
 
 ```python
->>> data = weather.get_astronomy('Congo')
+data = weather.get_astronomy('Congo')
 ```
 
 ```json

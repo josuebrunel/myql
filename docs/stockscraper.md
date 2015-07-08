@@ -460,6 +460,30 @@ data = stocks.get_dividendhistory('AAPL',"2008-01-01", "2015-06-15")
 
 ```
 
+#### *StockRetriever.get_balancesheet(symbol)*
+
+```python
+from myql.contrib.finance.stockscraper import StockRetriever
+stocks = StockRetriever(format='json')
+data = self.stock.get_balancesheet('YHOO')
+```
+
+```json
+{
+    "query": {
+        "count": 1, 
+        "created": "2015-07-08T09:01:12Z", 
+        "lang": "en-US", 
+        "results": {
+            "balancesheet": {
+                "symbol": "YHOO", 
+                "timeframe": "quarterly"
+            }
+        }
+    }
+}
+```
+
 #### *StockRetriever.get_symbols(company_name)*
 
 &nbsp;&nbsp;&nbsp;&nbsp; **Always returns data as JSON**
