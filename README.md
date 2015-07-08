@@ -12,7 +12,7 @@
 [![PyPI](https://img.shields.io/pypi/l/myql.svg?style=flat)](https://pypi.python.org/pypi/myql)
 
 
-mYQL is a Python wrapper of the Yahoo Query Language. **[Full Documentation](http://myql.readthedocs.org/en/latest/)**
+mYQL is a Python wrapper of the Yahoo Query Language. 
 
 Yahoo! Query Language Documentation and Support
 ===============================================
@@ -408,8 +408,14 @@ The full documentation on ***StockScraper*** is [here](https://myql.readthedocs.
 
 #### Release Notes
 
+##### 1.2.4
+-----------
+
+* Weather module added
+* StockScraper now under Finance namespace
+
 ##### 1.2.3
--------
+-----------
 
 * Fixed issue related to date in StockRetriver.get_historical_info [#107](https://github.com/josuebrunel/myql/issues/107)
 * Fixed issue with **IN** condition in **where** clause [#106](https://github.com/josuebrunel/myql/issues/107)
