@@ -298,6 +298,11 @@ class TestStockScraper(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
+    def test_get_balancesheet(self,):
+        data = self.stock.get_balancesheet('YHOO')
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
 
 class TestTable(unittest.TestCase):
 

@@ -36,7 +36,6 @@ class StockRetriever(YQL):
         """get_current_info() uses the yahoo.finance.quotes datatable to get all of the stock information presented in the main table on a typical stock page 
         and a bunch of data from the key statistics page.
         """
-        #symbolList = symbolList if not isinstance(symbolList, str) else (symbolList,)
         response = self.select('yahoo.finance.quotes',columns).where(['symbol','in',symbolList])
         return response
 
@@ -84,6 +83,12 @@ class StockRetriever(YQL):
         """
         startDate, endDate = self.__get_time_range(startDate, endDate)
         response = self.select('yahoo.finance.dividendhistory', items).where(['symbol', '=', symbol], ['startDate', '=', startDate], ['endDate', '=', endDate])
+        return response
+
+    def get_balancesheet(self, symbol):
+        """Retrieves balance sheet
+        """
+        response = self.select('yahoo.finance.balancesheet').where(['symbol', '=', symbol])
         return response
 
     def get_symbols(self, name):

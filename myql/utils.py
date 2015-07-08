@@ -24,11 +24,3 @@ def prettyfy(response, format='json'):
     else:
         return pretty_xml(response.content)
 
-
-def dump(response):
-    """Print a pretty formatted response content
-    """
-    try:
-        print(pretty_json(response.content))
-    except (Exception, ) :
-        print(pretty_xml(response.content))
