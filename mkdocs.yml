@@ -8,8 +8,9 @@ google_analytics: ['UA-32441224-4', 'myql.readthedocs.org']
 pages:
 -   Home : index.md
 -   mYQL : myql.md
--   StockScraper : stockscraper.md
 -   Yahoo-OAuth : oauth.md
+-   StockScraper : stockscraper.md
+-   Weather : weather.md
 -   Open Tables : table.md
 -   Contribute : contrib.md
 theme: readthedocs
