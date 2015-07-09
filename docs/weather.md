@@ -1,4 +1,4 @@
-Weater
+Weather
 =======
 
 ### **Definition**

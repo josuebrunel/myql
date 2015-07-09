@@ -169,7 +169,7 @@ As ***Binder***, ***BinderFunction*** is a subclass of ***BaseBinder***. They bo
 They say *"A picture is worth a thousand of words"* and I say *"A code snippet 
 is worth ..."* . You got it (^_^). 
 
-Copy and paste the code snippet below in a *example.py*
+Copy and paste the code snippet in the *example.py* below
 
 ```python
 from myql.contrib.table import BinderModel, InputKey, PagingPage, PagingUrl, InputValue, BinderFunction
