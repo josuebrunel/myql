@@ -11,7 +11,7 @@ from myql import errors
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logger = logging.getLogger('mYQL')
 
-logging.getLogger('requests').setLevel(logging.WARNING)
+logging.getLogger('requests').disabled = True # Disabling requests default logger
 
 
 class YQL(object):
