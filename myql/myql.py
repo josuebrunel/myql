@@ -24,7 +24,7 @@ class YQL(object):
     - community : set to <True> to have access to community tables
     '''
     public_url = 'https://query.yahooapis.com/v1/public/yql'
-    private_url = 'http://query.yahooapis.com/v1/yql'
+    private_url = 'https://query.yahooapis.com/v1/yql'
     community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
   
     def __init__(self, community=True, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None):
