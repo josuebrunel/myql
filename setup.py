@@ -1,9 +1,10 @@
 import os
+import myql
 from setuptools import setup, find_packages
 
 __author__ = 'Josue Kouka'
 __email__ = 'josuebrunel@gmail.com'
-__version__ = "1.2.5"
+__version__ = myql.__version__
 
 #requirements.txt
 with open('requirements.txt') as f:

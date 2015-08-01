@@ -10,7 +10,7 @@ from xml.etree import cElementTree as xtree
 
 from yahoo_oauth import OAuth1
 
-from myql import MYQL
+from myql import MYQL, YQL
 from myql.utils import pretty_xml, pretty_json, prettyfy
 
 from myql.contrib.table import Table
@@ -307,6 +307,16 @@ class TestStockScraper(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
+class TestSocial(unittest.TestCase):
+
+    def setUp(self,):
+        oauth = OAuth1(None, None, from_file='credentials.json')
+        self.yql = YQL(oauth=oauth)
+
+    def test_get_contacts(self,):
+        data = self.yql.select('social.contacts').where(['guid','=','me'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
 class TestTable(unittest.TestCase):
 
