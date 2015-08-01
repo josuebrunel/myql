@@ -24,6 +24,10 @@ logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(n
 logging.getLogger('Test-mYQL')
 
 
+logging.getLogger('mYQL').disabled = True
+logging.getLogger('yahoo_oauth').disabled = True
+logging.getLogger('requests').disabled = True
+
 def json_write_data(json_data, filename):
     with open(filename, 'w') as fp:
         json.dump(json_data, fp, indent=4, sort_keys=True, ensure_ascii=False)
