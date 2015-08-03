@@ -109,8 +109,6 @@ class YQL(object):
         '''Formats conditions
         args is a list of ['column', 'operator', 'value']
         '''
-
-        
         if cond[1].lower() == 'in':
             if not isinstance(cond[2], str) and 'select' not in cond[2][0].lower() :
                 cond[2] = "({0})".format(','.join(map(str,["'{0}'".format(e) for e in cond[2]])))
@@ -121,7 +119,10 @@ class YQL(object):
 
             cond = " ".join(cond)
         else: 
-            var = re.match('@(\w+)', cond[2])
+            if isinstance(cond[2], (str, buffer)):
+                var = re.match('^@(\w+)$', cond[2])
+            else:
+                var = None
             if var :
                 cond[2] = "{0}".format(var.group(1))
             else :
