@@ -34,7 +34,7 @@ class YQL(object):
         self._table = None
         self._query = None # used to build query when using methods such as <select>, <insert>, ...
         self._payload = {} # Last payload
-        self.diagnostics = False # Who knows, someone would like to turn it ON lol
+        self.diagnostics = diagnostics # Who knows, someone would like to turn it ON lol
         self.limit = None
         self.crossProduct = crossProduct
         self.jsonCompact = jsonCompact
