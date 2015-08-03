@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import
 
+import re
 import logging
 import requests
 from myql import errors 
@@ -108,6 +109,8 @@ class YQL(object):
         '''Formats conditions
         args is a list of ['column', 'operator', 'value']
         '''
+
+        
         if cond[1].lower() == 'in':
             if not isinstance(cond[2], str) and 'select' not in cond[2][0].lower() :
                 cond[2] = "({0})".format(','.join(map(str,["'{0}'".format(e) for e in cond[2]])))
@@ -118,7 +121,11 @@ class YQL(object):
 
             cond = " ".join(cond)
         else: 
-            cond[2] = "'{0}'".format(cond[2])
+            var = re.match('@(\w+)', cond[2])
+            if var :
+                cond[2] = "{0}".format(var.group(1))
+            else :
+                cond[2] = "'{0}'".format(cond[2])
             cond = ''.join(cond)
 
         return cond
