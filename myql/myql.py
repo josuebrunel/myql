@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import
 
+import re
 import logging
 import requests
 from myql import errors 
@@ -11,7 +12,7 @@ from myql import errors
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logger = logging.getLogger('mYQL')
 
-logging.getLogger('requests').setLevel(logging.WARNING)
+logging.getLogger('requests').disabled = True # Disabling requests default logger
 
 
 class YQL(object):
@@ -24,16 +25,16 @@ class YQL(object):
     - community : set to <True> to have access to community tables
     '''
     public_url = 'https://query.yahooapis.com/v1/public/yql'
-    private_url = 'http://query.yahooapis.com/v1/yql'
+    private_url = 'https://query.yahooapis.com/v1/yql'
     community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
   
-    def __init__(self, community=True, format='json', jsonCompact=False, crossProduct=None, debug=False, oauth=None):
+    def __init__(self, community=True, format='json', jsonCompact=False, crossProduct=None, debug=False, diagnostics=False, oauth=None):
         self.community = community # True means access to community data
         self.format = format
         self._table = None
         self._query = None # used to build query when using methods such as <select>, <insert>, ...
         self._payload = {} # Last payload
-        self.diagnostics = False # Who knows, someone would like to turn it ON lol
+        self.diagnostics = diagnostics # Who knows, someone would like to turn it ON lol
         self.limit = None
         self.crossProduct = crossProduct
         self.jsonCompact = jsonCompact
@@ -118,7 +119,14 @@ class YQL(object):
 
             cond = " ".join(cond)
         else: 
-            cond[2] = "'{0}'".format(cond[2])
+            if isinstance(cond[2], str):
+                var = re.match('^@(\w+)$', cond[2])
+            else:
+                var = None
+            if var :
+                cond[2] = "{0}".format(var.group(1))
+            else :
+                cond[2] = "'{0}'".format(cond[2])
             cond = ''.join(cond)
 
         return cond

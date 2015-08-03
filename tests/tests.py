@@ -10,7 +10,7 @@ from xml.etree import cElementTree as xtree
 
 from yahoo_oauth import OAuth1
 
-from myql import MYQL
+from myql import MYQL, YQL
 from myql.utils import pretty_xml, pretty_json, prettyfy
 
 from myql.contrib.table import Table
@@ -23,6 +23,10 @@ from myql.contrib.finance.stockscraper import StockRetriever
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logging.getLogger('Test-mYQL')
 
+
+logging.getLogger('mYQL').disabled = True
+logging.getLogger('yahoo_oauth').disabled = True
+logging.getLogger('requests').setLevel(logging.CRITICAL)
 
 def json_write_data(json_data, filename):
     with open(filename, 'w') as fp:
@@ -303,6 +307,16 @@ class TestStockScraper(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
+class TestSocial(unittest.TestCase):
+
+    def setUp(self,):
+        self.oauth = OAuth1(None, None, from_file='credentials.json')
+        self.yql = YQL(debug=True, diagnostics=True, oauth=self.oauth)
+
+    def test_get_contacts(self,):
+        data = self.yql.select('social.contacts').where(['guid','=', '@me'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
 class TestTable(unittest.TestCase):
 
