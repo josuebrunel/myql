@@ -314,7 +314,7 @@ class TestSocial(unittest.TestCase):
         self.yql = YQL(debug=True, diagnostics=True, oauth=self.oauth)
 
     def test_get_contacts(self,):
-        data = self.yql.select('social.contacts').where(['guid','=',self.oauth.guid])
+        data = self.yql.select('social.contacts').where(['guid','=', '@me'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
