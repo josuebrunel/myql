@@ -119,7 +119,7 @@ class YQL(object):
 
             cond = " ".join(cond)
         else: 
-            if isinstance(cond[2], (str, buffer)):
+            if isinstance(cond[2], str):
                 var = re.match('^@(\w+)$', cond[2])
             else:
                 var = None
