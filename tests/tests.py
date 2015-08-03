@@ -24,7 +24,7 @@ logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(n
 logging.getLogger('Test-mYQL')
 
 
-#logging.getLogger('mYQL').disabled = True
+logging.getLogger('mYQL').disabled = True
 logging.getLogger('yahoo_oauth').disabled = True
 logging.getLogger('requests').setLevel(logging.CRITICAL)
 
@@ -310,11 +310,11 @@ class TestStockScraper(unittest.TestCase):
 class TestSocial(unittest.TestCase):
 
     def setUp(self,):
-        oauth = OAuth1(None, None, from_file='credentials.json')
-        self.yql = YQL(oauth=oauth)
+        self.oauth = OAuth1(None, None, from_file='credentials.json')
+        self.yql = YQL(debug=True, diagnostics=True, oauth=self.oauth)
 
     def test_get_contacts(self,):
-        data = self.yql.select('social.contacts').where(['guid','=','@me'])
+        data = self.yql.select('social.contacts').where(['guid','=',self.oauth.guid])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
