@@ -24,7 +24,7 @@ logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(n
 logging.getLogger('Test-mYQL')
 
 
-logging.getLogger('mYQL').disabled = True
+#logging.getLogger('mYQL').disabled = True
 logging.getLogger('yahoo_oauth').disabled = True
 logging.getLogger('requests').setLevel(logging.CRITICAL)
 
@@ -193,7 +193,9 @@ class TestFilters(unittest.TestCase):
         pass
 
     def test_filter_like(self,):
-        pass
+        data = self.yql.select('yql.table.list').where(['content','like','%apple%'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
     def test_filter_note_like(self,):
         pass
