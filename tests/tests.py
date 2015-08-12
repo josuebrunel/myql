@@ -160,7 +160,50 @@ class TestMYQL(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-       
+class TestFilters(unittest.TestCase):
+
+    def setUp(self,):
+        self.yql = YQL()
+
+    def tearDown(self,):
+        pass
+
+    def test_filter_not_equal(self,):
+        pass
+
+    def test_filter_greater_than(self,):
+        pass
+
+    def test_filter_less_than(self,):
+        pass
+
+    def test_filter_equal_or_greater_than(self,):
+        pass
+
+    def test_filter_equal_or_less_than(self,):
+        pass
+
+    def test_filter_not_in(self,):
+        pass
+
+    def test_filter_is_null(self,):
+        pass
+
+    def test_filter_is_not_null(self,):
+        pass
+
+    def test_filter_like(self,):
+        pass
+
+    def test_filter_note_like(self,):
+        pass
+
+    def test_filter_matches(self,):
+        pass
+
+    def test_filter_not_matches(self,):
+        pass
+
 class TestOAuth(unittest.TestCase):
 
     def setUp(self,):
