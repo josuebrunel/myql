@@ -301,16 +301,16 @@ class MYQL(YQL):
     #
     #####################################################
 
-    def getGUID(self, username):
+    def get_guid(self, username):
         '''Returns the guid of the username provided
-        >>> guid = self.getGUID('josue_brunel')
+        >>> guid = self.get_guid('josue_brunel')
         >>> guid
         '''
         response = self.select('yahoo.identity').where(['yid', '=', username])
     
         return response
     
-    def showTables(self, format='json'):
+    def show_tables(self, format='json'):
         '''Return list of all available tables'''
 
         query = 'SHOW TABLES'

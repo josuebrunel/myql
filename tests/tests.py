@@ -56,7 +56,7 @@ class TestMYQL(unittest.TestCase):
 
     def test_show_tables(self,):
         yql = MYQL(format='xml', community=False)
-        response = yql.showTables(format='xml')
+        response = yql.show_tables(format='xml')
         logging.debug(prettyfy(response, 'xml'))
         self.assertEqual(response.status_code, 200)
 
@@ -252,7 +252,7 @@ class TestOAuth(unittest.TestCase):
     def test_get_guid(self,):
         oauth = OAuth1(None, None, from_file='credentials.json')
         yql = MYQL(format='json', oauth=oauth)
-        response = yql.getGUID('josue_brunel')
+        response = yql.get_guid('josue_brunel')
         logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
