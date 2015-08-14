@@ -48,7 +48,7 @@ class YQL(object):
         '''
         return "<Community>: {0} - <Format>: {1} ".format(self.community, self.format)
 
-    def payloadBuilder(self, query, format=None):
+    def payload_builder(self, query, format=None):
         '''Build the payload'''
         if self.community :
             query = self.community_data + query # access to community data tables
@@ -75,10 +75,10 @@ class YQL(object):
 
         return payload
 
-    def rawQuery(self, query, format=None, pretty=False):
+    def raw_query(self, query, format=None, pretty=False):
         '''Executes a YQL query and returns a response
         >>>...
-        >>> resp = yql.rawQuery('select * from weather.forecast where woeid=2502265')
+        >>> resp = yql.raw_query('select * from weather.forecast where woeid=2502265')
         >>>
         '''
         if format:
@@ -86,14 +86,14 @@ class YQL(object):
         else:
             format = self.format
 
-        payload = self.payloadBuilder(query, format=format)
-        response = self.executeQuery(payload)
+        payload = self.payload_builder(query, format=format)
+        response = self.execute_query(payload)
         if pretty:
             response = self.buildResponse(response)
 
         return response
 
-    def executeQuery(self, payload):
+    def execute_query(self, payload):
         '''Execute the query and returns and response'''
         if vars(self).get('oauth'):
             if not self.oauth.token_is_valid(): # Refresh token if token has expired
@@ -105,7 +105,7 @@ class YQL(object):
         self._response = response # Saving last response object.
         return response
 
-    def clauseFormatter(self, cond):
+    def clause_formatter(self, cond):
         '''Formats conditions
         args is a list of ['field', 'operator', 'value']
         '''
@@ -178,7 +178,7 @@ class YQL(object):
             #query = "desc {0} ".format(self._table)
             raise errors.NoTableSelectedError('No table selected')
         query = "desc {0}".format(table)
-        response = self.rawQuery(query)
+        response = self.raw_query(query)
 
         return response
 
@@ -197,8 +197,8 @@ class YQL(object):
         if not self._table :
             raise errors.NoTableSelectedError('Please select a table')
     
-        payload = self.payloadBuilder(self._query)
-        response = self.executeQuery(payload)
+        payload = self.payload_builder(self._query)
+        response = self.execute_query(payload)
 
         return response
       
@@ -225,8 +225,8 @@ class YQL(object):
         """
         values = ["'{0}'".format(e) for e in values]
         self._query = "INSERT INTO {0} ({1}) VALUES ({2})".format(table,','.join(items),','.join(values))
-        payload = self.payloadBuilder(self._query)
-        response = self.executeQuery(payload)
+        payload = self.payload_builder(self._query)
+        response = self.execute_query(payload)
 
         return response
 
@@ -265,7 +265,7 @@ class YQL(object):
         self._query += ' WHERE '
         for x in args:
             if x:
-                x = self.clauseFormatter(x)
+                x = self.clause_formatter(x)
                 clause.append(x)
 
         self._query += ' AND '.join(clause)
@@ -273,8 +273,8 @@ class YQL(object):
         if self._limit :
             self._query +=  " LIMIT {0}".format(self._limit)
 
-        payload = self.payloadBuilder(self._query)
-        response = self.executeQuery(payload)
+        payload = self.payload_builder(self._query)
+        response = self.execute_query(payload)
 
         return response
 
@@ -305,9 +305,9 @@ class MYQL(YQL):
         '''Return list of all available tables'''
 
         query = 'SHOW TABLES'
-        payload = self.payloadBuilder(query, format) 	
+        payload = self.payload_builder(query, format) 	
 
-        response = self.executeQuery(payload) 
+        response = self.execute_query(payload) 
 
         return response
 

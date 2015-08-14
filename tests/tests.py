@@ -62,7 +62,7 @@ class TestMYQL(unittest.TestCase):
 
     def test_use(self):
         self.yql.use('http://www.josuebrunel.org/users.xml',name='users')
-        response = self.yql.rawQuery('select * from users')
+        response = self.yql.raw_query('select * from users')
         self.yql.yql_table_url = None
         try:
             logging.debug(pretty_json(response.content))
@@ -71,7 +71,7 @@ class TestMYQL(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_raw_query(self,):
-        response = self.yql.rawQuery('select name, woeid from geo.states where place="Congo"')
+        response = self.yql.raw_query('select name, woeid from geo.states where place="Congo"')
         try:
             logging.debug(pretty_json(response.content))
         except (Exception,) as e:
@@ -216,8 +216,6 @@ class TestFilters(unittest.TestCase):
         data = self.yql.select('geo.countries', ['name', 'placeTypeName']).where(['placeTypeName.content','NOT MATCHES','^(Country|Territory)$'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
-
-
 
 
 class TestOAuth(unittest.TestCase):
