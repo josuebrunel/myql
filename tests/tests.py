@@ -21,10 +21,9 @@ from myql.contrib.weather import Weather
 from myql.contrib.finance.stockscraper import StockRetriever
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
-logging.getLogger('Test-mYQL')
 
 
-#logging.getLogger('mYQL').disabled = True
+logging.getLogger('mYQL').propagate = False
 logging.getLogger('yahoo_oauth').disabled = True
 logging.getLogger('requests').setLevel(logging.CRITICAL)
 
@@ -169,36 +168,44 @@ class TestFilters(unittest.TestCase):
         pass
 
     def test_filter_not_equal(self,):
-        pass
+        data = self.yql.select('geo.countries', ['name', 'placeTypeName']).where(['name', 'like', 'A%'], ['placeTypeName.content', '!=', 'Country'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
-    def test_filter_greater_than(self,):
-        pass
+    def test_filter_greater_than_or_equal(self,):
+        data = self.yql.select('geo.countries',['woeid', 'name', 'placeTypeName']).where(['place', '=', 'North America'], ['place.woeid', '>=', 56042304])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
-    def test_filter_less_than(self,):
-        pass
-
-    def test_filter_equal_or_greater_than(self,):
-        pass
-
-    def test_filter_equal_or_less_than(self,):
-        pass
+    def test_filter_less_than_or_equal(self,):
+        data = self.yql.select('geo.countries',['name', 'placeTypeName']).where(['place', '=', 'North America'], ['place.woeid', '<=', 23424758])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
     def test_filter_not_in(self,):
-        pass
+        data = self.yql.select('geo.countries',['name', 'placeTypeName']).where(['placeTypeName.content', 'NOT IN', ('Country','Territory','Overseas Collectivity')])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
     def test_filter_is_null(self,):
-        pass
+        data = self.yql.select('youtube.user').where(['id','=','120u12a'], ['user.description','IS NULL'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
     def test_filter_is_not_null(self,):
-        pass
+        data = self.yql.select('youtube.user').where(['id','=','120u12a'], ['user.description','IS NOT NULL'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
     def test_filter_like(self,):
         data = self.yql.select('yql.table.list').where(['content','like','%apple%'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
-    def test_filter_note_like(self,):
-        pass
+    def test_filter_not_like(self,):
+        data = self.yql.select('geo.counties', ['name', 'placeTypeName']).where(['place', '=', 'CT'], ['name', 'NOT LIKE', '%d'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
     def test_filter_matches(self,):
         data = self.yql.select('yql.table.list').where(['content','matches','.*itunes$'])

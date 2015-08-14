@@ -109,9 +109,12 @@ class YQL(object):
         '''Formats conditions
         args is a list of ['field', 'operator', 'value']
         '''
-        field, operator, value = cond
         
-        if cond[1].lower() == 'in':
+        if len(cond) == 2 :
+            cond = ' '.join(cond)
+            return cond
+
+        if 'in' in cond[1].lower() :
             if not isinstance(cond[2], str) and 'select' not in cond[2][0].lower() :
                 cond[2] = "({0})".format(','.join(map(str,["'{0}'".format(e) for e in cond[2]])))
             elif not isinstance(cond[2], str) and 'select' in cond[2][0].lower() :
