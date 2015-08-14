@@ -208,7 +208,7 @@ class YQL(object):
       
     
     ## SELECT
-    def select(self, table=None, items=None, limit=None):
+    def select(self, table=None, items=None, limit=None, offset=None):
         '''This method simulate a select on a table
         >>> yql.select('geo.countries', limit=5) 
         >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
@@ -219,6 +219,7 @@ class YQL(object):
         self._query = "SELECT {1} FROM {0} ".format(self._table, ','.join(items))
 
         self._limit = limit
+        self._offset = offset
             
         return self
 
@@ -275,7 +276,11 @@ class YQL(object):
         self._query += ' AND '.join(clause)
 
         if self._limit :
-            self._query +=  " LIMIT {0}".format(self._limit)
+            self._query +=  " LIMIT {0} ".format(self._limit)
+
+        if self._offset :
+            self._query +=  " OFFSET {0} ".format(self._offset)
+
 
         payload = self.payload_builder(self._query)
         response = self.execute_query(payload)
