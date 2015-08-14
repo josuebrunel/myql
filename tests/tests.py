@@ -202,8 +202,10 @@ class TestFilters(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
-    def test_filter_note_like(self,):
-        pass
+    def test_filter_not_like(self,):
+        data = self.yql.select('geo.counties', ['name', 'placeTypeName']).where(['place', '=', 'CT'], ['name', 'NOT LIKE', '%d'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
     def test_filter_matches(self,):
         data = self.yql.select('yql.table.list').where(['content','matches','.*itunes$'])
