@@ -35,7 +35,8 @@ class YQL(object):
         self._query = None # used to build query when using methods such as <select>, <insert>, ...
         self._payload = {} # Last payload
         self.diagnostics = diagnostics # Who knows, someone would like to turn it ON lol
-        self.limit = None
+        self._limit = None
+        self._offset = None
         self.crossProduct = crossProduct
         self.jsonCompact = jsonCompact
         self.debug = debug
@@ -183,7 +184,7 @@ class YQL(object):
         return response
 
     ##GET
-    def get(self, table=None, items=None, limit=''):
+    def get(self, table=None, items=None, limit=None, offset=None):
         '''Just a select which returns a response
         >>> yql.get("geo.countries', ['name', 'woeid'], 5")
         '''
@@ -192,7 +193,10 @@ class YQL(object):
             items = ['*'] 
         self._query = "SELECT {1} FROM {0} ".format(self._table, ','.join(items))
         if limit:
-            self._query += "limit {0}".format(limit)
+            self._query += "LIMIT {0} ".format(limit)
+
+        if offset:
+            self._query += "OFFSET {0}".format(offset)
 
         if not self._table :
             raise errors.NoTableSelectedError('Please select a table')

@@ -159,24 +159,24 @@ class TestMYQL(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class TestPagingLimit(unittest.TestCase):
+class TestPaging(unittest.TestCase):
 
     def setUp(self,):
-        self.yql = YQL()
+        self.yql = YQL(diagnostics=True, debug=True)
 
     def tearDown(self,):
         pass
 
-    def test_limit(self,):
-        data = self.yql.get('yql.table.list', limit=10)
+    def test_offset_get(self,):
+        data = self.yql.get('yql.table.list', limit=10, offset=3)
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
-    def test_offset(self):
-        pass
+    def test_offset_select(self):
+        data = self.yql.select('geo.counties', limit=10, offset=3).where(['place', '=', 'CA'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
-    def test_limit_offset(self,):
-        pass
 
 class TestFilters(unittest.TestCase):
 
