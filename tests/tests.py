@@ -172,12 +172,6 @@ class TestFilters(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
-    def test_filter_greater_than(self,):
-        pass
-
-    def test_filter_less_than(self,):
-        pass
-
     def test_filter_greater_than_or_equal(self,):
         data = self.yql.select('geo.countries',['woeid', 'name', 'placeTypeName']).where(['place', '=', 'North America'], ['place.woeid', '>=', 56042304])
         logging.debug(pretty_json(data.content))
@@ -189,7 +183,9 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_filter_not_in(self,):
-        pass
+        data = self.yql.select('geo.countries',['name', 'placeTypeName']).where(['placeTypeName.content', 'NOT IN', ('Country','Territory','Overseas Collectivity')])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
     def test_filter_is_null(self,):
         data = self.yql.select('youtube.user').where(['id','=','120u12a'], ['user.description','IS NULL'])
