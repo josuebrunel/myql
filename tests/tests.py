@@ -168,7 +168,9 @@ class TestFilters(unittest.TestCase):
         pass
 
     def test_filter_not_equal(self,):
-        pass
+        data = self.yql.select('geo.countries', ['name', 'placeTypeName']).where(['name', 'like', 'A%'], ['placeTypeName.content', '!=', 'Country'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
     def test_filter_greater_than(self,):
         pass
