@@ -208,12 +208,17 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_filter_matches(self,):
-        data = self.yql.select('yql.table.list').where(['content','matches','.*itunes$'])
+        data = self.yql.select('yql.table.list').where(['content','MATCHES','.*itunes$'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
     def test_filter_not_matches(self,):
-        pass
+        data = self.yql.select('geo.countries', ['name', 'placeTypeName']).where(['placeTypeName.content','NOT MATCHES','^(Country|Territory)$'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+
+
 
 class TestOAuth(unittest.TestCase):
 
