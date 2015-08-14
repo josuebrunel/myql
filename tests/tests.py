@@ -177,12 +177,14 @@ class TestFilters(unittest.TestCase):
         pass
 
     def test_filter_greater_than_or_equal(self,):
-        data = self.yql.select('geo.countries',['name', 'placeTypeName']).where(['place', '=', 'North America'], ['place.woeid', '>=', 56042304])
+        data = self.yql.select('geo.countries',['woeid', 'name', 'placeTypeName']).where(['place', '=', 'North America'], ['place.woeid', '>=', 56042304])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
     def test_filter_less_than_or_equal(self,):
-        pass
+        data = self.yql.select('geo.countries',['name', 'placeTypeName']).where(['place', '=', 'North America'], ['place.woeid', '<=', 23424758])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
     def test_filter_not_in(self,):
         pass
