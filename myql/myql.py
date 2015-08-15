@@ -184,14 +184,18 @@ class YQL(object):
         return response
 
     ##GET
-    def get(self, table=None, items=None, limit=None, offset=None):
+    def get(self, table=None, items=None, limit=None, offset=None, remote_filter=None):
         '''Just a select which returns a response
         >>> yql.get("geo.countries', ['name', 'woeid'], 5")
         '''
         self._table = table
+
+        if remote_filter:
+            table = "%s(%s)" %(table, ','.join(map(str, remote_filter)))
+
         if not items:
             items = ['*'] 
-        self._query = "SELECT {1} FROM {0} ".format(self._table, ','.join(items))
+        self._query = "SELECT {1} FROM {0} ".format(table, ','.join(items))
         if limit:
             self._query += "LIMIT {0} ".format(limit)
 
@@ -214,8 +218,10 @@ class YQL(object):
         >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
         '''
         self._table = table
+
         if remote_filter:
             table = "%s(%s)" %(table, ','.join(map(str, remote_filter)))
+
         if not items:
             items = ['*']
         self._query = "SELECT {1} FROM {0} ".format(table, ','.join(items))

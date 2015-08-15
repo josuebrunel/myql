@@ -246,8 +246,16 @@ class TestRemoteFilters(unittest.TestCase):
     def setUp(self,):
         self.yql = YQL(diagnostics=True, debug=True)
 
-    def test_remote_filter_get(self,):
-        pass
+    def test_remote_filter_get_count(self,):
+        data = self.yql.get('geo.countries', remote_filter=(10,))
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_remote_filter_get_start_and_count(self,):
+        data = self.yql.get('geo.countries', remote_filter=(100,10))
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+        
 
     def test_remote_filter_select_count(self,):
         data = self.yql.select('geo.counties', remote_filter=(20,)).where(['place', '=', 'CA'])
