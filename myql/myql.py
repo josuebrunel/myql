@@ -185,17 +185,16 @@ class YQL(object):
         return response
 
     ##GET
-    def get(self, table=None, items=None, limit=None, offset=None, remote_filter=None):
+    def get(self, *args, **kwargs):
         '''Just a select which returns a response
         >>> yql.get("geo.countries', ['name', 'woeid'], 5")
         '''
-        self = self.select(table, items, limit, offset, remote_filter)
+        self = self.select(*args, **kwargs)
 
         payload = self.payload_builder(self._query)
         response = self.execute_query(payload)
 
         return response
-      
     
     ## SELECT
     def select(self, table=None, items=None, limit=None, offset=None, remote_filter=None):
