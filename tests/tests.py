@@ -241,6 +241,32 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
 
+class TestPostQueryFilters(unittest.TestCase):
+
+    def setUp(self,):
+        self.yql = YQL(diagnostics=True, debug=True)
+
+    def tearDown(self,):
+        pass
+
+    def test_post_filter_reverse(self,):
+        pass
+
+    def test_post_filter_tail(self,):
+        pass
+
+    def test_post_filter_truncate(self,):
+        pass
+
+    def test_post_filter_sanitize(self,):
+        pass
+
+    def test_post_filter_sort(self,):
+        pass
+
+    def test_post_filter_unique(self,):
+        pass
+
 class TestRemoteFilters(unittest.TestCase):
 
     def setUp(self,):
