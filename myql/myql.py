@@ -5,6 +5,7 @@ from __future__ import absolute_import
 
 import re
 import logging
+
 import requests
 from myql import errors 
 
@@ -188,23 +189,8 @@ class YQL(object):
         '''Just a select which returns a response
         >>> yql.get("geo.countries', ['name', 'woeid'], 5")
         '''
-        self._table = table
+        self = self.select(table, items, limit, offset, remote_filter)
 
-        if remote_filter:
-            table = "%s(%s)" %(table, ','.join(map(str, remote_filter)))
-
-        if not items:
-            items = ['*'] 
-        self._query = "SELECT {1} FROM {0} ".format(table, ','.join(items))
-        if limit:
-            self._query += "LIMIT {0} ".format(limit)
-
-        if offset:
-            self._query += "OFFSET {0}".format(offset)
-
-        if not self._table :
-            raise errors.NoTableSelectedError('Please select a table')
-    
         payload = self.payload_builder(self._query)
         response = self.execute_query(payload)
 
