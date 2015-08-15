@@ -241,6 +241,25 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
 
+class TestRemoteFilters(unittest.TestCase):
+
+    def setUp(self,):
+        self.yql = YQL(diagnostics=True, debug=True)
+
+    def test_remote_filter_get(self,):
+        pass
+
+    def test_remote_filter_select_count(self,):
+        data = self.yql.select('geo.counties', remote_filter=(20,)).where(['place', '=', 'CA'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+        
+    def test_remote_filter_select_start_and_count(self,):
+        data = self.yql.select('geo.counties', remote_filter=(60,20)).where(['place', '=', 'CA'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+
 class TestOAuth(unittest.TestCase):
 
     def setUp(self,):

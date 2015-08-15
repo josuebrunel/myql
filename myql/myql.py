@@ -208,15 +208,17 @@ class YQL(object):
       
     
     ## SELECT
-    def select(self, table=None, items=None, limit=None, offset=None):
+    def select(self, table=None, items=None, limit=None, offset=None, remote_filter=None):
         '''This method simulate a select on a table
         >>> yql.select('geo.countries', limit=5) 
         >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
         '''
         self._table = table
+        if remote_filter:
+            table = "%s(%s)" %(table, ','.join(map(str, remote_filter)))
         if not items:
             items = ['*']
-        self._query = "SELECT {1} FROM {0} ".format(self._table, ','.join(items))
+        self._query = "SELECT {1} FROM {0} ".format(table, ','.join(items))
 
         self._limit = limit
         self._offset = offset
