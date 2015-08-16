@@ -52,7 +52,7 @@ class YQL(object):
         '''
         return "<Community>: {0} - <Format>: {1} ".format(self.community, self.format)
 
-    def payload_builder(self, query, format=None):
+    def _payload_builder(self, query, format=None):
         '''Build the payload'''
         if self.community :
             query = self.COMMUNITY_DATA + query # access to community data tables
@@ -90,7 +90,7 @@ class YQL(object):
         else:
             format = self.format
 
-        payload = self.payload_builder(query, format=format)
+        payload = self._payload_builder(query, format=format)
         response = self.execute_query(payload)
         if pretty:
             response = self.buildResponse(response)
@@ -156,7 +156,7 @@ class YQL(object):
 
         return response
 
-    def __func_filters(self, filters):
+    def __func_filters__(self, filters):
         '''Build post query filters
         '''
 
@@ -203,7 +203,7 @@ class YQL(object):
         '''
         self = self.select(*args, **kwargs)
 
-        payload = self.payload_builder(self._query)
+        payload = self._payload_builder(self._query)
         response = self.execute_query(payload)
 
         return response
@@ -238,7 +238,7 @@ class YQL(object):
         """
         values = ["'{0}'".format(e) for e in values]
         self._query = "INSERT INTO {0} ({1}) VALUES ({2})".format(table,','.join(items),','.join(values))
-        payload = self.payload_builder(self._query)
+        payload = self._payload_builder(self._query)
         response = self.execute_query(payload)
 
         return response
@@ -290,7 +290,7 @@ class YQL(object):
             self._query +=  " OFFSET {0} ".format(self._offset)
 
 
-        payload = self.payload_builder(self._query)
+        payload = self._payload_builder(self._query)
         response = self.execute_query(payload)
 
         return response
@@ -322,7 +322,7 @@ class MYQL(YQL):
         '''Return list of all available tables'''
 
         query = 'SHOW TABLES'
-        payload = self.payload_builder(query, format) 	
+        payload = self._payload_builder(query, format) 	
 
         response = self.execute_query(payload) 
 
