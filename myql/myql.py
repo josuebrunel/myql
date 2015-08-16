@@ -25,9 +25,11 @@ class YQL(object):
     - diagnostics : set to <True> to see diagnostics on queries
     - community : set to <True> to have access to community tables
     '''
-    public_url = 'https://query.yahooapis.com/v1/public/yql'
-    private_url = 'https://query.yahooapis.com/v1/yql'
-    community_data  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
+    PUBLIC_URL = 'https://query.yahooapis.com/v1/public/yql'
+    PRIVATE_URL = 'https://query.yahooapis.com/v1/yql'
+    COMMUNITY_DATA  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
+
+    FUNC_FILTERS = ['sort', 'tail', 'truncate', 'reverse', 'unique', 'sanitize']
   
     def __init__(self, community=True, format='json', jsonCompact=False, crossProduct=None, debug=False, diagnostics=False, oauth=None):
         self.community = community # True means access to community data
@@ -53,7 +55,7 @@ class YQL(object):
     def payload_builder(self, query, format=None):
         '''Build the payload'''
         if self.community :
-            query = self.community_data + query # access to community data tables
+            query = self.COMMUNITY_DATA + query # access to community data tables
 
         if vars(self).get('yql_table_url') : # Attribute only defined when MYQL.use has been called before
             query = "use '{0}' as {1}; ".format(self.yql_table_url, self.yql_table_name) + query
@@ -100,14 +102,14 @@ class YQL(object):
         if vars(self).get('oauth'):
             if not self.oauth.token_is_valid(): # Refresh token if token has expired
                 self.oauth.refresh_token()
-            response = self.oauth.session.get(self.private_url, params= payload, header_auth=True)
+            response = self.oauth.session.get(self.PRIVATE_URL, params= payload, header_auth=True)
         else:
-            response = requests.get(self.public_url, params= payload)
+            response = requests.get(self.PUBLIC_URL, params= payload)
 
         self._response = response # Saving last response object.
         return response
 
-    def clause_formatter(self, cond):
+    def _clause_formatter(self, cond):
         '''Formats conditions
         args is a list of ['field', 'operator', 'value']
         '''
@@ -138,7 +140,7 @@ class YQL(object):
 
         return cond
     
-    def buildResponse(self, response):
+    def response_builder(self, response):
         '''Try to return a pretty formatted response object
         '''
         try:
@@ -154,6 +156,16 @@ class YQL(object):
 
         return response
 
+    def __func_filters(self, filters):
+        '''Build post query filters
+        '''
+
+        for f in filters :
+            if isinstance(f, str) and f == 'reverse':
+                f = 'reverse()'
+            elif isinstance(f, dict) and f in YQL.FUNC_FILTERS:
+                pass
+        return 
 
     ######################################################
     #
@@ -197,7 +209,7 @@ class YQL(object):
         return response
     
     ## SELECT
-    def select(self, table=None, items=None, limit=None, offset=None, remote_filter=None):
+    def select(self, table=None, items=None, limit=None, offset=None, remote_filter=None, func_filters=None):
         '''This method simulate a select on a table
         >>> yql.select('geo.countries', limit=5) 
         >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
@@ -206,6 +218,9 @@ class YQL(object):
 
         if remote_filter:
             table = "%s(%s)" %(table, ','.join(map(str, remote_filter)))
+
+        if func_filters:
+            pass
 
         if not items:
             items = ['*']
@@ -263,7 +278,7 @@ class YQL(object):
         self._query += ' WHERE '
         for x in args:
             if x:
-                x = self.clause_formatter(x)
+                x = self._clause_formatter(x)
                 clause.append(x)
 
         self._query += ' AND '.join(clause)

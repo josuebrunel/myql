@@ -8,4 +8,5 @@ from tests.tests import TestOAuth
 from tests.tests import TestSocial
 from tests.tests import TestFilters
 from tests.tests import TestRemoteFilters
+from tests.tests import TestFuncFilters
 from tests.tests import TestPaging

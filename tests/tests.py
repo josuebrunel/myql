@@ -241,7 +241,7 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
 
-class TestPostQueryFilters(unittest.TestCase):
+class TestFuncFilters(unittest.TestCase):
 
     def setUp(self,):
         self.yql = YQL(diagnostics=True, debug=True)
@@ -249,22 +249,25 @@ class TestPostQueryFilters(unittest.TestCase):
     def tearDown(self,):
         pass
 
-    def test_post_filter_reverse(self,):
+    def test_func_filter_reverse(self,):
+        func_filters = 'reverse'
+        data = self.yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_func_filter_tail(self,):
         pass
 
-    def test_post_filter_tail(self,):
+    def test_func_filter_truncate(self,):
         pass
 
-    def test_post_filter_truncate(self,):
+    def test_func_filter_sanitize(self,):
         pass
 
-    def test_post_filter_sanitize(self,):
+    def test_func_filter_sort(self,):
         pass
 
-    def test_post_filter_sort(self,):
-        pass
-
-    def test_post_filter_unique(self,):
+    def test_func_filter_unique(self,):
         pass
 
 class TestRemoteFilters(unittest.TestCase):
