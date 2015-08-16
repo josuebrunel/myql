@@ -60,6 +60,9 @@ class YQL(object):
         if vars(self).get('yql_table_url') : # Attribute only defined when MYQL.use has been called before
             query = "use '{0}' as {1}; ".format(self.yql_table_url, self.yql_table_name) + query
 
+        if vars(self).get('_func'): # if post query function filters
+            query = '| '.join((query, self._func))
+
         self._query = query
         logger.info("QUERY = %s" %(query,))
 
@@ -156,16 +159,18 @@ class YQL(object):
 
         return response
 
-    def __func_filters__(self, filters):
+    def _func_filters(self, filters):
         '''Build post query filters
         '''
+        if not isinstance(filters, list):
+            raise TypeError('func_filters must be a List')
 
-        for f in filters :
-            if isinstance(f, str) and f == 'reverse':
-                f = 'reverse()'
+        for i, func in enumerate(filters) :
+            if isinstance(func, str) and func == 'reverse':
+                filters[i] = 'reverse()'
             elif isinstance(f, dict) and f in YQL.FUNC_FILTERS:
                 pass
-        return 
+        return '| '.join(filters) 
 
     ######################################################
     #
@@ -219,12 +224,12 @@ class YQL(object):
         if remote_filter:
             table = "%s(%s)" %(table, ','.join(map(str, remote_filter)))
 
-        if func_filters:
-            pass
-
         if not items:
             items = ['*']
         self._query = "SELECT {1} FROM {0} ".format(table, ','.join(items))
+
+        if func_filters:
+            self._func = self._func_filters(func_filters) 
 
         self._limit = limit
         self._offset = offset

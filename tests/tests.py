@@ -250,7 +250,7 @@ class TestFuncFilters(unittest.TestCase):
         pass
 
     def test_func_filter_reverse(self,):
-        func_filters = 'reverse'
+        func_filters = ['reverse']
         data = self.yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
