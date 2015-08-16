@@ -170,8 +170,19 @@ class YQL(object):
                 filters[i] = 'reverse()'
             elif isinstance(func, tuple) and func[0] in YQL.FUNC_FILTERS:
                 filters[i] = '{:s}(count={:d})'.format(*func)
-            elif isinstance(func, dict) and func in YQL.FUNC_FILTERS:
-                pass
+            elif isinstance(func, dict) :
+                func_stmt = ''
+                import pdb
+                #pdb.set_trace()
+                try:
+                    func_name = func.keys()[0]
+                except: #Py3
+                    func_name = list(func)[0]
+
+                value = [ "{0}='{1}'".format(v[0], v[1]) for v in func[func_name] ]
+                func_stmt = ','.join(value)
+                func_stmt = '{0}({1})'.format(func_name, func_stmt)
+                filters[i] = func_stmt
             else:
                 raise TypeError('{0} is neither a <str>, a <tuple> or a <dict>'.format(func))
         return '| '.join(filters) 
