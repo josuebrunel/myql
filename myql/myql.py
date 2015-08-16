@@ -163,13 +163,17 @@ class YQL(object):
         '''Build post query filters
         '''
         if not isinstance(filters, list):
-            raise TypeError('func_filters must be a List')
+            raise TypeError('func_filters must be a <type list>')
 
         for i, func in enumerate(filters) :
             if isinstance(func, str) and func == 'reverse':
                 filters[i] = 'reverse()'
-            elif isinstance(f, dict) and f in YQL.FUNC_FILTERS:
+            elif isinstance(func, tuple) and func[0] in YQL.FUNC_FILTERS:
+                filters[i] = '{:s}(count={:d})'.format(*func)
+            elif isinstance(func, dict) and func in YQL.FUNC_FILTERS:
                 pass
+            else:
+                raise TypeError('{0} is neither a <str>, a <tuple> or a <dict>'.format(func))
         return '| '.join(filters) 
 
     ######################################################

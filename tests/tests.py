@@ -256,7 +256,10 @@ class TestFuncFilters(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_func_filter_tail(self,):
-        pass
+        func_filters = [('tail', 2)]
+        data = self.yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
     def test_func_filter_truncate(self,):
         pass
