@@ -96,7 +96,7 @@ class YQL(object):
         payload = self._payload_builder(query, format=format)
         response = self.execute_query(payload)
         if pretty:
-            response = self.buildResponse(response)
+            response = self.response_builder(response)
 
         return response
 
@@ -116,12 +116,15 @@ class YQL(object):
         '''Formats conditions
         args is a list of ['field', 'operator', 'value']
         '''
-        
+
         if len(cond) == 2 :
             cond = ' '.join(cond)
             return cond
 
         if 'in' in cond[1].lower() :
+            if not isinstance(cond[2], tuple):
+                    raise TypeError('("{0}") must be of type <tuple>'.format(cond[2]))
+
             if not isinstance(cond[2], str) and 'select' not in cond[2][0].lower() :
                 cond[2] = "({0})".format(','.join(map(str,["'{0}'".format(e) for e in cond[2]])))
             elif not isinstance(cond[2], str) and 'select' in cond[2][0].lower() :
@@ -172,8 +175,6 @@ class YQL(object):
                 filters[i] = '{:s}(count={:d})'.format(*func)
             elif isinstance(func, dict) :
                 func_stmt = ''
-                import pdb
-                #pdb.set_trace()
                 try:
                     func_name = func.keys()[0]
                 except: #Py3
@@ -308,7 +309,6 @@ class YQL(object):
 
         if self._offset :
             self._query +=  " OFFSET {0} ".format(self._offset)
-
 
         payload = self._payload_builder(self._query)
         response = self.execute_query(payload)
