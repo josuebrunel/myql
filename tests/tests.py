@@ -267,15 +267,38 @@ class TestFuncFilters(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
-
     def test_func_filter_sanitize(self,):
+        #func_filters = [('sanitize', '')]
+        #data = self.yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
+        #logging.debug(pretty_json(data.content))
+        #self.assertEqual(data.status_code, 200)
         pass
 
     def test_func_filter_sort(self,):
-        pass
+        func_filters = [
+            {'sort': [
+                ('field','name'),
+                ('descending','true')
+            ]},
+            ('tail', 10),
+            #('reverse')
+        ]
+        data = self.yql.select('geo.counties', func_filters=func_filters).where(['place', '=', 'CA'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
 
     def test_func_filter_unique(self,):
-        pass
+        func_filters = [
+            {'unique': [
+                ('field','content'),
+                ('hideRepeatCount','false')
+            ]},
+            ('truncate', 5)
+        ]
+        data = self.yql.get('yql.table.list', func_filters=func_filters)
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
 
 class TestRemoteFilters(unittest.TestCase):
 
