@@ -202,14 +202,11 @@ class YQL(object):
         return {'table url': url, 'table name': name}
 
     ##DESC
-    def desc(self, table=None):
+    def desc(self, table):
         '''Returns table description
         >>> yql.desc('geo.countries')
         >>>
         '''
-        if not table:
-            #query = "desc {0} ".format(self._table)
-            raise errors.NoTableSelectedError('No table selected')
         query = "desc {0}".format(table)
         response = self.raw_query(query)
 
@@ -228,7 +225,7 @@ class YQL(object):
         return response
     
     ## SELECT
-    def select(self, table=None, items=None, limit=None, offset=None, remote_filter=None, func_filters=None):
+    def select(self, table, items=None, limit=None, offset=None, remote_filter=None, func_filters=None):
         '''This method simulate a select on a table
         >>> yql.select('geo.countries', limit=5) 
         >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
