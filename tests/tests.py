@@ -62,7 +62,7 @@ class TestMYQL(unittest.TestCase):
 
     def test_use(self):
         self.yql.use('http://www.josuebrunel.org/users.xml',name='users')
-        response = self.yql.raw_query('select * from users')
+        response = self.yql.raw_query('select * from users', format='xml')
         self.yql.yql_table_url = None
         try:
             logging.debug(pretty_json(response.content))
@@ -111,6 +111,12 @@ class TestMYQL(unittest.TestCase):
         except (Exception,) as e:
             logging.error(e)
         self.assertEqual(response.status_code, 200)
+
+    def test_select_in_2_raise(self,):
+        
+        with self.assertRaises(TypeError):
+            response = self.yql.select('weather.forecast',['units','atmosphere']).where(['woeid','IN',('select woeid from geo.places(1) where text="Paris"')])
+
 
     def test_1_insert(self,):
         response = self.yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
