@@ -122,7 +122,7 @@ class YQL(object):
             return cond
 
         if 'in' in cond[1].lower() :
-            if not isinstance(cond[2], tuple):
+            if not isinstance(cond[2], (tuple, list)):
                     raise TypeError('("{0}") must be of type <tuple>'.format(cond[2]))
 
             if not isinstance(cond[2], str) and 'select' not in cond[2][0].lower() :
@@ -165,8 +165,8 @@ class YQL(object):
     def _func_filters(self, filters):
         '''Build post query filters
         '''
-        if not isinstance(filters, list):
-            raise TypeError('func_filters must be a <type list>')
+        if not isinstance(filters, (list,tuple)):
+            raise TypeError('func_filters must be a <type list> or <type tuple>')
 
         for i, func in enumerate(filters) :
             if isinstance(func, str) and func == 'reverse':
