@@ -433,7 +433,7 @@ class TestStockScraper(unittest.TestCase):
 
     def test_get_industry_index(self,):
         data = self.stock.get_industry_index(112)
-        logging.debug(pretty_json(data.content))
+        #logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)   
 
     def test_get_symbols(self,):

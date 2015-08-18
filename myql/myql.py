@@ -123,12 +123,10 @@ class YQL(object):
 
         if 'in' in cond[1].lower() :
             if not isinstance(cond[2], (tuple, list)):
-                    raise TypeError('("{0}") must be of type <tuple>'.format(cond[2]))
+                    raise TypeError('("{0}") must be of type <type tuple> or <type list>'.format(cond[2]))
 
-            if not isinstance(cond[2], str) and 'select' not in cond[2][0].lower() :
+            if 'select' not in cond[2][0].lower() :
                 cond[2] = "({0})".format(','.join(map(str,["'{0}'".format(e) for e in cond[2]])))
-            elif not isinstance(cond[2], str) and 'select' in cond[2][0].lower() :
-                cond[2] = "({0})".format(','.join(map(str,["{0}".format(e) for e in cond[2]])))
             else:
                 cond[2] = "({0})".format(','.join(map(str,["{0}".format(e) for e in cond[2]])))
 
