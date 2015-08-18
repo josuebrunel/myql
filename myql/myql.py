@@ -31,7 +31,7 @@ class YQL(object):
 
     FUNC_FILTERS = ['sort', 'tail', 'truncate', 'reverse', 'unique', 'sanitize']
   
-    def __init__(self, community=True, format='json', jsonCompact=False, crossProduct=None, debug=False, diagnostics=False, oauth=None):
+    def __init__(self, community=True, format='json', jsonCompact=True, crossProduct=None, debug=False, diagnostics=False, oauth=None):
         self.community = community # True means access to community data
         self.format = format
         self._table = None
@@ -72,7 +72,7 @@ class YQL(object):
             'diagnostics': self.diagnostics,
             'format': format if format else self.format,
             'debug': self.debug,
-            'jsonCompact': self.jsonCompact
+            'jsonCompact': 'new' if self.jsonCompact else ''
         }
         if self.crossProduct:
             payload['crossProduct'] = self.crossProduct
