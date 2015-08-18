@@ -288,6 +288,11 @@ class TestFuncFilters(unittest.TestCase):
         with self.assertRaises(TypeError):
            data =  self.yql.get('yql.table.list', func_filters=func_filters)
 
+    def test_raise_exception_func_filter_invalid_type(self):
+        func_filters = [30]
+        with self.assertRaises(TypeError):
+            data = self.yql.get('yql.table.list', func_filters=func_filters)
+
 
 class TestRemoteFilters(unittest.TestCase):
 
