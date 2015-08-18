@@ -64,52 +64,34 @@ class TestMYQL(unittest.TestCase):
         self.yql.use('http://www.josuebrunel.org/users.xml',name='users')
         response = self.yql.raw_query('select * from users', format='xml')
         self.yql.yql_table_url = None
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(e)
+        logging.debug(pretty_xml(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_raw_query(self,):
         response = self.yql.raw_query('select name, woeid from geo.states where place="Congo"')
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(e)
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_get(self,):
         self.yql.format = 'xml'
         response = self.yql.get('geo.countries', ['name', 'woeid'], 1)
         self.yql.format = 'json'
-        try:
-            logging.debug(pretty_xml(response.content))
-        except (Exception,) as e:
-            logging.error(e)
+        logging.debug(pretty_xml(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_select(self,):
         response = self.yql.select('geo.countries', ['name', 'code', 'woeid']).where(['name', '=', 'Canada'])
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(e)
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_select_in(self,):
         response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG")])
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(e)
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_select_in_2(self,):
         response = self.yql.select('weather.forecast',['units','atmosphere']).where(['woeid','IN',('select woeid from geo.places(1) where text="Paris"',)])
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(e)
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_raise_exception_select_where_in(self,):
@@ -133,44 +115,30 @@ class TestMYQL(unittest.TestCase):
     def test_2_check_insert(self,):
         json_data = json_get_data('yql_storage.json')
         response = self.yql.select('yql.storage').where(['name','=',json_data['select']])
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(response.content)
-            logging.error(e)
-
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
        
     def test_3_update(self,):
         json_data = json_get_data('yql_storage.json')
         response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=',json_data['update']])
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(response.content)
-            logging.error(e)
- 
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_4_delete(self,):
         json_data = json_get_data('yql_storage.json')
         response = self.yql.delete('yql.storage').where(['name','=',json_data['update']])
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(response.content)
-            logging.error(e)
- 
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
 
 class TestPaging(unittest.TestCase):
 
     def setUp(self,):
-        self.yql = YQL(diagnostics=True, debug=True)
+        self.yql = YQL()
 
     def tearDown(self,):
         pass
+
     def test_offset_raw_query(self,):
         data = self.yql.raw_query("SELECT * FROM geo.counties WHERE place='CA' LIMIT 10 OFFSET 5 | sort(field='name')")
         logging.debug(pretty_json(data.content))
@@ -249,7 +217,7 @@ class TestFilters(unittest.TestCase):
 class TestFuncFilters(unittest.TestCase):
 
     def setUp(self,):
-        self.yql = YQL(diagnostics=True, debug=True)
+        self.yql = YQL()
 
     def tearDown(self,):
         pass
@@ -305,15 +273,15 @@ class TestFuncFilters(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_raise_exception_func_filter(self):
-
+        func_filters = 'unique'
         with self.assertRaises(TypeError):
-            pass
+           data =  self.yql.get('yql.table.list', func_filters=func_filters)
 
 
 class TestRemoteFilters(unittest.TestCase):
 
     def setUp(self,):
-        self.yql = YQL(diagnostics=True, debug=True)
+        self.yql = YQL(diagnostics=True, )
 
     def test_remote_filter_get_count(self,):
         data = self.yql.get('geo.countries', remote_filter=(10,))
@@ -487,7 +455,7 @@ class TestSocial(unittest.TestCase):
 
     def setUp(self,):
         self.oauth = OAuth1(None, None, from_file='credentials.json')
-        self.yql = YQL(debug=True, diagnostics=True, oauth=self.oauth)
+        self.yql = YQL(oauth=self.oauth)
 
     def test_get_contacts(self,):
         data = self.yql.select('social.contacts').where(['guid','=', '@me'])
