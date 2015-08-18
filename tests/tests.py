@@ -130,6 +130,12 @@ class TestMYQL(unittest.TestCase):
         logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
+    def test_cross_product(self):
+        yql = YQL(format='xml', crossProduct=True)
+        response = yql.select('weather.forecast').where(['location', '=', '90210'])
+        logging.debug("{0} {1}".format(response.status_code, response.reason))
+        self.assertEqual(response.status_code, 200)
+
 
 class TestPaging(unittest.TestCase):
 

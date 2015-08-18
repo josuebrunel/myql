@@ -75,7 +75,7 @@ class YQL(object):
             'jsonCompact': 'new' if self.jsonCompact else ''
         }
         if self.crossProduct:
-            payload['crossProduct'] = self.crossProduct
+            payload['crossProduct'] = 'optimized'
 
         self._payload = payload
         logger.info("PAYLOAD = %s " %(payload, ))
