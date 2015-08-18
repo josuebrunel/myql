@@ -112,11 +112,10 @@ class TestMYQL(unittest.TestCase):
             logging.error(e)
         self.assertEqual(response.status_code, 200)
 
-    def test_select_in_2_raise(self,):
+    def test_raise_exception_select_where_in(self,):
         
         with self.assertRaises(TypeError):
             response = self.yql.select('weather.forecast',['units','atmosphere']).where(['woeid','IN',('select woeid from geo.places(1) where text="Paris"')])
-
 
     def test_1_insert(self,):
         response = self.yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
@@ -304,6 +303,11 @@ class TestFuncFilters(unittest.TestCase):
         data = self.yql.get('yql.table.list', func_filters=func_filters)
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
+
+    def test_raise_exception_func_filter(self):
+
+        with self.assertRaises(TypeError):
+            pass
 
 
 class TestRemoteFilters(unittest.TestCase):
