@@ -11,6 +11,7 @@ from xml.etree import cElementTree as xtree
 from yahoo_oauth import OAuth1
 
 from myql import MYQL, YQL
+from myql.errors import NoTableSelectedError
 from myql.utils import pretty_xml, pretty_json, prettyfy
 
 from myql.contrib.table import Table
@@ -135,6 +136,10 @@ class TestMYQL(unittest.TestCase):
         response = yql.select('weather.forecast').where(['location', '=', '90210'])
         logging.debug("{0} {1}".format(response.status_code, response.reason))
         self.assertEqual(response.status_code, 200)
+
+    def test_raise_exception_no_table_selected(self):
+        with self.assertRaises(NoTableSelectedError):
+            response = self.yql.select(None).where([])
 
 
 class TestPaging(unittest.TestCase):
