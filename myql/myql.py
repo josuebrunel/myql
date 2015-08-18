@@ -186,6 +186,13 @@ class YQL(object):
                 raise TypeError('{0} is neither a <str>, a <tuple> or a <dict>'.format(func))
         return '| '.join(filters) 
 
+    def _add_limit(self,):
+        return ''.join((self._query," LIMIT {0} ".format(self._limit))) if self._limit else self._query
+
+    def _add_offset(self,): 
+        return ''.join((self._query," OFFSET {0} ".format(self._offset))) if self._offset else self._query
+
+
     ######################################################
     #
     #                 MAIN METHODS
@@ -218,6 +225,9 @@ class YQL(object):
         >>> yql.get("geo.countries', ['name', 'woeid'], 5")
         '''
         self = self.select(*args, **kwargs)
+
+        self._query = self._add_limit()
+        self._query = self._add_offset()
 
         payload = self._payload_builder(self._query)
         response = self.execute_query(payload)
@@ -302,11 +312,8 @@ class YQL(object):
 
         self._query += ' AND '.join(clause)
 
-        if self._limit :
-            self._query +=  " LIMIT {0} ".format(self._limit)
-
-        if self._offset :
-            self._query +=  " OFFSET {0} ".format(self._offset)
+        self._query = self._add_limit()
+        self._query = self._add_offset()
 
         payload = self._payload_builder(self._query)
         response = self.execute_query(payload)
