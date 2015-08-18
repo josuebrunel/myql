@@ -238,6 +238,9 @@ class YQL(object):
         self._table = table
 
         if remote_filter:
+            if not isinstance(remote_filter, tuple):
+                raise TypeError("{0} must be of type <type tuple>".format(remote_filter))
+
             table = "%s(%s)" %(table, ','.join(map(str, remote_filter)))
 
         if not items:

@@ -304,6 +304,11 @@ class TestRemoteFilters(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
+    def test_raise_exception_remote_filter_not_tuple(self,):
+
+        with self.assertRaises(TypeError):
+            data = self.yql.get('geo.countries', remote_filter=10)
+
 
 class TestOAuth(unittest.TestCase):
 
