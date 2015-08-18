@@ -63,7 +63,11 @@ class YQL(object):
         if vars(self).get('_func'): # if post query function filters
             query = '| '.join((query, self._func))
 
-        self._query = query
+        self._query = query        
+        
+        self._query = self._add_limit()
+        self._query = self._add_offset()
+
         logger.info("QUERY = %s" %(query,))
 
         payload = {
@@ -226,9 +230,6 @@ class YQL(object):
         '''
         self = self.select(*args, **kwargs)
 
-        self._query = self._add_limit()
-        self._query = self._add_offset()
-
         payload = self._payload_builder(self._query)
         response = self.execute_query(payload)
 
@@ -311,9 +312,6 @@ class YQL(object):
                 clause.append(x)
 
         self._query += ' AND '.join(clause)
-
-        self._query = self._add_limit()
-        self._query = self._add_offset()
 
         payload = self._payload_builder(self._query)
         response = self.execute_query(payload)
