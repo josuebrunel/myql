@@ -37,6 +37,7 @@ class YQL(object):
         self._table = None
         self._query = None # used to build query when using methods such as <select>, <insert>, ...
         self._payload = {} # Last payload
+        self._vars = {}
         self.diagnostics = diagnostics # Who knows, someone would like to turn it ON lol
         self._limit = None
         self._offset = None
@@ -182,13 +183,9 @@ class YQL(object):
                 filters[i] = '{:s}(count={:d})'.format(*func)
             elif isinstance(func, dict) :
                 func_stmt = ''
-                try:
-                    func_name = func.keys()[0]
-                except: #Py3
-                    func_name = list(func)[0]
-
-                value = [ "{0}='{1}'".format(v[0], v[1]) for v in func[func_name] ]
-                func_stmt = ','.join(value)
+                func_name = list(func.keys())[0] # Because of Py3
+                values = [ "{0}='{1}'".format(v[0], v[1]) for v in func[func_name] ]
+                func_stmt = ','.join(values)
                 func_stmt = '{0}({1})'.format(func_name, func_stmt)
                 filters[i] = func_stmt
             else:
@@ -219,9 +216,9 @@ class YQL(object):
 
     ##SET
     def set(self, myvars):
+        '''Define variable to be substitute in the query
         '''
-        '''
-        self._vars = myvars
+        self._vars.update(myvars)
         return True
 
     ##DESC
