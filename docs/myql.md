@@ -7,36 +7,26 @@ MYQL
 
 ### **Methods**
 
-#### *MYQL.payloadBuilder(query, format='json')*
+#### *MYQL.payload_builder(query, format='json')*
 
 Return a dictionary of parameters
 
 * ***query*** : the YQL Query
 * ***format*** : xml or json
 
-#### *MQYL.executeQuery(payload)*
+#### *MQYL.execute_query(payload)*
 
 Execute the query and returns and response
 
 * ***payload*** : Dict of parameters
 
 
-#### *MYQL.rawQuery(query, format=None, pretty=False)*
+#### *MYQL.raw_query(query, format=None, pretty=False)*
 
 Call *payloadBuilder* to build paramaters and *executeQuery* to execute que *query* then return a response.
 
 * ***query*** : the YQL Query
 * ***format*** : xml or json
-
-#### *MYQL.clauseFormatter(condition)*
-
-Formats conditions. 
-
-*  ***condition*** : list of ['column', 'operator', 'value']
-```python
-cond = ['yid', '=', 'josue_brunel']
-```
-
 
 #### *MQYL.use(yql_table_url, name=yql_table_name)*
 
@@ -62,14 +52,13 @@ Set variable to use in your YQL statement
 >>> states = yql.select('geo.states', remote_filter=(5,)).where(['place', '=', '@home'])
 ```
 
-#### *MQYL.desc(table=None)*
+#### *MQYL.desc(table)*
 
 Get the description of a table.
-If no table name is provided, the **self.table** will be used.
 
 * ***table*** : Table name
 
-#### *MQYL.get(table=None, items=[], limit=None)*
+#### *MQYL.get(table, items=[], limit=None, **kwargs)*
 
 Get **items** from **table**.
 
@@ -78,7 +67,7 @@ Get **items** from **table**.
 * ***limit*** : limit of element to fetch
 
 
-#### *MQYL.select(table=None, items=[], limit=None)*
+#### *MQYL.select(table, items=[], limit=None, **kwargs)*
 This method is always followed by a **where**. It doesn't return a response if called alone.
 
 * ***table*** : Table name

@@ -235,7 +235,7 @@ Allows you to directly type your query
 ```
 
 
-####select(table, fields, limit).where(filters, ...)
+####select(table, fields, limit, **kwargs).where(filters, ...)
 
 ***NB*** : A simple select doesn't return any data. Use ***GET*** instead.
 
@@ -283,7 +283,7 @@ Allows you to directly type your query
 >>>
 ```
 
-####get(table, fields, limit)
+####get(table, fields, limit, **kwargs)
 Same as ***SELECT***, but instead returns data.
 
 **REMINDER** : Some tables require a **where clause**, therefore ***GET*** won't work on those tables, use *select(...).where(...)* instead .
