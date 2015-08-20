@@ -38,14 +38,29 @@ cond = ['yid', '=', 'josue_brunel']
 ```
 
 
-#### *MQYL.buildResponse(response)*
-
 #### *MQYL.use(yql_table_url, name=yql_table_name)*
 
  Change the service provider
 
 * ***url*** : url of the service provider
 
+```python
+>>> from myql import YQL
+>>> yql = YQL(format='json')
+>>> yql.use('http://www.josuebrunel.org/users.xml',name='users')
+>>> response = self.yql.raw_query('select * from users', format='xml')
+```
+
+#### *MYQL.set({key:value, ..., keyN:valueN})*
+
+Set variable to use in your YQL statement
+
+```python
+>>> from myql import YQL
+>>> yql = YQL()
+>>> yql.set({'home':'Congo'})
+>>> states = yql.select('geo.states', remote_filter=(5,)).where(['place', '=', '@home'])
+```
 
 #### *MQYL.desc(table=None)*
 
@@ -111,12 +126,94 @@ This method is always followed by a **where**. It doesn t return a response if c
 >>> yql.select('mytable.friends').where(['name', '=', 'alain'], ['location', '!=', 'paris'])
 ```
 
-#### *MQYL.showTables()*
+#### *MQYL.show_tables()*
 
 List all tables 
 
-#### *MQYL.getGUID(username)*
+#### *MQYL.get_guid(username)*
 
 Return a user *guid* 
 
 * ***username*** : yahoo id i.e 'josue_brunel'
+
+
+### **Filters**
+
+mYQL implements 2 types of filters :
+
+* Remote filters
+* Post Query Filters
+
+##### **Remote Filters**
+***Remote filters*** are defined as **tuple**, such as ***(<count\>)*** or ***(<start\>, <count\>)***.
+
+- *Python Code* : 
+```python
+from myql import YQL
+yql = YQL()
+data = self.yql.get('geo.countries', remote_filter=(10,))
+```
+
+- *YQL Statement* :
+```sql
+> SELECT * FROM geo.countries(10) ;
+```
+
+- *Python Code* :
+
+```python
+data = self.yql.get('geo.countries', remote_filter=(10,20))
+```
+
+- *YQL Statement* :
+```sql
+> SELECT * FROM geo.countries(10,20) ;
+```
+
+
+##### **Post Query Filters**
+
+**Filters** or **Function** applied to the result of the ***Query***.
+
+- ***reverse***
+```python
+func_filters = ['reverse']
+data = yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
+```
+
+- ***tail***
+```python
+func_filters = [('tail', 2)]
+data = yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
+```
+
+- ***truncate***
+```python
+func_filters = [('truncate', 2)]
+data = yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
+```
+
+- ***unique***
+```python
+func_filters = [
+    {'unique': [
+        ('field','content'),
+        ('hideRepeatCount','false')
+    ]},
+    ('truncate', 5)
+]
+data = yql.get('yql.table.list', func_filters=func_filters)
+```
+
+- ***sort***
+```python
+func_filters = [
+    {'sort': [
+        ('field','name'),
+        ('descending','true')
+    ]},
+    ('tail', 10),
+    #('reverse')
+]
+data = yql.select('geo.counties', func_filters=func_filters).where(['place', '=', 'CA'])
+```

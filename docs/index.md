@@ -225,7 +225,7 @@ Returns table description
 >>>
 ```
 
-####rawQuery(query)
+####raw_query(query)
 
 Allows you to directly type your query
 

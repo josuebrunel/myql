@@ -408,6 +408,14 @@ The full documentation on ***StockScraper*** is [here](https://myql.readthedocs.
 
 #### Release Notes
 
+##### 1.2.5
+-----------
+
+* camelCase dropped for underscore
+* Support for substitution variable i.e @myvar
+* Support of Remote Filters 
+* Support of Post Query Filters
+
 ##### 1.2.4
 -----------
 

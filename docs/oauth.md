@@ -13,7 +13,7 @@ You can read the full documentation [here](http://yahoo-oauth.readthedocs.org/en
 >>> from yahoo_oauth import OAuth1
 >>> oauth = OAuth1(None, None, from_file='credentials.json')
 >>> yql = myql.MYQL(format='xml',oauth=oauth)
->>> response = yql.getGUID('josue_brunel')
+>>> response = yql.get_guid('josue_brunel')
 ...
 ```
 
