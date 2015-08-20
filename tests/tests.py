@@ -137,6 +137,15 @@ class TestMYQL(unittest.TestCase):
         logging.debug("{0} {1}".format(response.status_code, response.reason))
         self.assertEqual(response.status_code, 200)
 
+    def test_variable_substitution(self,):
+        yql = YQL()
+        var = {'home': 'Congo'}
+        yql.set(var) 
+
+        response = yql.select('geo.states', remote_filter=(5,)).where(['place', '=', '@home'])
+        logging.debug(pretty_json(response.content))
+        self.assertEqual(response.status_code, 200)
+
     def test_raise_exception_no_table_selected(self):
         with self.assertRaises(NoTableSelectedError):
             response = self.yql.select(None).where([])
@@ -478,10 +487,10 @@ class TestSocial(unittest.TestCase):
         self.oauth = OAuth1(None, None, from_file='credentials.json')
         self.yql = YQL(oauth=self.oauth)
 
-    def test_get_contacts(self,):
-        data = self.yql.select('social.contacts').where(['guid','=', '@me'])
-        logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code, 200)
+    #def test_get_contacts(self,):
+    #    data = self.yql.select('social.contacts').where(['guid','=', '@me'])
+    #    logging.debug(pretty_json(data.content))
+    #    self.assertEqual(data.status_code, 200)
 
 class TestTable(unittest.TestCase):
 

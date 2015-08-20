@@ -78,6 +78,10 @@ class YQL(object):
             'debug': self.debug,
             'jsonCompact': 'new' if self.jsonCompact else ''
         }
+
+        if vars(self).get('_vars'):
+            payload.update(self._vars)
+
         if self.crossProduct:
             payload['crossProduct'] = 'optimized'
 
@@ -136,12 +140,13 @@ class YQL(object):
 
             cond = " ".join(cond)
         else: 
-            if isinstance(cond[2], str):
-                var = re.match('^@(\w+)$', cond[2])
-            else:
-                var = None
-            if var :
-                cond[2] = "{0}".format(var.group(1))
+            #if isinstance(cond[2], str):
+            #    var = re.match('^@(\w+)$', cond[2])
+            #else:
+            #    var = None
+            #if var :
+            if isinstance(cond[2], str) and cond[2].startswith('@'):
+                cond[2] = "{0}".format(cond[2])
             else :
                 cond[2] = "'{0}'".format(cond[2])
             cond = ' '.join(cond)
@@ -211,6 +216,13 @@ class YQL(object):
         self.yql_table_url = url
         self.yql_table_name = name
         return {'table url': url, 'table name': name}
+
+    ##SET
+    def set(self, myvars):
+        '''
+        '''
+        self._vars = myvars
+        return True
 
     ##DESC
     def desc(self, table):
