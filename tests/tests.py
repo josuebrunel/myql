@@ -11,6 +11,7 @@ from xml.etree import cElementTree as xtree
 from yahoo_oauth import OAuth1
 
 from myql import MYQL, YQL
+from myql.errors import NoTableSelectedError
 from myql.utils import pretty_xml, pretty_json, prettyfy
 
 from myql.contrib.table import Table
@@ -21,10 +22,9 @@ from myql.contrib.weather import Weather
 from myql.contrib.finance.stockscraper import StockRetriever
 
 logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
-logging.getLogger('Test-mYQL')
 
 
-logging.getLogger('mYQL').disabled = True
+logging.getLogger('mYQL').propagate = False
 logging.getLogger('yahoo_oauth').disabled = True
 logging.getLogger('requests').setLevel(logging.CRITICAL)
 
@@ -57,61 +57,48 @@ class TestMYQL(unittest.TestCase):
 
     def test_show_tables(self,):
         yql = MYQL(format='xml', community=False)
-        response = yql.showTables(format='xml')
+        response = yql.show_tables(format='xml')
         logging.debug(prettyfy(response, 'xml'))
         self.assertEqual(response.status_code, 200)
 
     def test_use(self):
         self.yql.use('http://www.josuebrunel.org/users.xml',name='users')
-        response = self.yql.rawQuery('select * from users')
+        response = self.yql.raw_query('select * from users', format='xml')
         self.yql.yql_table_url = None
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(e)
+        logging.debug(pretty_xml(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_raw_query(self,):
-        response = self.yql.rawQuery('select name, woeid from geo.states where place="Congo"')
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(e)
+        response = self.yql.raw_query('select name, woeid from geo.states where place="Congo"')
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_get(self,):
         self.yql.format = 'xml'
         response = self.yql.get('geo.countries', ['name', 'woeid'], 1)
         self.yql.format = 'json'
-        try:
-            logging.debug(pretty_xml(response.content))
-        except (Exception,) as e:
-            logging.error(e)
+        logging.debug(pretty_xml(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_select(self,):
         response = self.yql.select('geo.countries', ['name', 'code', 'woeid']).where(['name', '=', 'Canada'])
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(e)
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_select_in(self,):
         response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG")])
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(e)
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_select_in_2(self,):
         response = self.yql.select('weather.forecast',['units','atmosphere']).where(['woeid','IN',('select woeid from geo.places(1) where text="Paris"',)])
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(e)
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
+
+    def test_raise_exception_select_where_in(self,):
+        
+        with self.assertRaises(TypeError):
+            response = self.yql.select('weather.forecast',['units','atmosphere']).where(['woeid','IN',('select woeid from geo.places(1) where text="Paris"')])
 
     def test_1_insert(self,):
         response = self.yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
@@ -129,38 +116,225 @@ class TestMYQL(unittest.TestCase):
     def test_2_check_insert(self,):
         json_data = json_get_data('yql_storage.json')
         response = self.yql.select('yql.storage').where(['name','=',json_data['select']])
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(response.content)
-            logging.error(e)
-
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
        
     def test_3_update(self,):
         json_data = json_get_data('yql_storage.json')
         response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=',json_data['update']])
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(response.content)
-            logging.error(e)
- 
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_4_delete(self,):
         json_data = json_get_data('yql_storage.json')
         response = self.yql.delete('yql.storage').where(['name','=',json_data['update']])
-        try:
-            logging.debug(pretty_json(response.content))
-        except (Exception,) as e:
-            logging.error(response.content)
-            logging.error(e)
- 
+        logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
+    def test_cross_product(self):
+        yql = YQL(format='xml', crossProduct=True)
+        response = yql.select('weather.forecast').where(['location', '=', '90210'])
+        logging.debug("{0} {1}".format(response.status_code, response.reason))
+        self.assertEqual(response.status_code, 200)
 
-       
+    def test_variable_substitution(self,):
+        yql = YQL()
+        var = {'home': 'Congo'}
+        yql.set(var) 
+
+        response = yql.select('geo.states', remote_filter=(5,)).where(['place', '=', '@home'])
+        logging.debug(pretty_json(response.content))
+        self.assertEqual(response.status_code, 200)
+
+    def test_raise_exception_no_table_selected(self):
+        with self.assertRaises(NoTableSelectedError):
+            response = self.yql.select(None).where([])
+
+
+class TestPaging(unittest.TestCase):
+
+    def setUp(self,):
+        self.yql = YQL()
+
+    def tearDown(self,):
+        pass
+
+    def test_offset_raw_query(self,):
+        data = self.yql.raw_query("SELECT * FROM geo.counties WHERE place='CA' LIMIT 10 OFFSET 5 | sort(field='name')")
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_offset_get(self,):
+        data = self.yql.get('yql.table.list', limit=10, offset=3)
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_offset_select(self):
+        data = self.yql.select('geo.counties', limit=10, offset=3).where(['place', '=', 'CA'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+
+class TestFilters(unittest.TestCase):
+
+    def setUp(self,):
+        self.yql = YQL()
+
+    def tearDown(self,):
+        pass
+
+    def test_filter_not_equal(self,):
+        data = self.yql.select('geo.countries', ['name', 'placeTypeName']).where(['name', 'like', 'A%'], ['placeTypeName.content', '!=', 'Country'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_filter_greater_than_or_equal(self,):
+        data = self.yql.select('geo.countries',['woeid', 'name', 'placeTypeName']).where(['place', '=', 'North America'], ['place.woeid', '>=', 56042304])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_filter_less_than_or_equal(self,):
+        data = self.yql.select('geo.countries',['name', 'placeTypeName']).where(['place', '=', 'North America'], ['place.woeid', '<=', 23424758])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_filter_not_in(self,):
+        data = self.yql.select('geo.countries',['name', 'placeTypeName']).where(['placeTypeName.content', 'NOT IN', ('Country','Territory','Overseas Collectivity')])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_filter_is_null(self,):
+        data = self.yql.select('youtube.user').where(['id','=','120u12a'], ['user.description','IS NULL'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_filter_is_not_null(self,):
+        data = self.yql.select('youtube.user').where(['id','=','120u12a'], ['user.description','IS NOT NULL'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_filter_like(self,):
+        data = self.yql.select('yql.table.list').where(['content','like','%apple%'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_filter_not_like(self,):
+        data = self.yql.select('geo.counties', ['name', 'placeTypeName']).where(['place', '=', 'CT'], ['name', 'NOT LIKE', '%d'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_filter_matches(self,):
+        data = self.yql.select('yql.table.list').where(['content','MATCHES','.*itunes$'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_filter_not_matches(self,):
+        data = self.yql.select('geo.countries', ['name', 'placeTypeName']).where(['placeTypeName.content','NOT MATCHES','^(Country|Territory)$'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+
+class TestFuncFilters(unittest.TestCase):
+
+    def setUp(self,):
+        self.yql = YQL()
+
+    def tearDown(self,):
+        pass
+
+    def test_func_filter_reverse(self,):
+        func_filters = ['reverse']
+        data = self.yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_func_filter_tail(self,):
+        func_filters = [('tail', 2)]
+        data = self.yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_func_filter_truncate(self,):
+        func_filters = [('truncate', 2)]
+        data = self.yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_func_filter_sanitize(self,):
+        #func_filters = [('sanitize', '')]
+        #data = self.yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
+        #logging.debug(pretty_json(data.content))
+        #self.assertEqual(data.status_code, 200)
+        pass
+
+    def test_func_filter_sort(self,):
+        func_filters = [
+            {'sort': [
+                ('field','name'),
+                ('descending','true')
+            ]},
+            ('tail', 10),
+            #('reverse')
+        ]
+        data = self.yql.select('geo.counties', func_filters=func_filters).where(['place', '=', 'CA'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_func_filter_unique(self,):
+        func_filters = [
+            {'unique': [
+                ('field','content'),
+                ('hideRepeatCount','false')
+            ]},
+            ('truncate', 5)
+        ]
+        data = self.yql.get('yql.table.list', func_filters=func_filters)
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_raise_exception_func_filter(self):
+        func_filters = 'unique'
+        with self.assertRaises(TypeError):
+           data =  self.yql.get('yql.table.list', func_filters=func_filters)
+
+    def test_raise_exception_func_filter_invalid_type(self):
+        func_filters = [30]
+        with self.assertRaises(TypeError):
+            data = self.yql.get('yql.table.list', func_filters=func_filters)
+
+
+class TestRemoteFilters(unittest.TestCase):
+
+    def setUp(self,):
+        self.yql = YQL(diagnostics=True, )
+
+    def test_remote_filter_get_count(self,):
+        data = self.yql.get('geo.countries', remote_filter=(10,))
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_remote_filter_get_start_and_count(self,):
+        data = self.yql.get('geo.countries', remote_filter=(100,10))
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+        
+
+    def test_remote_filter_select_count(self,):
+        data = self.yql.select('geo.counties', remote_filter=(20,)).where(['place', '=', 'CA'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+        
+    def test_remote_filter_select_start_and_count(self,):
+        data = self.yql.select('geo.counties', remote_filter=(60,20)).where(['place', '=', 'CA'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+
+    def test_raise_exception_remote_filter_not_tuple(self,):
+
+        with self.assertRaises(TypeError):
+            data = self.yql.get('geo.countries', remote_filter=10)
+
+
 class TestOAuth(unittest.TestCase):
 
     def setUp(self,):
@@ -172,7 +346,7 @@ class TestOAuth(unittest.TestCase):
     def test_get_guid(self,):
         oauth = OAuth1(None, None, from_file='credentials.json')
         yql = MYQL(format='json', oauth=oauth)
-        response = yql.getGUID('josue_brunel')
+        response = yql.get_guid('josue_brunel')
         logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
@@ -284,7 +458,7 @@ class TestStockScraper(unittest.TestCase):
 
     def test_get_industry_index(self,):
         data = self.stock.get_industry_index(112)
-        logging.debug(pretty_json(data.content))
+        #logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)   
 
     def test_get_symbols(self,):
@@ -311,12 +485,12 @@ class TestSocial(unittest.TestCase):
 
     def setUp(self,):
         self.oauth = OAuth1(None, None, from_file='credentials.json')
-        self.yql = YQL(debug=True, diagnostics=True, oauth=self.oauth)
+        self.yql = YQL(oauth=self.oauth)
 
-    def test_get_contacts(self,):
-        data = self.yql.select('social.contacts').where(['guid','=', '@me'])
-        logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code, 200)
+    #def test_get_contacts(self,):
+    #    data = self.yql.select('social.contacts').where(['guid','=', '@me'])
+    #    logging.debug(pretty_json(data.content))
+    #    self.assertEqual(data.status_code, 200)
 
 class TestTable(unittest.TestCase):
 

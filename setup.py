@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 __author__ = 'Josue Kouka'
 __email__ = 'josuebrunel@gmail.com'
-__version__ = myql.__version__
+__version__ = '1.2.5'
 
 #requirements.txt
 with open('requirements.txt') as f:
