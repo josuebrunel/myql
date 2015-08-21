@@ -59,7 +59,7 @@ The response format is by default ***json***.
 >>> import myql
 >>> from myql.utils import pretty_json, pretty_xml
 >>> yql = myql.MYQL(format='xml', community=True)
->>> resp = yql.rawQuery('select name, woeid from geo.states where place="Congo"')
+>>> resp = yql.raw_query('select name, woeid from geo.states where place="Congo"')
 >>> print(pretty_xml(resp.content))
 <?xml version="1.0" encoding="utf-8"?>
 <query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" yahoo:count="11" yahoo:created="2015-06-07T11:56:11Z" yahoo:lang="en-US">
@@ -113,7 +113,7 @@ The response format is by default ***json***.
 <!-- total: 33 -->
 <!-- pprd1-node1003-lh3.manhattan.bf1.yahoo.com -->
 
->>> resp = yql.rawQuery('select name, woeid from geo.states where place="Congo"', format='json')
+>>> resp = yql.raw_query('select name, woeid from geo.states where place="Congo"', format='json')
 >>> print(pretty_json(resp.content))
 {
     "query": {
@@ -245,12 +245,12 @@ Returns table description
 >>>
 ```
 
-####rawQuery(query)
+####raw_query(query)
 
 Allows you to directly type your query
 
 ```python
->>> response = yql.rawQuery("select * from geo.countries where place='North America'")
+>>> response = yql.raw_query("select * from geo.countries where place='North America'")
 >>> # deal with the response
 ```
 
@@ -399,7 +399,7 @@ Delete records
 >>> oauth = OAuth1(None, None, from_file='credentials.json') # only consumer_key and consumer_secret are required.
 >>> from myql import MYQL
 >>> yql = MYQL(format='xml', oauth=oauth)
->>> response = yql.getGUID('josue_brunel') # Deal with the response
+>>> response = yql.get_guid('josue_brunel') # Deal with the response
 ```
 
 #### Stocks Scraper
