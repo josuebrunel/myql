@@ -69,10 +69,10 @@ class YQL(object):
         self._query = self._add_limit()
         self._query = self._add_offset()
 
-        logger.info("QUERY = %s" %(query,))
+        logger.info("QUERY = %s" %(self._query,))
 
         payload = {
-            'q': query,
+            'q': self._query,
             'callback': '',#This is not javascript
             'diagnostics': self.diagnostics,
             'format': format if format else self.format,

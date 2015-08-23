@@ -159,6 +159,12 @@ class TestPaging(unittest.TestCase):
     def tearDown(self,):
         pass
 
+    def test_limit(self,):
+        data = self.yql.select('geo.states', limit=3, offset=2).where(['place', '=', 'Congo'])
+        logging.debug(pretty_json(data.content))
+        self.assertEqual(data.status_code, 200)
+        self.assertEqual(data.json()['query']['count'], 3)
+
     def test_offset_raw_query(self,):
         data = self.yql.raw_query("SELECT * FROM geo.counties WHERE place='CA' LIMIT 10 OFFSET 5 | sort(field='name')")
         logging.debug(pretty_json(data.content))
