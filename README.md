@@ -408,6 +408,12 @@ The full documentation on ***StockScraper*** is [here](https://myql.readthedocs.
 
 #### Release Notes
 
+
+##### 1.2.6
+-----------
+
+* Fixed [#148](https://github.com/josuebrunel/myql/issues/148)
+
 ##### 1.2.5
 -----------
 
