@@ -1,12 +1,10 @@
 `mYQL <http://myql.readthedocs.org/en/latest/>`__
 =================================================
 
-|Build Status| |Documentation Status| |Latest Version| |Downloads|
-|Py\_Versions| |Implementations| |Join the chat at
-https://gitter.im/josuebrunel/myql| |Code Issues|
+|Build Status| |Documentation Status| |Code Health| |PyPI| |PyPI| |PyPI|
+|PyPI| |PyPI| |Coverage Status| |PyPI|
 
-mYQL is a Python wrapper of the Yahoo Query Language. **`Full
-Documentation <http://myql.readthedocs.org/en/latest/>`__**
+mYQL is a Python wrapper of the Yahoo Query Language.
 
 Yahoo! Query Language Documentation and Support
 ===============================================
@@ -27,21 +25,6 @@ Features
 -  YQL Open Table (Classes and Metaclasses) Generator
 -  Response prettyfier
 
-mYQL
-====
-
-mYQL is a Python wrapper of the Yahoo Query Language.
-
-Yahoo! Query Language Documentation and Support
-===============================================
-
--  `Yahoo! Query Language <http://developer.yahoo.com/yql/>`__
--  `Yahoo! Developer Network <http://developer.yahoo.com>`__
--  `Yahoo! Application Platform <http://developer.yahoo.com/yap/>`__
--  `Yahoo! Social APIs <http://developer.yahoo.com/social/>`__
--  `Yahoo! Query Language
-   Console <https://developer.yahoo.com/yql/console/>`__
-
 Installation
 ============
 
@@ -52,34 +35,17 @@ Installation
 Quick Start
 ===========
 
-.. code:: python
+It's important to know that **response** is a just
+**requests.models.Response** object. Yes indeed, ***mYQL*** uses
+***requests*** :smile:
 
-    >>> import myql
-    >>> yql = myql.MYQL()
-    >>> yql.diagnostics = True # To turn diagnostics on
-
-Disable access to community tables
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code:: python
-
-    >>> rep = yql.raw_query('desc yahoo.finance.quotes ')
-    >>> rep.json()
-    {u'query': {u'count': 1, u'lang': u'en-US', u'results': {u'table': {u'src': u'http://www.datatables.org/yahoo/finance/yahoo.finance.quotes.xml', u'hash': u'061616a1c033ae89aaf2cbe83790b979', u'name': u'yahoo.finance.quotes', u'request': {u'select': {u'key': {u'required': u'true', u'type': u'xs:string', u'name': u'symbol'}}}, u'meta': {u'sampleQuery': u'\n\t\t\tselect * from yahoo.finance.quotes where symbol in ("YHOO","AAPL","GOOG","MSFT")\n\t\t'}, u'security': u'ANY'}}, u'created': u'2014-08-24T11:26:48Z'}}
-    >>> 
-    >>> yql.community= True # Setting up access to community
-    >>> yql = myql.MYQL()
-    >>> rep = yql.raw_query('desc yahoo.finance.quotes ')
-    >>> rep.json()
-    {u'error': {u'lang': u'en-US', u'description': u'No definition found for Table yahoo.finance.quotes'}}
-
-or
+By default, you have access to the **community tables**. If for
+whatsoever reason you would like to not have access to those tables
 
 .. code:: python
 
     >>> import myql
     >>> yql = myql.MYQL(community=False)
-    >>> # do your magic 
 
 Changing response format (xml or json)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -89,13 +55,120 @@ The response format is by default ***json***.
 .. code:: python
 
     >>> import myql
+    >>> from myql.utils import pretty_json, pretty_xml
     >>> yql = myql.MYQL(format='xml', community=True)
-    >>> rep = yql.raw_query('select name, woeid from geo.states where place="Congo"')
-    >>> rep.text
-    u'<?xml version="1.0" encoding="UTF-8"?>\n<query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" yahoo:count="11" yahoo:created="2014-08-27T04:52:22Z" yahoo:lang="en-US"><results><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Cuvette-Ouest Department</name><woeid>55998384</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Cuvette Department</name><woeid>2344968</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Plateaux District</name><woeid>2344973</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Sangha</name><woeid>2344974</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Lekoumou</name><woeid>2344970</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Pool Department</name><woeid>2344975</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Likouala Department</name><woeid>2344971</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Niari Department</name><woeid>2344972</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Brazzaville</name><woeid>2344976</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Bouenza Department</name><woeid>2344967</woeid></place><place xmlns="http://where.yahooapis.com/v1/schema.rng"><name>Kouilou</name><woeid>2344969</woeid></place></results></query><!-- total: 19 -->\n<!-- engine7.yql.bf1.yahoo.com -->\n'
-    >>> rep = yql.raw_query('select name, woeid from geo.states where place="Congo"', format='json')
-    >>> rep.json()
-    {u'query': {u'count': 11, u'lang': u'en-US', u'results': {u'place': [{u'woeid': u'55998384', u'name': u'Cuvette-Ouest Department'}, {u'woeid': u'2344968', u'name': u'Cuvette Department'}, {u'woeid': u'2344973', u'name': u'Plateaux District'}, {u'woeid': u'2344974', u'name': u'Sangha'}, {u'woeid': u'2344970', u'name': u'Lekoumou'}, {u'woeid': u'2344975', u'name': u'Pool Department'}, {u'woeid': u'2344971', u'name': u'Likouala Department'}, {u'woeid': u'2344972', u'name': u'Niari Department'}, {u'woeid': u'2344976', u'name': u'Brazzaville'}, {u'woeid': u'2344967', u'name': u'Bouenza Department'}, {u'woeid': u'2344969', u'name': u'Kouilou'}]}, u'created': u'2014-08-27T04:52:38Z'}}
+    >>> resp = yql.raw_query('select name, woeid from geo.states where place="Congo"')
+    >>> print(pretty_xml(resp.content))
+    <?xml version="1.0" encoding="utf-8"?>
+    <query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" yahoo:count="11" yahoo:created="2015-06-07T11:56:11Z" yahoo:lang="en-US">
+        <results>
+            <place xmlns="http://where.yahooapis.com/v1/schema.rng">
+                <name>Cuvette-Ouest Department</name>
+                <woeid>55998384</woeid>
+            </place>
+            <place xmlns="http://where.yahooapis.com/v1/schema.rng">
+                <name>Cuvette Department</name>
+                <woeid>2344968</woeid>
+            </place>
+            <place xmlns="http://where.yahooapis.com/v1/schema.rng">
+                <name>Plateaux District</name>
+                <woeid>2344973</woeid>
+            </place>
+            <place xmlns="http://where.yahooapis.com/v1/schema.rng">
+                <name>Sangha</name>
+                <woeid>2344974</woeid>
+            </place>
+            <place xmlns="http://where.yahooapis.com/v1/schema.rng">
+                <name>Lekoumou</name>
+                <woeid>2344970</woeid>
+            </place>
+            <place xmlns="http://where.yahooapis.com/v1/schema.rng">
+                <name>Pool Department</name>
+                <woeid>2344975</woeid>
+            </place>
+            <place xmlns="http://where.yahooapis.com/v1/schema.rng">
+                <name>Likouala Department</name>
+                <woeid>2344971</woeid>
+            </place>
+            <place xmlns="http://where.yahooapis.com/v1/schema.rng">
+                <name>Niari Department</name>
+                <woeid>2344972</woeid>
+            </place>
+            <place xmlns="http://where.yahooapis.com/v1/schema.rng">
+                <name>Brazzaville</name>
+                <woeid>2344976</woeid>
+            </place>
+            <place xmlns="http://where.yahooapis.com/v1/schema.rng">
+                <name>Bouenza Department</name>
+                <woeid>2344967</woeid>
+            </place>
+            <place xmlns="http://where.yahooapis.com/v1/schema.rng">
+                <name>Kouilou</name>
+                <woeid>2344969</woeid>
+            </place>
+        </results>
+    </query>
+    <!-- total: 33 -->
+    <!-- pprd1-node1003-lh3.manhattan.bf1.yahoo.com -->
+
+    >>> resp = yql.raw_query('select name, woeid from geo.states where place="Congo"', format='json')
+    >>> print(pretty_json(resp.content))
+    {
+        "query": {
+            "count": 11, 
+            "created": "2015-06-07T11:58:20Z", 
+            "lang": "en-US", 
+            "results": {
+                "place": [
+                    {
+                        "name": "Cuvette-Ouest Department", 
+                        "woeid": "55998384"
+                    }, 
+                    {
+                        "name": "Cuvette Department", 
+                        "woeid": "2344968"
+                    }, 
+                    {
+                        "name": "Plateaux District", 
+                        "woeid": "2344973"
+                    }, 
+                    {
+                        "name": "Sangha", 
+                        "woeid": "2344974"
+                    }, 
+                    {
+                        "name": "Lekoumou", 
+                        "woeid": "2344970"
+                    }, 
+                    {
+                        "name": "Pool Department", 
+                        "woeid": "2344975"
+                    }, 
+                    {
+                        "name": "Likouala Department", 
+                        "woeid": "2344971"
+                    }, 
+                    {
+                        "name": "Niari Department", 
+                        "woeid": "2344972"
+                    }, 
+                    {
+                        "name": "Brazzaville", 
+                        "woeid": "2344976"
+                    }, 
+                    {
+                        "name": "Bouenza Department", 
+                        "woeid": "2344967"
+                    }, 
+                    {
+                        "name": "Kouilou", 
+                        "woeid": "2344969"
+                    }
+                ]
+            }
+        }
+    }
+
     >>>
 
 Methods
@@ -104,7 +177,7 @@ Methods
 use(yql\_table\_url,name=yql\_table\_name)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Changes the data provider
+Maps a table name to the URL of an Open Data Table.
 
 .. code:: python
 
@@ -118,12 +191,62 @@ Returns table description
 .. code:: python
 
     >>> response = yql.desc('weather.forecast')
-    >>> response.json()
-    {u'query': {u'count': 1, u'lang': u'en-US', u'results': {u'table': {u'request': {u'select': [{u'key': [{u'required': u'true', u'type': u'xs:string', u'name': u'location'}, {u'type': u'xs:string', u'name': u'u'}]}, {u'key': [{u'required': u'true', u'type': u'xs:string', u'name': u'woeid'}, {u'type': u'xs:string', u'name': u'u'}]}]}, u'security': u'ANY', u'meta': {u'documentationURL': u'http://developer.yahoo.com/weather/', u'sampleQuery': u'select * from weather.forecast where woeid=2502265', u'description': u'Weather forecast table', u'author': u'Yahoo! Inc'}, u'hash': u'aae78b1462a6a8fbc748aec4cf292767', u'name': u'weather.forecast'}}, u'created': u'2014-08-16T19:31:51Z'}}
+    >>> print(pretty_json(response.content))
+    {
+        "query": {
+            "count": 1, 
+            "created": "2015-06-07T12:00:27Z", 
+            "lang": "en-US", 
+            "results": {
+                "table": {
+                    "hash": "aae78b1462a6a8fbc748aec4cf292767", 
+                    "meta": {
+                        "author": "Yahoo! Inc", 
+                        "description": "Weather forecast table", 
+                        "documentationURL": "http://developer.yahoo.com/weather/", 
+                        "sampleQuery": "select * from weather.forecast where woeid=2502265"
+                    }, 
+                    "name": "weather.forecast", 
+                    "request": {
+                        "select": [
+                            {
+                                "key": [
+                                    {
+                                        "name": "location", 
+                                        "required": "true", 
+                                        "type": "xs:string"
+                                    }, 
+                                    {
+                                        "name": "u", 
+                                        "type": "xs:string"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "key": [
+                                    {
+                                        "name": "woeid", 
+                                        "required": "true", 
+                                        "type": "xs:string"
+                                    }, 
+                                    {
+                                        "name": "u", 
+                                        "type": "xs:string"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, 
+                    "security": "ANY"
+                }
+            }
+        }
+    }
+
     >>>
 
-raw_query(query)
-^^^^^^^^^^^^^^^
+raw\_query(query)
+^^^^^^^^^^^^^^^^^
 
 Allows you to directly type your query
 
@@ -135,26 +258,51 @@ Allows you to directly type your query
 select(table, fields, limit).where(filters, ...)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Select a table i.e *weather.forecast*. If *table* not provided, it will
-use the default table. If there's no such thing as a default table, it
-will raise a *NoTableSelectedError*
-
 ***NB*** : A simple select doesn't return any data. Use ***GET***
 instead.
 
 .. code:: python
 
-    >>> response = yql.select('geo.countries', [name, code, woeid]).where(['name', '=', 'Canada'])
-    >>> response.json()
-    {u'query': {u'count': 1, u'lang': u'en-US', u'results': {u'place': {u'woeid': u'23424775', u'name': u'Canada'}}, u'created': u'2014-08-16T19:04:08Z'}}
+    >>> response = yql.select('geo.countries', ['name', 'code', 'woeid']).where(['name', '=', 'Canada'])
+    >>> print(pretty_json(response.content))
+    {
+        "query": {
+            "count": 1, 
+            "created": "2015-06-07T12:10:39Z", 
+            "lang": "en-US", 
+            "results": {
+                "place": {
+                    "name": "Canada", 
+                    "woeid": "23424775"
+                }
+            }
+        }
+    }
+
     >>> ...
-    >>> rep = yql.select('geo.countries', ['name', 'woeid'], 2).where(['place', '=', 'Africa'])
-    >>> rep.json()
-    {u'query': {u'count': 2, u'lang': u'en-US', u'results': {u'place': [{u'woeid': u'23424740', u'name': u'Algeria'}, {u'woeid': u'23424745', u'name': u'Angola'}]}, u'created': u'2014-08-17T10:52:49Z'}}
-    >>>
-    >>> rep = yql.select('geo.countries', ['name', 'woeid'], 2).where(['place', 'in', ('Africa', 'Europe')])
-    >>> rep.json()
-    {u'query': {u'count': 2, u'lang': u'en-US', u'results': {u'place': [{u'woeid': u'23424740', u'name': u'Algeria'}, {u'woeid': u'23424745', u'name': u'Angola'}]}, u'created': u'2014-08-17T11:22:49Z'}}
+    >>> response = yql.select('geo.countries', ['name', 'woeid'], 2).where(['place', 'in', ('Africa', 'Europe')])
+    >>> from myql.utils import dump
+    >>> dump(response)
+    {
+        "query": {
+            "count": 2, 
+            "created": "2015-06-07T12:27:04Z", 
+            "lang": "en-US", 
+            "results": {
+                "place": [
+                    {
+                        "name": "Algeria", 
+                        "woeid": "23424740"
+                    }, 
+                    {
+                        "name": "Angola", 
+                        "woeid": "23424745"
+                    }
+                ]
+            }
+        }
+    }
+
     >>>
 
 get(table, fields, limit)
@@ -168,9 +316,23 @@ instead .
 
 .. code:: python
 
-    >>> yql.get('geo.countries', ['name', 'woeid'], 1)
-    >>> rep.json()
-    {u'query': {u'count': 1, u'lang': u'en-US', u'results': {u'place': {u'woeid': u'23424966', u'name': u'Sao Tome and Principe'}}, u'created': u'2014-08-17T10:32:25Z'}}
+    >>> from myql.utils import dump
+    >>> response = yql.get('geo.countries', ['name', 'woeid'], 1)
+    >>> dump(response)
+    {
+        "query": {
+            "count": 1, 
+            "created": "2015-06-07T12:29:01Z", 
+            "lang": "en-US", 
+            "results": {
+                "place": {
+                    "name": "Sao Tome and Principe", 
+                    "woeid": "23424966"
+                }
+            }
+        }
+    }
+
     >>>
 
 insert(table, (field1, field2, ..., fieldN),(value1, value2, ..., valueN))
@@ -242,19 +404,48 @@ Delete records
         }
     }
 
-Using OAuth to fetch protected resources
-========================================
+Using OAuth
+^^^^^^^^^^^
+
+***mYQL*** comes with
+***`yahoo\_oauth <http://yahoo-oauth.readthedocs.org/en/master/>`__***,
+which is an OAuth library for Yahoo! APIs.
 
 .. code:: python
 
-    >>> from myql.contrib.auth import YOAuth
-    >>> oauth = YOAuth(None, None, from_file='credentials.json') # only consumer_key and consumer_secret are required.
+    >>> from yahoo_oauth import OAuth1
+    >>> oauth = OAuth1(None, None, from_file='credentials.json') # only consumer_key and consumer_secret are required.
     >>> from myql import MYQL
     >>> yql = MYQL(format='xml', oauth=oauth)
-    >>> response = yql.getGUID('josue_brunel') # Deal with the response
+    >>> response = yql.get_guid('josue_brunel') # Deal with the response
+
+Stocks Scraper
+^^^^^^^^^^^^^^
+
+The full documentation on ***StockScraper*** is
+`here <https://myql.readthedocs.org/en/latest/stockscraper/>`__
 
 Release Notes
 ^^^^^^^^^^^^^
+
+##### 1.2.6
+-----------
+
+-  Fixed `#148 <https://github.com/josuebrunel/myql/issues/148>`__
+
+##### 1.2.5
+-----------
+
+-  camelCase dropped for underscore
+-  Support for substitution variable i.e @myvar
+-  Support of Remote Filters
+-  Support of Post Query Filters
+
+##### 1.2.4
+-----------
+
+-  Weather module added
+-  StockScraper now under Finance namespace
 
 ##### 1.2.3
 -----------
@@ -265,6 +456,8 @@ Release Notes
    `#106 <https://github.com/josuebrunel/myql/issues/107>`__
 -  Fix definition of raw\_input for python3
    `#105 <https://github.com/josuebrunel/myql/issues/105>`__
+-  Yahoo-OAuth included as main oauth library
+   `#112 <https://github.com/josuebrunel/myql/issues/112>`__
 
 ##### 1.2.2
 -----------
@@ -321,16 +514,19 @@ Release Notes
    :target: https://travis-ci.org/josuebrunel/myql
 .. |Documentation Status| image:: https://readthedocs.org/projects/myql/badge/?version=latest
    :target: https://myql.readthedocs.org
-.. |Latest Version| image:: https://pypip.in/version/myql/badge.svg
-   :target: https://pypi.python.org/pypi/myql/
-.. |Downloads| image:: https://pypip.in/download/myql/badge.svg
+.. |Code Health| image:: https://landscape.io/github/josuebrunel/myql/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/josuebrunel/myql/master
+.. |PyPI| image:: https://img.shields.io/pypi/status/myql.svg?style=flat
    :target: https://pypi.python.org/pypi/myql
-.. |Py\_Versions| image:: https://pypip.in/py_versions/myql/badge.svg
+.. |PyPI| image:: https://img.shields.io/pypi/v/myql.svg?style=flat
    :target: https://pypi.python.org/pypi/myql
-.. |Implementations| image:: https://pypip.in/implementation/myql/badge.svg
+.. |PyPI| image:: https://img.shields.io/pypi/dm/myql.svg?style=flat
    :target: https://pypi.python.org/pypi/myql
-.. |Join the chat at https://gitter.im/josuebrunel/myql| image:: https://badges.gitter.im/Join%20Chat.svg
-   :target: https://gitter.im/josuebrunel/myql?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-.. |Code Issues| image:: https://www.quantifiedcode.com/project/gh:josuebrunel:myql/badge.svg
-   :target: https://www.quantifiedcode.com/app/project/gh:josuebrunel:myql
-
+.. |PyPI| image:: https://img.shields.io/pypi/pyversions/myql.svg
+   :target: https://pypi.python.org/pypi/myql
+.. |PyPI| image:: https://img.shields.io/pypi/implementation/myql.svg?style=flat
+   :target: https://pypi.python.org/pypi/myql
+.. |Coverage Status| image:: https://coveralls.io/repos/josuebrunel/myql/badge.svg?branch=testing
+   :target: https://coveralls.io/r/josuebrunel/myql?branch=master
+.. |PyPI| image:: https://img.shields.io/pypi/l/myql.svg?style=flat
+   :target: https://pypi.python.org/pypi/myql
