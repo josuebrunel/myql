@@ -270,6 +270,12 @@ class YQL(object):
             
         return self
 
+    ## MULTI QUERY
+    def multi_query(self, queries):
+        """Allow multi query
+        """
+        pass
+
     ## INSERT
     def insert(self, table,items, values):
         """This method allows to insert data into table
@@ -315,10 +321,8 @@ class YQL(object):
 
         clause = []
         self._query += ' WHERE '
-        for x in args:
-            if x:
-                x = self._clause_formatter(x)
-                clause.append(x)
+
+        clause = [ self._clause_formatter(x) for x in args if x ]
 
         self._query += ' AND '.join(clause)
 
