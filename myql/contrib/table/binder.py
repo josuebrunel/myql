@@ -28,6 +28,7 @@ class BinderFunction(BaseBinder):
         if func_file:
             self.addFunction('', from_file=func_file)
 
+
 class InputKey(BaseInput):
     """Class representing a key of an Input
     """
@@ -35,6 +36,7 @@ class InputKey(BaseInput):
     def __init__(self, *args, **kwargs):
         super(InputKey, self).__init__('key', *args, **kwargs)
         
+
 class InputValue(BaseInput):
     """Class representing value under an Input
     """
