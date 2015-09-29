@@ -150,6 +150,13 @@ class TestMYQL(unittest.TestCase):
         with self.assertRaises(NoTableSelectedError):
             response = self.yql.select(None).where([])
 
+class TestMultiQuery(unittest.TestCase):
+
+    def setUp(self,):
+        pass
+
+    def tearDown(self,):
+        pass
 
 class TestPaging(unittest.TestCase):
 
