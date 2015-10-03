@@ -15,4 +15,4 @@ $ gource myql.log
 ### CONTACT
 
 godbod
-[a link](gkounkou@gmail.com)
+[gkounkou@gmail.com](gkounkou@gmail.com)
