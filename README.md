@@ -473,4 +473,3 @@ The full documentation on ***StockScraper*** is [here](https://myql.readthedocs.
 * fix limit on ***get(...)***
 
 
-
