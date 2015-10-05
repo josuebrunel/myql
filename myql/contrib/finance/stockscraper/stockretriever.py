@@ -103,7 +103,7 @@ class StockRetriever(YQL):
             json_data = json_data.groups()[0]
         except (Exception,) as e:
             print(e)
-            json_data = ''
+            json_data = '{"results": "No results found"}'
 
         return type('response', (requests.Response,),{
             'text' : json_data,
