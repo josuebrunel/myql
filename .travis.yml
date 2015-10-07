@@ -9,9 +9,9 @@ python:
     - pypy3
 install: 
     - pip install -r requirements.txt
-    - pip install coverage coveralls
+    - pip install coverage coveralls pytest
 script:
-    - coverage run --source=myql -m unittest discover
+    - coverage run --source=myql -m pytest -v tests/tests.py
 env:
   global:
     secure: hXpkZqclyUXMX586jS4BtJmYsrszVr/jWbMiLWLOZ2z7n5LK9INziKkOqYu0JTBskAHVEmhxJ7oNOD9gI/06btLO5NLBONN3qtsHq4UruCo0Zlx2BgaDfR5FqnrVqk+fMbLCbzWgo0wShM4o8jTGy7l22xqhhYAsuubmayqEfPk=
