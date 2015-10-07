@@ -375,8 +375,11 @@ class TestOAuth(unittest.TestCase):
                 return False
 
             data = response.json()
-            current_team = data['query']['results']['team']
-            print(current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves'])
+            try:
+                current_team = data['query']['results']['team']
+                print(current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves'])
+            except (Exception,) as e:
+                print(e)
 
 
 class TestWeather(unittest.TestCase):
