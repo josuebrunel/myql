@@ -46,7 +46,6 @@ class Table(Base):
         with open(fname+".xml", 'w') as f:
             f.write(content)
 
-
     def _init_table_elementTree(self, xml=True, db_table=True):
         """Create a table 
         """
@@ -138,3 +137,4 @@ class TableModel(Table):
 
 def BinderFrom(cls_binder_meta):
     return cls_binder_meta.binder
+

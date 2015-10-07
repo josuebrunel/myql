@@ -150,6 +150,13 @@ class TestMYQL(unittest.TestCase):
         with self.assertRaises(NoTableSelectedError):
             response = self.yql.select(None).where([])
 
+class TestMultiQuery(unittest.TestCase):
+
+    def setUp(self,):
+        pass
+
+    def tearDown(self,):
+        pass
 
 class TestPaging(unittest.TestCase):
 
@@ -368,8 +375,11 @@ class TestOAuth(unittest.TestCase):
                 return False
 
             data = response.json()
-            current_team = data['query']['results']['team']
-            print(current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves'])
+            try:
+                current_team = data['query']['results']['team']
+                print(current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves'])
+            except (Exception,) as e:
+                print(e)
 
 
 class TestWeather(unittest.TestCase):
@@ -470,7 +480,7 @@ class TestStockScraper(unittest.TestCase):
     def test_get_symbols(self,):
         data = self.stock.get_symbols('Google')
         logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code, 200)
+        self.assertIn(data.status_code, (200, 400, "Web Service is currently Down!!"))  
 
     def test_get_xchange_rate(self,):
         data = self.stock.get_xchange_rate(['EURUSD','GBPUSD'])

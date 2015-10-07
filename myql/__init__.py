@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-__version__ = '1.2.6'
+__version__ = '1.2.7'
 
 from myql import contrib
 from myql import errors

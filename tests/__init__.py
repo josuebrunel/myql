@@ -10,3 +10,4 @@ from tests.tests import TestFilters
 from tests.tests import TestRemoteFilters
 from tests.tests import TestFuncFilters
 from tests.tests import TestPaging
+from tests.tests import TestMultiQuery
