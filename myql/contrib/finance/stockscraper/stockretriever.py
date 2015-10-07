@@ -103,7 +103,7 @@ class StockRetriever(YQL):
             json_data = json_data.groups()[0]
         except (Exception,) as e:
             print(e)
-            json_data = '{"results": "Webservice seems to be down. Check on {0}"}'.format(url)
+            json_data = '{"results": "Webservice seems to be down"}'
 
         return type('response', (requests.Response,),{
             'text' : json_data,
