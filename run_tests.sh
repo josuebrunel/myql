@@ -11,5 +11,5 @@ else
 fi
 
 coverage run --source=myql -m pytest -vs tests/tests.py$TestCase$Test
-coverage report
+coverage report -m
 coverage html
