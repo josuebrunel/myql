@@ -1,5 +1,4 @@
 import os
-import myql
 from setuptools import setup, find_packages
 
 __author__ = 'Josue Kouka'
