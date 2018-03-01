@@ -14,8 +14,7 @@ env:
   global:
     secure: hXpkZqclyUXMX586jS4BtJmYsrszVr/jWbMiLWLOZ2z7n5LK9INziKkOqYu0JTBskAHVEmhxJ7oNOD9gI/06btLO5NLBONN3qtsHq4UruCo0Zlx2BgaDfR5FqnrVqk+fMbLCbzWgo0wShM4o8jTGy7l22xqhhYAsuubmayqEfPk=
 before_install:
-- openssl aes-256-cbc -K $encrypted_60f42691f4f2_key -iv $encrypted_60f42691f4f2_iv
-  -in credentials.json.enc -out credentials.json -d
+- openssl aes-256-cbc -K $encrypted_a4598a1e4a3c_key -iv $encrypted_a4598a1e4a3c_iv -in credentials.json.enc -out credentials.json -d
 after_success:
     - coverage report -m
     - coveralls
