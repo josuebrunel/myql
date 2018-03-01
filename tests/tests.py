@@ -20,12 +20,13 @@ from myql.contrib.table import Binder, BinderFunction, InputKey, InputValue, Pag
 from myql.contrib.weather import Weather
 from myql.contrib.finance.stockscraper import StockRetriever
 
-logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
+logging.basicConfig(level=logging.DEBUG, format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 
 
 logging.getLogger('mYQL').propagate = False
 logging.getLogger('yahoo_oauth').disabled = True
 logging.getLogger('requests').setLevel(logging.CRITICAL)
+
 
 def json_write_data(json_data, filename):
     with open(filename, 'w') as fp:
@@ -43,7 +44,7 @@ def json_get_data(filename):
 class TestMYQL(unittest.TestCase):
 
     def setUp(self,):
-        self.yql = MYQL(format='json',community=True)
+        self.yql = MYQL(format='json', community=True)
         self.insert_result = None
 
     def tearDown(self):
@@ -61,7 +62,7 @@ class TestMYQL(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_use(self):
-        self.yql.use('http://www.josuebrunel.org/users.xml',name='users')
+        self.yql.use('http://www.josuebrunel.org/users.xml', name='users')
         response = self.yql.raw_query('select * from users', format='xml')
         self.yql.yql_table_url = None
         logging.debug(pretty_xml(response.content))
@@ -85,27 +86,27 @@ class TestMYQL(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_select_in(self,):
-        response = self.yql.select('yahoo.finance.quotes').where(['symbol','in',("YHOO","AAPL","GOOG")])
+        response = self.yql.select('yahoo.finance.quotes').where(['symbol', 'in', ("YHOO", "AAPL", "GOOG")])
         logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_select_in_2(self,):
-        response = self.yql.select('weather.forecast',['units','atmosphere']).where(['woeid','IN',('select woeid from geo.places(1) where text="Paris"',)])
+        response = self.yql.select('weather.forecast', ['units', 'atmosphere']).where(['woeid', 'IN', ('select woeid from geo.places(1) where text="Paris"',)])
         logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_raise_exception_select_where_in(self,):
 
         with self.assertRaises(TypeError):
-            response = self.yql.select('weather.forecast',['units','atmosphere']).where(['woeid','IN',('select woeid from geo.places(1) where text="Paris"')])
+            self.yql.select('weather.forecast', ['units', 'atmosphere']).where(['woeid', 'IN', ('select woeid from geo.places(1) where text="Paris"')])
 
     def test_1_insert(self,):
-        response = self.yql.insert('yql.storage.admin',('value',),('http://josuebrunel.org',))
+        response = self.yql.insert('yql.storage.admin', ('value',), ('http://josuebrunel.org',))
         try:
             logging.debug(pretty_json(response.content))
             data = response.json()['query']['results']['inserted']
             logging.debug(data)
-            json_write_data(data,'yql_storage.json')
+            json_write_data(data, 'yql_storage.json')
         except (Exception,) as e:
             logging.error(response.content)
             logging.error(e)
@@ -114,19 +115,19 @@ class TestMYQL(unittest.TestCase):
 
     def test_2_check_insert(self,):
         json_data = json_get_data('yql_storage.json')
-        response = self.yql.select('yql.storage').where(['name','=',json_data['select']])
+        response = self.yql.select('yql.storage').where(['name', '=', json_data['select']])
         logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_3_update(self,):
         json_data = json_get_data('yql_storage.json')
-        response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=',json_data['update']])
+        response = self.yql.update('yql.storage', ('value',), ('https://josuebrunel.org',)).where(['name', '=', json_data['update']])
         logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
     def test_4_delete(self,):
         json_data = json_get_data('yql_storage.json')
-        response = self.yql.delete('yql.storage').where(['name','=',json_data['update']])
+        response = self.yql.delete('yql.storage').where(['name', '=', json_data['update']])
         logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
 
@@ -147,7 +148,8 @@ class TestMYQL(unittest.TestCase):
 
     def test_raise_exception_no_table_selected(self):
         with self.assertRaises(NoTableSelectedError):
-            response = self.yql.select(None).where([])
+            self.yql.select(None).where([])
+
 
 class TestMultiQuery(unittest.TestCase):
 
@@ -156,6 +158,7 @@ class TestMultiQuery(unittest.TestCase):
 
     def tearDown(self,):
         pass
+
 
 class TestPaging(unittest.TestCase):
 
@@ -201,32 +204,32 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_filter_greater_than_or_equal(self,):
-        data = self.yql.select('geo.countries',['woeid', 'name', 'placeTypeName']).where(['place', '=', 'North America'], ['place.woeid', '>=', 56042304])
+        data = self.yql.select('geo.countries', ['woeid', 'name', 'placeTypeName']).where(['place', '=', 'North America'], ['place.woeid', '>=', 56042304])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
     def test_filter_less_than_or_equal(self,):
-        data = self.yql.select('geo.countries',['name', 'placeTypeName']).where(['place', '=', 'North America'], ['place.woeid', '<=', 23424758])
+        data = self.yql.select('geo.countries', ['name', 'placeTypeName']).where(['place', '=', 'North America'], ['place.woeid', '<=', 23424758])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
     def test_filter_not_in(self,):
-        data = self.yql.select('geo.countries',['name', 'placeTypeName']).where(['placeTypeName.content', 'NOT IN', ('Country','Territory','Overseas Collectivity')])
+        data = self.yql.select('geo.countries', ['name', 'placeTypeName']).where(['placeTypeName.content', 'NOT IN', ('Country', 'Territory', 'Overseas Collectivity')])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
     def test_filter_is_null(self,):
-        data = self.yql.select('youtube.user').where(['id','=','120u12a'], ['user.description','IS NULL'])
+        data = self.yql.select('youtube.user').where(['id', '=', '120u12a'], ['user.description', 'IS NULL'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
     def test_filter_is_not_null(self,):
-        data = self.yql.select('youtube.user').where(['id','=','120u12a'], ['user.description','IS NOT NULL'])
+        data = self.yql.select('youtube.user').where(['id', '=', '120u12a'], ['user.description', 'IS NOT NULL'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
     def test_filter_like(self,):
-        data = self.yql.select('yql.table.list').where(['content','like','%apple%'])
+        data = self.yql.select('yql.table.list').where(['content', 'like', '%apple%'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
@@ -236,12 +239,12 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_filter_matches(self,):
-        data = self.yql.select('yql.table.list').where(['content','MATCHES','.*itunes$'])
+        data = self.yql.select('yql.table.list').where(['content', 'MATCHES', '.*itunes$'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
     def test_filter_not_matches(self,):
-        data = self.yql.select('geo.countries', ['name', 'placeTypeName']).where(['placeTypeName.content','NOT MATCHES','^(Country|Territory)$'])
+        data = self.yql.select('geo.countries', ['name', 'placeTypeName']).where(['placeTypeName.content', 'NOT MATCHES', '^(Country|Territory)$'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
@@ -273,20 +276,20 @@ class TestFuncFilters(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_func_filter_sanitize(self,):
-        #func_filters = [('sanitize', '')]
-        #data = self.yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
-        #logging.debug(pretty_json(data.content))
-        #self.assertEqual(data.status_code, 200)
+        # func_filters = [('sanitize', '')]
+        # data = self.yql.select('geo.states', func_filters=func_filters).where(['place', '=', 'Congo'])
+        # logging.debug(pretty_json(data.content))
+        # self.assertEqual(data.status_code, 200)
         pass
 
     def test_func_filter_sort(self,):
         func_filters = [
             {'sort': [
-                ('field','name'),
-                ('descending','true')
+                ('field', 'name'),
+                ('descending', 'true')
             ]},
             ('tail', 10),
-            #('reverse')
+            # ('reverse')
         ]
         data = self.yql.select('geo.counties', func_filters=func_filters).where(['place', '=', 'CA'])
         logging.debug(pretty_json(data.content))
@@ -295,8 +298,8 @@ class TestFuncFilters(unittest.TestCase):
     def test_func_filter_unique(self,):
         func_filters = [
             {'unique': [
-                ('field','content'),
-                ('hideRepeatCount','false')
+                ('field', 'content'),
+                ('hideRepeatCount', 'false')
             ]},
             ('truncate', 5)
         ]
@@ -307,12 +310,12 @@ class TestFuncFilters(unittest.TestCase):
     def test_raise_exception_func_filter(self):
         func_filters = 'unique'
         with self.assertRaises(TypeError):
-           data =  self.yql.get('yql.table.list', func_filters=func_filters)
+            self.yql.get('yql.table.list', func_filters=func_filters)
 
     def test_raise_exception_func_filter_invalid_type(self):
         func_filters = [30]
         with self.assertRaises(TypeError):
-            data = self.yql.get('yql.table.list', func_filters=func_filters)
+            self.yql.get('yql.table.list', func_filters=func_filters)
 
 
 class TestRemoteFilters(unittest.TestCase):
@@ -326,10 +329,9 @@ class TestRemoteFilters(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_remote_filter_get_start_and_count(self,):
-        data = self.yql.get('geo.countries', remote_filter=(100,10))
+        data = self.yql.get('geo.countries', remote_filter=(100, 10))
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
-
 
     def test_remote_filter_select_count(self,):
         data = self.yql.select('geo.counties', remote_filter=(20,)).where(['place', '=', 'CA'])
@@ -337,14 +339,14 @@ class TestRemoteFilters(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_remote_filter_select_start_and_count(self,):
-        data = self.yql.select('geo.counties', remote_filter=(60,20)).where(['place', '=', 'CA'])
+        data = self.yql.select('geo.counties', remote_filter=(60, 20)).where(['place', '=', 'CA'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
     def test_raise_exception_remote_filter_not_tuple(self,):
 
         with self.assertRaises(TypeError):
-            data = self.yql.get('geo.countries', remote_filter=10)
+            self.yql.get('geo.countries', remote_filter=10)
 
 
 class TestOAuth(unittest.TestCase):
@@ -365,10 +367,10 @@ class TestOAuth(unittest.TestCase):
     def test_yahoo_fantasy_sport(self,):
         oauth = OAuth1(None, None, from_file='credentials.json')
         yql = MYQL(format='json', oauth=oauth)
-        teams = ('mlb.l.1328.t.1','mlb.l.1328.t.2')
+        teams = ('mlb.l.1328.t.1', 'mlb.l.1328.t.2')
         year = '2015-05-05'
         for team in teams:
-            response = yql.select('fantasysports.teams.roster').where(['team_key','=',team],['date','=',year])
+            response = yql.select('fantasysports.teams.roster').where(['team_key', '=', team], ['date', '=', year])
             self.assertEqual(response.status_code, 200)
             if not response.status_code == 200:
                 return False
@@ -376,7 +378,7 @@ class TestOAuth(unittest.TestCase):
             data = response.json()
             try:
                 current_team = data['query']['results']['team']
-                print(current_team['team_id'],current_team['name'],current_team['number_of_trades'],current_team['number_of_moves'])
+                print(current_team['team_id'], current_team['name'], current_team['number_of_trades'], current_team['number_of_moves'])
             except (Exception,) as e:
                 print(e)
 
@@ -384,6 +386,7 @@ class TestOAuth(unittest.TestCase):
 class TestWeather(unittest.TestCase):
     """Weather module unit test
     """
+
     def setUp(self,):
         self.weather = Weather(unit='c', format='json')
 
@@ -393,7 +396,7 @@ class TestWeather(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_get_weather_in_with_unit(self):
-        data = self.weather.get_weather_in('choisy-le-roi', 'c',['location', 'units', 'item.condition'])
+        data = self.weather.get_weather_in('choisy-le-roi', 'c', ['location', 'units', 'item.condition'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
@@ -437,7 +440,7 @@ class TestStockScraper(unittest.TestCase):
         pass
 
     def test_get_current_info(self,):
-        data = self.stock.get_current_info(["YHOO","AAPL","GOOG","J&KBANK.BO"])
+        data = self.stock.get_current_info(["YHOO", "AAPL", "GOOG", "J&KBANK.BO"])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
@@ -452,7 +455,7 @@ class TestStockScraper(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_get_historical_info_with_args(self,):
-        data = self.stock.get_historical_info('YHOO',items=['Open','Close','High','Low'], limit=5,startDate='2014-09-11',endDate='2015-02-10')
+        data = self.stock.get_historical_info('YHOO', items=['Open', 'Close', 'High', 'Low'], limit=5, startDate='2014-09-11', endDate='2015-02-10')
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
@@ -467,13 +470,13 @@ class TestStockScraper(unittest.TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_get_index_summary(self,):
-        data = self.stock.get_index_summary('GOOG',('Volume','Change'))
+        data = self.stock.get_index_summary('GOOG', ('Volume', 'Change'))
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
     def test_get_industry_index(self,):
         data = self.stock.get_industry_index(112)
-        #logging.debug(pretty_json(data.content))
+        # logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
     def test_get_symbols(self,):
@@ -482,12 +485,12 @@ class TestStockScraper(unittest.TestCase):
         self.assertIn(data.status_code, (200, 400, "Web Service is currently Down!!"))
 
     def test_get_xchange_rate(self,):
-        data = self.stock.get_xchange_rate(['EURUSD','GBPUSD'])
+        data = self.stock.get_xchange_rate(['EURUSD', 'GBPUSD'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
     def test_get_dividendhistory(self,):
-        data = self.stock.get_dividendhistory('AAPL',"2008-01-01", "2015-06-15")
+        data = self.stock.get_dividendhistory('AAPL', "2008-01-01", "2015-06-15")
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
@@ -496,16 +499,18 @@ class TestStockScraper(unittest.TestCase):
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
 
+
 class TestSocial(unittest.TestCase):
 
     def setUp(self,):
         self.oauth = OAuth1(None, None, from_file='credentials.json')
         self.yql = YQL(oauth=self.oauth)
 
-    #def test_get_contacts(self,):
-    #    data = self.yql.select('social.contacts').where(['guid','=', '@me'])
-    #    logging.debug(pretty_json(data.content))
-    #    self.assertEqual(data.status_code, 200)
+    # def test_get_contacts(self,):
+    #     data = self.yql.select('social.contacts').where(['guid','=', '@me'])
+    #     logging.debug(pretty_json(data.content))
+    #     self.assertEqual(data.status_code, 200)
+
 
 class TestTable(unittest.TestCase):
 
@@ -515,7 +520,7 @@ class TestTable(unittest.TestCase):
             'author': 'josuebrunel',
             'apiKeyURL': 'http://josuebrunel.org/api',
             'documentationURL': 'http://josuebrunel.org/doc.html',
-            'sampleQuery': ['SELECT * FROM mytable', 'SELECT name FROM mytable WHERE id="345"','DELETE FROM mytable WHERE id="345"'],
+            'sampleQuery': ['SELECT * FROM mytable', 'SELECT name FROM mytable WHERE id="345"', 'DELETE FROM mytable WHERE id="345"'],
         }
 
         self.table = Table(**self.table_desc)
@@ -527,7 +532,7 @@ class TestTable(unittest.TestCase):
         }
 
         self.binder = Binder(**self.binder_desc)
-        self.binder_insert = Binder('insert','products.product','json')
+        self.binder_insert = Binder('insert', 'products.product', 'json')
 
         self.key_desc = {
             'id': 'artist',
@@ -538,9 +543,9 @@ class TestTable(unittest.TestCase):
         self.key = InputKey(**self.key_desc)
         self.key2 = InputKey(id='song', type='xs:string', paramType='path', required='true')
 
-        start= {'id': 'ItemPage', 'default': '1'}
-        pageSize= {'id':'Count' ,'max':'25'}
-        total= {'default': '10'}
+        start = {'id': 'ItemPage', 'default': '1'}
+        pageSize = {'id': 'Count', 'max': '25'}
+        total = {'default': '10'}
         self.paging = PagingPage(start, pageSize, total)
 
     def xml_pretty_print(self, data):
@@ -551,7 +556,7 @@ class TestTable(unittest.TestCase):
         return parsed_string.toprettyxml(indent='\t')
 
     def test_add_binder(self,):
-        self.assertEqual(self.table.addBinder(self.binder),True)
+        self.assertEqual(self.table.addBinder(self.binder), True)
         logging.debug(self.xml_pretty_print(self.table.etree))
 
     def test_remove_binder(self,):
@@ -562,33 +567,33 @@ class TestTable(unittest.TestCase):
         self.table.addBinder(self.binder)
         self.table.addBinder(self.binder_insert)
         self.table.save(name='before', path='tests_data')
-        self.assertEqual(os.path.isfile('tests_data/before.xml'),True)
+        self.assertEqual(os.path.isfile('tests_data/before.xml'), True)
         self.table.removeBinder('select')
         self.table.save(name='after', path='tests_data')
-        self.assertEqual(os.path.isfile('tests_data/after.xml'),True)
+        self.assertEqual(os.path.isfile('tests_data/after.xml'), True)
 
     def test_add_input_to_binder(self,):
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEqual(self.binder.addInput(self.key),True)
+        self.assertEqual(self.binder.addInput(self.key), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_remove_input(self,):
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEqual(self.binder.addInput(self.key),True)
+        self.assertEqual(self.binder.addInput(self.key), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEqual(self.binder.addInput(self.key2),True)
+        self.assertEqual(self.binder.addInput(self.key2), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEqual(self.binder.removeInput(key_id='artist'),True)
+        self.assertEqual(self.binder.removeInput(key_id='artist'), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_add_function_from_file(self,):
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEqual(self.binder.addFunction('', from_file='tests_data/jscode.js'),True)
+        self.assertEqual(self.binder.addFunction('', from_file='tests_data/jscode.js'), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_remove_function(self,):
         logging.debug(self.xml_pretty_print(self.binder.etree))
-        self.assertEqual(self.binder.addFunction('', from_file='tests_data/jscode.js'),True)
+        self.assertEqual(self.binder.addFunction('', from_file='tests_data/jscode.js'), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
         self.assertEqual(self.binder.removeFunction(), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
@@ -599,40 +604,38 @@ class TestTable(unittest.TestCase):
         logging.debug(self.xml_pretty_print(self.binder.etree))
 
     def test_create_binder_with_paging(self,):
-        start= {'id': 'ItemPage', 'default': '1'}
-        pageSize= {'id':'Count' ,'max':'25'}
-        total= {'default': '10'}
+        start = {'id': 'ItemPage', 'default': '1'}
+        pageSize = {'id': 'Count', 'max': '25'}
+        total = {'default': '10'}
         paging = PagingPage(start, pageSize, total)
         logging.debug(self.xml_pretty_print(paging.etree))
-        self.binder_desc['paging']=paging
+        self.binder_desc['paging'] = paging
         logging.debug(self.binder_desc)
         binder = Binder(**self.binder_desc)
-        self.assertNotEqual(binder.paging,None)
+        self.assertNotEqual(binder.paging, None)
         logging.debug(self.xml_pretty_print(binder.etree))
 
     def test_create_binder_with_offset_paging(self,):
-        start= {'id': 'ItemPage', 'default': '1'}
-        pageSize= {'id':'Count' ,'max':'25'}
-        total= {'default': '10'}
-        paging = PagingOffset(True,  start, pageSize, total)
+        start = {'id': 'ItemPage', 'default': '1'}
+        pageSize = {'id': 'Count', 'max': '25'}
+        total = {'default': '10'}
+        paging = PagingOffset(True, start, pageSize, total)
         logging.debug(self.xml_pretty_print(paging.etree))
-        self.binder_desc['paging']=paging
+        self.binder_desc['paging'] = paging
         logging.debug(self.binder_desc)
         binder = Binder(**self.binder_desc)
-        self.assertNotEqual(binder.paging,None)
+        self.assertNotEqual(binder.paging, None)
         logging.debug(self.xml_pretty_print(binder.etree))
-
 
     def test_create_binder_with_url_paging(self,):
         nextpage = {'path': 'ysearchresponse.nextpage'}
         paging = PagingUrl(nextpage)
         logging.debug(self.xml_pretty_print(paging.etree))
-        self.binder_desc['paging']=paging
+        self.binder_desc['paging'] = paging
         logging.debug(self.binder_desc)
         binder = Binder(**self.binder_desc)
-        self.assertNotEqual(binder.paging,None)
+        self.assertNotEqual(binder.paging, None)
         logging.debug(self.xml_pretty_print(binder.etree))
-
 
     def test_remove_paging(self,):
         logging.debug(self.xml_pretty_print(self.binder.etree))
@@ -649,7 +652,6 @@ class TestTable(unittest.TestCase):
         logging.debug(self.xml_pretty_print(binder.etree))
         self.assertEqual(self.binder.addUrl(url), True)
         logging.debug(self.xml_pretty_print(self.binder.etree))
-
 
     def test_add_url(self,):
         url = 'http://josuebrunel.org/service.js'
@@ -670,19 +672,19 @@ class TestTable(unittest.TestCase):
 
     def test_save_file(self,):
         self.table.save()
-        self.assertEqual(os.path.isfile('mytest.xml'),True)
+        self.assertEqual(os.path.isfile('mytest.xml'), True)
 
     def test_save_with_another_name(self):
         name = "tests_data/toto"
         self.table.save(name)
-        self.assertEqual(os.path.isfile(name+'.xml'),True)
+        self.assertEqual(os.path.isfile(name + '.xml'), True)
 
     def test_save_to_different_location(self,):
         fname = "titi"
         path = 'tests_data'
-        name = os.path.join(path,fname)
+        name = os.path.join(path, fname)
         self.table.save(name=fname, path=path)
-        self.assertEqual(os.path.isfile(name+'.xml'),True)
+        self.assertEqual(os.path.isfile(name + '.xml'), True)
 
     def test_create_table(self,):
         self.binder.addInput(self.key)
@@ -690,7 +692,7 @@ class TestTable(unittest.TestCase):
         logging.debug(self.xml_pretty_print(self.table.etree))
         self.table.addBinder(self.binder)
         self.table.save(name='mytable', path='tests_data')
-        self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
+        self.assertEqual(os.path.isfile('tests_data/mytable.xml'), True)
         logging.debug(self.xml_pretty_print(self.table.etree))
 
     def test_create_table_and_add_two_binders(self,):
@@ -703,7 +705,7 @@ class TestTable(unittest.TestCase):
         logging.debug(self.xml_pretty_print(self.table.etree))
         self.table.addBinder(self.binder_insert)
         self.table.save(name='mytable', path='tests_data')
-        self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
+        self.assertEqual(os.path.isfile('tests_data/mytable.xml'), True)
         logging.debug(self.xml_pretty_print(self.table.etree))
 
     def test_create_table_with_binder(self,):
@@ -713,7 +715,7 @@ class TestTable(unittest.TestCase):
         table = Table(**self.table_desc)
         logging.debug(self.xml_pretty_print(table.etree))
         table.save(name='mytable', path='tests_data')
-        self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
+        self.assertEqual(os.path.isfile('tests_data/mytable.xml'), True)
         logging.debug(self.xml_pretty_print(table.etree))
 
     def test_create_table_with_two_binders(self,):
@@ -723,7 +725,7 @@ class TestTable(unittest.TestCase):
         table = Table(**self.table_desc)
         logging.debug(self.xml_pretty_print(table.etree))
         table.save(name='mytable', path='tests_data')
-        self.assertEqual(os.path.isfile('tests_data/mytable.xml'),True)
+        self.assertEqual(os.path.isfile('tests_data/mytable.xml'), True)
         logging.debug(self.xml_pretty_print(table.etree))
 
     def test_add_function_table(self):
@@ -731,7 +733,7 @@ class TestTable(unittest.TestCase):
         bf = BinderFunction('concat', inputs=[self.key, self.key2])
         bf.addFunction('', from_file='tests_data/jscode.js')
         self.table.addBinder(bf)
-        #self.assertEqual(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
+        # self.assertEqual(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
         logging.debug(self.xml_pretty_print(self.table.etree))
 
     def test_create_function_with_func_code(self):
@@ -744,16 +746,15 @@ class TestTable(unittest.TestCase):
         bf = BinderFunction('concat', func_file='tests_data/jscode.js')
         logging.debug(self.xml_pretty_print(bf.etree))
 
-
     def test_remove_function_table(self,):
         logging.debug(self.xml_pretty_print(self.table.etree))
-        self.assertEqual(self.table.addFunction('', from_file='tests_data/jscode.js'),True)
+        self.assertEqual(self.table.addFunction('', from_file='tests_data/jscode.js'), True)
         logging.debug(self.xml_pretty_print(self.table.etree))
-        self.assertEqual(self.table.removeFunction(),True)
+        self.assertEqual(self.table.removeFunction(), True)
         logging.debug(self.xml_pretty_print(self.table.etree))
 
     def test_baseinput_to_xml(self,):
-        i = BaseInput('key','name','xs:string', 'path', required=True, default='josh', private=True, maxBatchItems=10)
+        i = BaseInput('key', 'name', 'xs:string', 'path', required=True, default='josh', private=True, maxBatchItems=10)
         logging.debug(self.xml_pretty_print(i.etree))
 
     def test_inputvalue(self,):
@@ -764,6 +765,6 @@ class TestTable(unittest.TestCase):
         os.path.unlink('tests_data/mytest.xml')
         os.path.unlink('tests_data/toto.xml')
 
+
 if '__main__' == __name__:
     unittest.main()
-
