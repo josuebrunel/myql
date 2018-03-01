@@ -23,4 +23,3 @@ def prettyfy(response, format='json'):
         return pretty_json(response.content)
     else:
         return pretty_xml(response.content)
-

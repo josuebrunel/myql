@@ -3,17 +3,16 @@
 
 from __future__ import absolute_import
 
-import re
 import logging
 
 import requests
-from myql import errors 
+from myql import errors
 
 
-logging.basicConfig(level=logging.DEBUG,format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
+logging.basicConfig(level=logging.DEBUG, format="[%(asctime)s %(levelname)s] [%(name)s.%(module)s.%(funcName)s] %(message)s \n")
 logger = logging.getLogger('mYQL')
 
-logging.getLogger('requests').disabled = True # Disabling requests default logger
+logging.getLogger('requests').disabled = True  # Disabling requests default logger
 
 
 class YQL(object):
@@ -27,24 +26,24 @@ class YQL(object):
     '''
     PUBLIC_URL = 'https://query.yahooapis.com/v1/public/yql'
     PRIVATE_URL = 'https://query.yahooapis.com/v1/yql'
-    COMMUNITY_DATA  = "env 'store://datatables.org/alltableswithkeys'; " #Access to community table 
+    COMMUNITY_DATA = "env 'store://datatables.org/alltableswithkeys'; "  # Access to community table
 
     FUNC_FILTERS = ['sort', 'tail', 'truncate', 'reverse', 'unique', 'sanitize']
-  
+
     def __init__(self, community=True, format='json', jsonCompact=True, crossProduct=None, debug=False, diagnostics=False, oauth=None):
-        self.community = community # True means access to community data
+        self.community = community  # True means access to community data
         self.format = format
         self._table = None
-        self._query = None # used to build query when using methods such as <select>, <insert>, ...
-        self._payload = {} # Last payload
+        self._query = None  # used to build query when using methods such as <select>, <insert>, ...
+        self._payload = {}  # Last payload
         self._vars = {}
-        self.diagnostics = diagnostics # Who knows, someone would like to turn it ON lol
+        self.diagnostics = diagnostics  # Who knows, someone would like to turn it ON lol
         self._limit = None
         self._offset = None
         self.crossProduct = crossProduct
         self.jsonCompact = jsonCompact
         self.debug = debug
-    
+
         if oauth:
             self.oauth = oauth
 
@@ -55,25 +54,25 @@ class YQL(object):
 
     def _payload_builder(self, query, format=None):
         '''Build the payload'''
-        if self.community :
-            query = self.COMMUNITY_DATA + query # access to community data tables
+        if self.community:
+            query = self.COMMUNITY_DATA + query  # access to community data tables
 
-        if vars(self).get('yql_table_url') : # Attribute only defined when MYQL.use has been called before
+        if vars(self).get('yql_table_url'):  # Attribute only defined when MYQL.use has been called before
             query = "use '{0}' as {1}; ".format(self.yql_table_url, self.yql_table_name) + query
 
-        if vars(self).get('_func'): # if post query function filters
+        if vars(self).get('_func'):  # if post query function filters
             query = '| '.join((query, self._func))
 
-        self._query = query        
-        
+        self._query = query
+
         self._query = self._add_limit()
         self._query = self._add_offset()
 
-        logger.info("QUERY = %s" %(self._query,))
+        logger.info("QUERY = %s" % (self._query,))
 
         payload = {
             'q': self._query,
-            'callback': '',#This is not javascript
+            'callback': '',  # This is not javascript
             'diagnostics': self.diagnostics,
             'format': format if format else self.format,
             'debug': self.debug,
@@ -87,7 +86,7 @@ class YQL(object):
             payload['crossProduct'] = 'optimized'
 
         self._payload = payload
-        logger.info("PAYLOAD = %s " %(payload, ))
+        logger.info("PAYLOAD = %s " % (payload, ))
 
         return payload
 
@@ -112,13 +111,13 @@ class YQL(object):
     def execute_query(self, payload):
         '''Execute the query and returns and response'''
         if vars(self).get('oauth'):
-            if not self.oauth.token_is_valid(): # Refresh token if token has expired
+            if not self.oauth.token_is_valid():  # Refresh token if token has expired
                 self.oauth.refresh_token()
-            response = self.oauth.session.get(self.PRIVATE_URL, params= payload, header_auth=True)
+            response = self.oauth.session.get(self.PRIVATE_URL, params=payload, header_auth=True)
         else:
-            response = requests.get(self.PUBLIC_URL, params= payload)
+            response = requests.get(self.PUBLIC_URL, params=payload)
 
-        self._response = response # Saving last response object.
+        self._response = response  # Saving last response object.
         return response
 
     def _clause_formatter(self, cond):
@@ -126,34 +125,29 @@ class YQL(object):
         args is a list of ['field', 'operator', 'value']
         '''
 
-        if len(cond) == 2 :
+        if len(cond) == 2:
             cond = ' '.join(cond)
             return cond
 
-        if 'in' in cond[1].lower() :
+        if 'in' in cond[1].lower():
             if not isinstance(cond[2], (tuple, list)):
                     raise TypeError('("{0}") must be of type <type tuple> or <type list>'.format(cond[2]))
 
-            if 'select' not in cond[2][0].lower() :
-                cond[2] = "({0})".format(','.join(map(str,["'{0}'".format(e) for e in cond[2]])))
+            if 'select' not in cond[2][0].lower():
+                cond[2] = "({0})".format(','.join(map(str, ["'{0}'".format(e) for e in cond[2]])))
             else:
-                cond[2] = "({0})".format(','.join(map(str,["{0}".format(e) for e in cond[2]])))
+                cond[2] = "({0})".format(','.join(map(str, ["{0}".format(e) for e in cond[2]])))
 
             cond = " ".join(cond)
-        else: 
-            #if isinstance(cond[2], str):
-            #    var = re.match('^@(\w+)$', cond[2])
-            #else:
-            #    var = None
-            #if var :
+        else:
             if isinstance(cond[2], str) and cond[2].startswith('@'):
                 cond[2] = "{0}".format(cond[2])
-            else :
+            else:
                 cond[2] = "'{0}'".format(cond[2])
             cond = ' '.join(cond)
 
         return cond
-    
+
     def response_builder(self, response):
         '''Try to return a pretty formatted response object
         '''
@@ -161,7 +155,7 @@ class YQL(object):
             r = response.json()
             result = r['query']['results']
             response = {
-                'num_result': r['query']['count'] ,
+                'num_result': r['query']['count'],
                 'result': result
             }
         except (Exception,) as e:
@@ -173,31 +167,30 @@ class YQL(object):
     def _func_filters(self, filters):
         '''Build post query filters
         '''
-        if not isinstance(filters, (list,tuple)):
+        if not isinstance(filters, (list, tuple)):
             raise TypeError('func_filters must be a <type list> or <type tuple>')
 
-        for i, func in enumerate(filters) :
+        for i, func in enumerate(filters):
             if isinstance(func, str) and func == 'reverse':
                 filters[i] = 'reverse()'
             elif isinstance(func, tuple) and func[0] in YQL.FUNC_FILTERS:
                 filters[i] = '{:s}(count={:d})'.format(*func)
-            elif isinstance(func, dict) :
+            elif isinstance(func, dict):
                 func_stmt = ''
-                func_name = list(func.keys())[0] # Because of Py3
-                values = [ "{0}='{1}'".format(v[0], v[1]) for v in func[func_name] ]
+                func_name = list(func.keys())[0]  # Because of Py3
+                values = ["{0}='{1}'".format(v[0], v[1]) for v in func[func_name]]
                 func_stmt = ','.join(values)
                 func_stmt = '{0}({1})'.format(func_name, func_stmt)
                 filters[i] = func_stmt
             else:
                 raise TypeError('{0} is neither a <str>, a <tuple> or a <dict>'.format(func))
-        return '| '.join(filters) 
+        return '| '.join(filters)
 
     def _add_limit(self,):
-        return ''.join((self._query," LIMIT {0} ".format(self._limit))) if self._limit else self._query
+        return ''.join((self._query, " LIMIT {0} ".format(self._limit))) if self._limit else self._query
 
-    def _add_offset(self,): 
-        return ''.join((self._query," OFFSET {0} ".format(self._offset))) if self._offset else self._query
-
+    def _add_offset(self,):
+        return ''.join((self._query, " OFFSET {0} ".format(self._offset))) if self._offset else self._query
 
     ######################################################
     #
@@ -205,7 +198,7 @@ class YQL(object):
     #
     #####################################################
 
-    ##USE
+    # USE
     def use(self, url, name='mytable'):
         '''Changes the data provider
         >>> yql.use('http://myserver.com/mytables.xml')
@@ -214,14 +207,14 @@ class YQL(object):
         self.yql_table_name = name
         return {'table url': url, 'table name': name}
 
-    ##SET
+    # SET
     def set(self, myvars):
         '''Define variable to be substitute in the query
         '''
         self._vars.update(myvars)
         return True
 
-    ##DESC
+    # DESC
     def desc(self, table):
         '''Returns table description
         >>> yql.desc('geo.countries')
@@ -232,7 +225,7 @@ class YQL(object):
 
         return response
 
-    ##GET
+    # GET
     def get(self, *args, **kwargs):
         '''Just a select which returns a response
         >>> yql.get("geo.countries', ['name', 'woeid'], 5")
@@ -243,11 +236,11 @@ class YQL(object):
         response = self.execute_query(payload)
 
         return response
-    
-    ## SELECT
+
+    # SELECT
     def select(self, table, items=None, limit=None, offset=None, remote_filter=None, func_filters=None):
         '''This method simulate a select on a table
-        >>> yql.select('geo.countries', limit=5) 
+        >>> yql.select('geo.countries', limit=5)
         >>> yql.select('social.profile', ['guid', 'givenName', 'gender'])
         '''
         self._table = table
@@ -256,51 +249,51 @@ class YQL(object):
             if not isinstance(remote_filter, tuple):
                 raise TypeError("{0} must be of type <type tuple>".format(remote_filter))
 
-            table = "%s(%s)" %(table, ','.join(map(str, remote_filter)))
+            table = "%s(%s)" % (table, ','.join(map(str, remote_filter)))
 
         if not items:
             items = ['*']
         self._query = "SELECT {1} FROM {0} ".format(table, ','.join(items))
 
         if func_filters:
-            self._func = self._func_filters(func_filters) 
+            self._func = self._func_filters(func_filters)
 
         self._limit = limit
         self._offset = offset
-            
+
         return self
 
-    ## MULTI QUERY
+    # MULTI QUERY
     def multi_query(self, queries):
         """Allow multi query
         """
         pass
 
-    ## INSERT
-    def insert(self, table,items, values):
+    # INSERT
+    def insert(self, table, items, values):
         """This method allows to insert data into table
         >>> yql.insert('bi.ly.shorten',('login','apiKey','longUrl'),('YOUR LOGIN','YOUR API KEY','YOUR LONG URL'))
         """
         values = ["'{0}'".format(e) for e in values]
-        self._query = "INSERT INTO {0} ({1}) VALUES ({2})".format(table,','.join(items),','.join(values))
+        self._query = "INSERT INTO {0} ({1}) VALUES ({2})".format(table, ','.join(items), ','.join(values))
         payload = self._payload_builder(self._query)
         response = self.execute_query(payload)
 
         return response
 
-    ## UPDATE
+    # UPDATE
     def update(self, table, items, values):
         """Updates a YQL Table
-        >>> yql.update('yql.storage',['value'],['https://josuebrunel.orkg']).where(['name','=','store://YEl70PraLLMSMuYAauqNc7']) 
+        >>> yql.update('yql.storage',['value'],['https://josuebrunel.orkg']).where(['name','=','store://YEl70PraLLMSMuYAauqNc7'])
         """
         self._table = table
         self._limit = None
-        items_values = ','.join(["{0} = '{1}'".format(k,v) for k,v in zip(items,values)])
+        items_values = ','.join(["{0} = '{1}'".format(k, v) for k, v in zip(items, values)])
         self._query = "UPDATE {0} SET {1}".format(self._table, items_values)
 
         return self
 
-    ## DELETE
+    # DELETE
     def delete(self, table):
         """Deletes record in table
         >>> yql.delete('yql.storage').where(['name','=','store://YEl70PraLLMSMuYAauqNc7'])
@@ -311,7 +304,7 @@ class YQL(object):
 
         return self
 
-    ## WHERE
+    # WHERE
     def where(self, *args):
         ''' This method simulates a where condition. Use as follow:
         >>> yql.select('mytable').where(['name', '=', 'alain'], ['location', '!=', 'paris'])
@@ -322,7 +315,7 @@ class YQL(object):
         clause = []
         self._query += ' WHERE '
 
-        clause = [ self._clause_formatter(x) for x in args if x ]
+        clause = [self._clause_formatter(x) for x in args if x]
 
         self._query += ' AND '.join(clause)
 
@@ -336,8 +329,7 @@ class MYQL(YQL):
 
     def __init__(self, *args, **kwargs):
 
-        super(MYQL, self).__init__(**kwargs) 
-
+        super(MYQL, self).__init__(**kwargs)
 
     ######################################################
     #
@@ -351,16 +343,15 @@ class MYQL(YQL):
         >>> guid
         '''
         response = self.select('yahoo.identity').where(['yid', '=', username])
-    
+
         return response
-    
+
     def show_tables(self, format='json'):
         '''Return list of all available tables'''
 
         query = 'SHOW TABLES'
-        payload = self._payload_builder(query, format) 	
+        payload = self._payload_builder(query, format)
 
-        response = self.execute_query(payload) 
+        response = self.execute_query(payload)
 
         return response
-

@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 
 import os
-import pdb
 import logging
 import json
 import unittest
@@ -96,7 +95,7 @@ class TestMYQL(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_raise_exception_select_where_in(self,):
-        
+
         with self.assertRaises(TypeError):
             response = self.yql.select('weather.forecast',['units','atmosphere']).where(['woeid','IN',('select woeid from geo.places(1) where text="Paris"')])
 
@@ -110,7 +109,7 @@ class TestMYQL(unittest.TestCase):
         except (Exception,) as e:
             logging.error(response.content)
             logging.error(e)
- 
+
         self.assertEqual(response.status_code, 200)
 
     def test_2_check_insert(self,):
@@ -118,7 +117,7 @@ class TestMYQL(unittest.TestCase):
         response = self.yql.select('yql.storage').where(['name','=',json_data['select']])
         logging.debug(pretty_json(response.content))
         self.assertEqual(response.status_code, 200)
-       
+
     def test_3_update(self,):
         json_data = json_get_data('yql_storage.json')
         response = self.yql.update('yql.storage',('value',),('https://josuebrunel.org',)).where(['name','=',json_data['update']])
@@ -140,7 +139,7 @@ class TestMYQL(unittest.TestCase):
     def test_variable_substitution(self,):
         yql = YQL()
         var = {'home': 'Congo'}
-        yql.set(var) 
+        yql.set(var)
 
         response = yql.select('geo.states', remote_filter=(5,)).where(['place', '=', '@home'])
         logging.debug(pretty_json(response.content))
@@ -330,13 +329,13 @@ class TestRemoteFilters(unittest.TestCase):
         data = self.yql.get('geo.countries', remote_filter=(100,10))
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
-        
+
 
     def test_remote_filter_select_count(self,):
         data = self.yql.select('geo.counties', remote_filter=(20,)).where(['place', '=', 'CA'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
-        
+
     def test_remote_filter_select_start_and_count(self,):
         data = self.yql.select('geo.counties', remote_filter=(60,20)).where(['place', '=', 'CA'])
         logging.debug(pretty_json(data.content))
@@ -397,12 +396,12 @@ class TestWeather(unittest.TestCase):
         data = self.weather.get_weather_in('choisy-le-roi', 'c',['location', 'units', 'item.condition'])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
-    
+
     def test_get_weather_forecast(self,):
         data = self.weather.get_weather_forecast('choisy-le-roi')
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
-    
+
     def test_get_weather_description(self,):
         data = self.weather.get_weather_description('dolisie')
         logging.debug(pretty_json(data.content))
@@ -422,12 +421,12 @@ class TestWeather(unittest.TestCase):
         data = self.weather.get_current_wind('Barcelona')
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
- 
+
     def test_get_astronomy(self,):
         data = self.weather.get_astronomy('Congo')
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
- 
+
 
 class TestStockScraper(unittest.TestCase):
 
@@ -441,7 +440,7 @@ class TestStockScraper(unittest.TestCase):
         data = self.stock.get_current_info(["YHOO","AAPL","GOOG","J&KBANK.BO"])
         logging.debug(pretty_json(data.content))
         self.assertEqual(data.status_code, 200)
-        
+
     def test_get_current_info_with_one_symbol(self,):
         data = self.stock.get_current_info(["J&KBANK.BO"])
         logging.debug(pretty_json(data.content))
@@ -455,7 +454,7 @@ class TestStockScraper(unittest.TestCase):
     def test_get_historical_info_with_args(self,):
         data = self.stock.get_historical_info('YHOO',items=['Open','Close','High','Low'], limit=5,startDate='2014-09-11',endDate='2015-02-10')
         logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code, 200) 
+        self.assertEqual(data.status_code, 200)
 
     def test_get_historical_info_without_args(self,):
         data = self.stock.get_historical_info('YHOO')
@@ -465,22 +464,22 @@ class TestStockScraper(unittest.TestCase):
     def test_get_options_info(self,):
         data = self.stock.get_options_info('YHOO')
         logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code, 200)   
+        self.assertEqual(data.status_code, 200)
 
     def test_get_index_summary(self,):
         data = self.stock.get_index_summary('GOOG',('Volume','Change'))
         logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code, 200)   
+        self.assertEqual(data.status_code, 200)
 
     def test_get_industry_index(self,):
         data = self.stock.get_industry_index(112)
         #logging.debug(pretty_json(data.content))
-        self.assertEqual(data.status_code, 200)   
+        self.assertEqual(data.status_code, 200)
 
     def test_get_symbols(self,):
         data = self.stock.get_symbols('Google')
         logging.debug(pretty_json(data.content))
-        self.assertIn(data.status_code, (200, 400, "Web Service is currently Down!!"))  
+        self.assertIn(data.status_code, (200, 400, "Web Service is currently Down!!"))
 
     def test_get_xchange_rate(self,):
         data = self.stock.get_xchange_rate(['EURUSD','GBPUSD'])
@@ -671,7 +670,7 @@ class TestTable(unittest.TestCase):
 
     def test_save_file(self,):
         self.table.save()
-        self.assertEqual(os.path.isfile('mytest.xml'),True) 
+        self.assertEqual(os.path.isfile('mytest.xml'),True)
 
     def test_save_with_another_name(self):
         name = "tests_data/toto"
@@ -760,11 +759,11 @@ class TestTable(unittest.TestCase):
     def test_inputvalue(self,):
         v = InputValue('content', 'xs:string', 'variable', required=True)
         logging.debug(self.xml_pretty_print(v.etree))
-    
+
     def tearUp(self):
         os.path.unlink('tests_data/mytest.xml')
         os.path.unlink('tests_data/toto.xml')
-        
+
 if '__main__' == __name__:
     unittest.main()
 

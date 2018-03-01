@@ -1,9 +1,10 @@
 from xml.etree import cElementTree as ctree
 
+
 class Base(object):
 
     def addFunction(self, func_code, from_file=''):
-        """Add function 
+        """Add function
         """
         if from_file:
             with open(from_file) as f:
@@ -12,7 +13,7 @@ class Base(object):
         root = self.etree
         t_execute = root.find('execute')
 
-        if not t_execute :
+        if not t_execute:
             t_execute = ctree.SubElement(root, 'execute')
 
         t_execute.text = "\n\t![CDATA]{0:>5}]]\n\t".format(func_code.ljust(4))
@@ -36,6 +37,7 @@ class Base(object):
 class BaseBinder(Base):
     """Represents any element under <bindings> : <select>,<insert>,<update>,<delete> and <function>
     """
+
     def __init__(self, name, **kwargs):
         """
         """
@@ -44,23 +46,23 @@ class BaseBinder(Base):
 
         self.etree = self._buildElementTree()
 
-        if vars(self).get('urls',None):
-            [ self.addUrl(url) for url in self.urls ]
+        if vars(self).get('urls', None):
+            [self.addUrl(url) for url in self.urls]
 
-        if vars(self).get('inputs',None):
-            [ self.addInput(elt) for elt in self.inputs ]
+        if vars(self).get('inputs', None):
+            [self.addInput(elt) for elt in self.inputs]
 
-        if vars(self).get('paging',None):
+        if vars(self).get('paging', None):
             self.addPaging(self.paging)
-        
+
     def _buildElementTree(self,):
         """Turns object into a Element Tree
         """
         t_binder = ctree.Element(self.name)
 
-        for k,v in self.__dict__.items():
-            if k not in ('name', 'urls', 'inputs', 'paging') and v :
-                t_binder.set(k,v)
+        for k, v in self.__dict__.items():
+            if k not in ('name', 'urls', 'inputs', 'paging') and v:
+                t_binder.set(k, v)
 
         self.etree = t_binder
         return t_binder
@@ -111,7 +113,7 @@ class BaseBinder(Base):
         root = self.etree
         t_inputs = root.find('inputs')
 
-        if not t_inputs :
+        if not t_inputs:
             t_inputs = ctree.SubElement(root, 'inputs')
 
         t_inputs.append(key.etree)
@@ -131,7 +133,7 @@ class BaseBinder(Base):
 
         keys = t_inputs.findall(input_type)
 
-        key = [ key for key in keys if key.get('id') == key_id ]
+        key = [key for key in keys if key.get('id') == key_id]
 
         try:
             t_inputs.remove(key[0])
@@ -141,7 +143,7 @@ class BaseBinder(Base):
 
         return False
 
-    def addPaging(self,paging):
+    def addPaging(self, paging):
         """Add paging to Binder
         """
         if not vars(self).get('paging', None):
@@ -186,14 +188,14 @@ class BaseInput(object):
         - required : A boolean that answers the question
         - paramType : Determines how this key is represented and passed on to the Web service.
         - default : This value is used if one isn't specified by the developer in the SELECT.
-        - private : Hide this key's value to the user (in both "desc" and "diagnostics"). 
+        - private : Hide this key's value to the user (in both "desc" and "diagnostics").
         - const : A boolean that indicates whether the default attribute must be present and cannot be changed by the end user.
         - batchable : A boolean which answers the question: Does this select and URL support multiple key fetches/requests in a single request (batched fetching)?
-        - maxBatchItems : How many requests should be combined in a single batch call. 
+        - maxBatchItems : How many requests should be combined in a single batch call.
         """
         self.name = input_type
         self.id = id
-        self.like = like # as is a python <keyword>, that's why in argument we use <like>
+        self.like = like  # as is a python <keyword>, that's why in argument we use <like>
         self.type = type
         self.paramType = paramType
         self.required = required
@@ -210,12 +212,13 @@ class BaseInput(object):
         """
         t_elt = ctree.Element(self.name)
 
-        for k,v in [ (key,value) for key,value in self.__dict__.items() if key != 'name']: # Excluding name from list of items
-            if v and v != 'false' :
+        for k, v in [(key, value) for key, value in self.__dict__.items() if key != 'name']:  # Excluding name from list of items
+            if v and v != 'false':
                 t_elt.set(k if k != 'like' else 'as', str(v).lower())
 
         self._etree = t_elt
         return t_elt
+
 
 class BasePaging(object):
     """Class representing a <paging> element under a <select> element of a OpenTable file description
@@ -225,7 +228,7 @@ class BasePaging(object):
 
         kwargs['model'] = model
         vars(self).update(kwargs)
-        
+
         self.etree = self._buildElementTree()
 
     def _buildElementTree(self,):
@@ -241,4 +244,4 @@ class BasePaging(object):
                     t_tag.set(*item)
 
         self.etree = t_paging
-        return  t_paging
+        return t_paging

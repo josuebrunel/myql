@@ -13,13 +13,14 @@ import requests
 
 from myql.myql import YQL
 
+
 class StockRetriever(YQL):
 
     def __init__(self, format='json', debug=False, oauth=None):
         """Initialize the object
         """
         super(StockRetriever, self).__init__(community=True, format=format, debug=debug, oauth=oauth)
-    
+
     def __get_time_range(self, startDate, endDate):
         """Return time range
         """
@@ -29,50 +30,50 @@ class StockRetriever(YQL):
 
         startDate = startDate if startDate else str(start_date)
         endDate = endDate if endDate else str(end_date)
-        
+
         return startDate, endDate
 
     def get_current_info(self, symbolList, columns=None):
-        """get_current_info() uses the yahoo.finance.quotes datatable to get all of the stock information presented in the main table on a typical stock page 
+        """get_current_info() uses the yahoo.finance.quotes datatable to get all of the stock information presented in the main table on a typical stock page
         and a bunch of data from the key statistics page.
         """
-        response = self.select('yahoo.finance.quotes',columns).where(['symbol','in',symbolList])
+        response = self.select('yahoo.finance.quotes', columns).where(['symbol', 'in', symbolList])
         return response
 
     def get_news_feed(self, symbol):
         """get_news_feed() uses the rss data table to get rss feeds under the Headlines and Financial Blogs headings on a typical stock page.
         """
-        rss_url='http://finance.yahoo.com/rss/headline?s={0}'.format(symbol)
-        response = self.select('rss',['title','link','description'],limit=2).where(['url','=',rss_url])
+        rss_url = 'http://finance.yahoo.com/rss/headline?s={0}'.format(symbol)
+        response = self.select('rss', ['title', 'link', 'description'], limit=2).where(['url', '=', rss_url])
         return response
 
-    def get_historical_info(self, symbol,items=None, startDate=None, endDate=None, limit=None):
+    def get_historical_info(self, symbol, items=None, startDate=None, endDate=None, limit=None):
         """get_historical_info() uses the csv datatable to retrieve all available historical data on a typical historical prices page
         """
         startDate, endDate = self.__get_time_range(startDate, endDate)
-        response = self.select('yahoo.finance.historicaldata',items,limit).where(['symbol','=',symbol],['startDate','=',startDate],['endDate','=',endDate])
+        response = self.select('yahoo.finance.historicaldata', items, limit).where(['symbol', '=', symbol], ['startDate', '=', startDate], ['endDate', '=', endDate])
         return response
 
     def get_options_info(self, symbol, items=None, expiration=''):
         """get_options_data() uses the yahoo.finance.options table to retrieve call and put options from the options page.
         """
-        response = self.select('yahoo.finance.options',items).where(['symbol','=',symbol],[] if not expiration else ['expiration','=',expiration])
+        response = self.select('yahoo.finance.options', items).where(['symbol', '=', symbol], [] if not expiration else ['expiration', '=', expiration])
         return response
 
     def get_index_summary(self, symbol, items=None):
         """
         """
-        response = self.select('yahoo.finance.quoteslist',items).where(['symbol','=',symbol])
+        response = self.select('yahoo.finance.quoteslist', items).where(['symbol', '=', symbol])
         return response
 
-    def get_industry_index(self, index_id,items=None):
+    def get_industry_index(self, index_id, items=None):
         """retrieves all symbols that belong to an industry.
         """
-        response = self.select('yahoo.finance.industry',items).where(['id','=',index_id])
+        response = self.select('yahoo.finance.industry', items).where(['id', '=', index_id])
         return response
 
     def get_xchange_rate(self, pairs, items=None):
-        """Retrieves currency exchange rate data for given pair(s). 
+        """Retrieves currency exchange rate data for given pair(s).
         Accepts both where pair='eurusd, gbpusd' and where pair in ('eurusd', 'gpbusd, usdaud')
         """
         response = self.select('yahoo.finance.xchange', items).where(['pair', 'in', pairs])
@@ -105,8 +106,8 @@ class StockRetriever(YQL):
             print(e)
             json_data = '{"results": "Webservice seems to be down"}'
 
-        return type('response', (requests.Response,),{
-            'text' : json_data,
+        return type('response', (requests.Response,), {
+            'text': json_data,
             'content': json_data.encode(),
             'status_code': response.status_code,
             'reason': response.reason,
@@ -114,6 +115,6 @@ class StockRetriever(YQL):
             'apparent_encoding': response.apparent_encoding,
             'cookies': response.cookies,
             'headers': response.headers,
-            'json': lambda : json.loads(json_data),
+            'json': lambda: json.loads(json_data),
             'url': response.url
         })

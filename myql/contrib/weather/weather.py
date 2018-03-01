@@ -11,16 +11,14 @@ class Weather(YQL):
         """Initialize a weather object
         """
         kwargs.update({'community': False})
-
         super(Weather, self).__init__(**kwargs)
-
-        self.unit = unit 
+        self.unit = unit
 
     def get_weather_in(self, place, unit=None, items=None):
         """Return weather info according to place
         """
         unit = unit if unit else self.unit
-        response = self.select('weather.forecast', items=items).where(['woeid','IN',('SELECT woeid FROM geo.places WHERE text="{0}"'.format(place),)], ['u','=',unit] if unit else [])
+        response = self.select('weather.forecast', items=items).where(['woeid', 'IN', ('SELECT woeid FROM geo.places WHERE text="{0}"'.format(place),)], ['u', '=', unit] if unit else [])
         return response
 
     def get_weather_forecast(self, place, unit=None):
@@ -28,10 +26,10 @@ class Weather(YQL):
         """
         unit = unit if unit else self.unit
         response = self.get_weather_in(place, items=['item.forecast'], unit=unit)
-        return response        
+        return response
 
     def get_weather_description(self, place):
-        """Return weather description 
+        """Return weather description
         """
         response = self.get_weather_in(place, items=['item.condition.text'])
         return response
@@ -49,7 +47,7 @@ class Weather(YQL):
         return response
 
     def get_current_wind(self, place):
-        """Return weather wind  
+        """Return weather wind
         """
         response = self.get_weather_in(place, items=['wind'])
         return response
